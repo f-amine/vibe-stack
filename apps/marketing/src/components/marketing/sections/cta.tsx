@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import { WEB_URLS } from "@/lib/app-urls";
 import { gsap, useGSAP } from "@/lib/use-gsap";
 
 export function CTA() {
@@ -55,7 +56,7 @@ export function CTA() {
 
 				<div className="cta-foot mt-14 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
 					<a
-						href="http://localhost:3001/login"
+						href={WEB_URLS.signUp}
 						className="inline-flex items-center justify-center gap-2 rounded-full bg-[color:var(--marketing-fg)] px-8 py-4 font-medium text-[color:var(--marketing-bg)] text-base transition-transform hover:scale-[1.02]"
 					>
 						Start your project

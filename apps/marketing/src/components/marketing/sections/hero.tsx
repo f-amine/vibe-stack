@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import { WEB_URLS } from "@/lib/app-urls";
 import { gsap, useGSAP } from "@/lib/use-gsap";
 
 export function Hero() {
@@ -125,7 +126,7 @@ export function Hero() {
 
 				<div className="mt-12 flex flex-col gap-3 sm:flex-row">
 					<a
-						href="http://localhost:3001/login"
+						href={WEB_URLS.signUp}
 						className="hero-cta group inline-flex items-center justify-center gap-2 rounded-full bg-[color:var(--marketing-accent)] px-7 py-3.5 font-medium text-[color:var(--marketing-bg)] text-base transition-transform hover:scale-[1.02]"
 					>
 						Start your project
