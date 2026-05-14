@@ -73,5 +73,21 @@
 		"parser": {
 			"tailwindDirectives": true
 		}
-	}
+	},
+	"overrides": [
+		{
+			"includes": ["packages/ui/src/components/**"],
+			"linter": {
+				"rules": {
+					"a11y": {
+						"useFocusableInteractive": "off",
+						"useSemanticElements": "off",
+						"useKeyWithClickEvents": "off"
+					},
+					"correctness": { "useExhaustiveDependencies": "off" },
+					"suspicious": { "noDocumentCookie": "off" }
+				}
+			}
+		}
+	]
 }

@@ -9,6 +9,7 @@
 		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {
+		"@hookform/resolvers": "^5.2.2",
 		"@polar-sh/better-auth": "catalog:",
 		"@starter-saas/api": "workspace:*",
 		"@starter-saas/auth": "workspace:*",
@@ -27,6 +28,7 @@
 		"next-themes": "catalog:",
 		"react": "catalog:",
 		"react-dom": "catalog:",
+		"react-hook-form": "^7.75.0",
 		"sonner": "catalog:",
 		"zod": "catalog:"
 	},
