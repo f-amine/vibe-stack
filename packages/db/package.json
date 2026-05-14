@@ -22,14 +22,14 @@
 	"dependencies": {
 		"@starter-saas/env": "workspace:*",
 		"dotenv": "catalog:",
-		"drizzle-orm": "^0.45.2",
-		"pg": "^8.17.1",
+		"drizzle-orm": "catalog:",
+		"pg": "catalog:",
 		"zod": "catalog:"
 	},
 	"devDependencies": {
 		"@starter-saas/config": "workspace:*",
-		"@types/pg": "^8.16.0",
-		"drizzle-kit": "^0.31.8",
+		"@types/pg": "catalog:",
+		"drizzle-kit": "catalog:",
 		"typescript": "catalog:"
 	}
 }

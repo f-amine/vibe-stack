@@ -42,10 +42,10 @@
 		"zod": "catalog:"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "^2.4.15",
+		"@biomejs/biome": "catalog:",
 		"@starter-saas/config": "workspace:*",
-		"@types/node": "^22.13.14",
-		"turbo": "^2.9.12",
+		"@types/node": "catalog:",
+		"turbo": "catalog:",
 		"typescript": "catalog:"
 	},
 	"pnpm": {
