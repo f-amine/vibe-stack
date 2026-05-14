@@ -1,27 +1,27 @@
 {
-  "name": "@starter-saas/api",
-  "type": "module",
-  "exports": {
-    ".": {
-      "default": "./src/index.ts"
-    },
-    "./*": {
-      "default": "./src/*.ts"
-    }
-  },
-  "scripts": {},
-  "dependencies": {
-    "@starter-saas/auth": "workspace:*",
-    "@starter-saas/db": "workspace:*",
-    "@starter-saas/env": "workspace:*",
-    "@trpc/client": "catalog:",
-    "@trpc/server": "catalog:",
-    "dotenv": "catalog:",
-    "next": "catalog:",
-    "zod": "catalog:"
-  },
-  "devDependencies": {
-    "@starter-saas/config": "workspace:*",
-    "typescript": "catalog:"
-  }
+	"name": "@starter-saas/api",
+	"type": "module",
+	"exports": {
+		".": {
+			"default": "./src/index.ts"
+		},
+		"./*": {
+			"default": "./src/*.ts"
+		}
+	},
+	"scripts": {},
+	"dependencies": {
+		"@starter-saas/auth": "workspace:*",
+		"@starter-saas/db": "workspace:*",
+		"@starter-saas/env": "workspace:*",
+		"@trpc/client": "catalog:",
+		"@trpc/server": "catalog:",
+		"dotenv": "catalog:",
+		"next": "catalog:",
+		"zod": "catalog:"
+	},
+	"devDependencies": {
+		"@starter-saas/config": "workspace:*",
+		"typescript": "catalog:"
+	}
 }

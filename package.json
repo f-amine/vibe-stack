@@ -1,37 +1,58 @@
 {
-  "name": "starter-saas",
-  "private": true,
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
-  "type": "module",
-  "scripts": {
-    "dev": "turbo dev",
-    "build": "turbo build",
-    "check-types": "turbo check-types",
-    "dev:web": "turbo -F web dev",
-    "db:push": "turbo -F @starter-saas/db db:push",
-    "db:studio": "turbo -F @starter-saas/db db:studio",
-    "db:generate": "turbo -F @starter-saas/db db:generate",
-    "db:migrate": "turbo -F @starter-saas/db db:migrate",
-    "db:start": "turbo -F @starter-saas/db db:start",
-    "db:watch": "turbo -F @starter-saas/db db:watch",
-    "db:stop": "turbo -F @starter-saas/db db:stop",
-    "db:down": "turbo -F @starter-saas/db db:down",
-    "check": "biome check --write ."
-  },
-  "dependencies": {
-    "@starter-saas/env": "workspace:*",
-    "dotenv": "catalog:",
-    "zod": "catalog:"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "^2.2.0",
-    "@starter-saas/config": "workspace:*",
-    "@types/node": "^22.13.14",
-    "turbo": "^2.8.12",
-    "typescript": "catalog:"
-  },
-  "packageManager": "pnpm@10.30.3"
+	"name": "starter-saas",
+	"private": true,
+	"type": "module",
+	"packageManager": "pnpm@10.30.3",
+	"engines": {
+		"node": ">=22",
+		"pnpm": ">=10"
+	},
+	"workspaces": [
+		"apps/*",
+		"packages/*"
+	],
+	"scripts": {
+		"dev": "turbo dev",
+		"dev:web": "turbo -F web dev",
+		"dev:marketing": "turbo -F marketing dev",
+		"dev:admin": "turbo -F admin dev",
+		"build": "turbo build",
+		"typecheck": "turbo run typecheck check-types",
+		"test": "turbo run test",
+		"test:e2e": "turbo run test:e2e",
+		"check": "biome check --write .",
+		"check-types": "turbo check-types",
+		"format": "biome format --write .",
+		"format:check": "biome format .",
+		"db:start": "turbo -F @starter-saas/db db:start",
+		"db:watch": "turbo -F @starter-saas/db db:watch",
+		"db:stop": "turbo -F @starter-saas/db db:stop",
+		"db:down": "turbo -F @starter-saas/db db:down",
+		"db:push": "turbo -F @starter-saas/db db:push",
+		"db:generate": "turbo -F @starter-saas/db db:generate",
+		"db:migrate": "turbo -F @starter-saas/db db:migrate",
+		"db:studio": "turbo -F @starter-saas/db db:studio",
+		"auth:generate": "pnpm --filter @starter-saas/auth run generate",
+		"email:dev": "pnpm --filter @starter-saas/email run dev",
+		"clean": "turbo run clean && rm -rf node_modules .turbo"
+	},
+	"dependencies": {
+		"@starter-saas/env": "workspace:*",
+		"dotenv": "catalog:",
+		"zod": "catalog:"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^2.4.15",
+		"@starter-saas/config": "workspace:*",
+		"@types/node": "^22.13.14",
+		"turbo": "^2.9.12",
+		"typescript": "catalog:"
+	},
+	"pnpm": {
+		"overrides": {
+			"drizzle-orm": "0.45.2",
+			"react": "19.2.6",
+			"react-dom": "19.2.6"
+		}
+	}
 }

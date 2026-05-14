@@ -1,0 +1,23 @@
+{
+	"name": "@starter-saas/analytics",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"exports": {
+		"./server": "./src/server.ts",
+		"./client": "./src/client.ts",
+		"./events": "./src/events.ts",
+		"./provider": "./src/provider.tsx"
+	},
+	"dependencies": {
+		"@starter-saas/env": "workspace:*",
+		"posthog-js": "^1.373.4",
+		"posthog-node": "^5.34.1",
+		"react": "catalog:"
+	},
+	"devDependencies": {
+		"@starter-saas/config": "workspace:*",
+		"@types/react": "catalog:",
+		"typescript": "catalog:"
+	}
+}

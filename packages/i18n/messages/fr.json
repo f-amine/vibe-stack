@@ -1,0 +1,32 @@
+{
+	"common": {
+		"signIn": "Connexion",
+		"signUp": "Inscription",
+		"signOut": "Déconnexion",
+		"dashboard": "Tableau de bord",
+		"settings": "Paramètres",
+		"billing": "Facturation",
+		"loading": "Chargement…",
+		"error": "Une erreur est survenue"
+	},
+	"marketing": {
+		"hero": {
+			"title": "Lancez votre SaaS plus vite",
+			"subtitle": "Un starter opinionated pour vous concentrer sur l'essentiel.",
+			"ctaPrimary": "Commencer",
+			"ctaSecondary": "Lire la documentation"
+		},
+		"nav": {
+			"features": "Fonctionnalités",
+			"pricing": "Tarifs",
+			"blog": "Blog",
+			"docs": "Documentation"
+		}
+	},
+	"auth": {
+		"emailLabel": "E-mail",
+		"passwordLabel": "Mot de passe",
+		"verifyTitle": "Vérifiez votre e-mail",
+		"verifyBody": "Nous avons envoyé un lien à {email}."
+	}
+}

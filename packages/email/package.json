@@ -1,0 +1,28 @@
+{
+	"name": "@starter-saas/email",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"exports": {
+		".": "./src/index.ts",
+		"./templates/*": "./src/templates/*.tsx",
+		"./client": "./src/lib/client.ts"
+	},
+	"scripts": {
+		"dev": "email dev --dir src/templates --port 3010",
+		"build:templates": "email build --dir src/templates"
+	},
+	"dependencies": {
+		"@react-email/components": "^1.0.12",
+		"@starter-saas/env": "workspace:*",
+		"react": "catalog:",
+		"react-dom": "catalog:",
+		"resend": "^6.12.3"
+	},
+	"devDependencies": {
+		"@starter-saas/config": "workspace:*",
+		"@types/react": "catalog:",
+		"react-email": "^6.1.4",
+		"typescript": "catalog:"
+	}
+}

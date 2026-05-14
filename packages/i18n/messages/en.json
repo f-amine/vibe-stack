@@ -1,0 +1,32 @@
+{
+	"common": {
+		"signIn": "Sign in",
+		"signUp": "Sign up",
+		"signOut": "Sign out",
+		"dashboard": "Dashboard",
+		"settings": "Settings",
+		"billing": "Billing",
+		"loading": "Loading…",
+		"error": "Something went wrong"
+	},
+	"marketing": {
+		"hero": {
+			"title": "Ship your SaaS faster",
+			"subtitle": "An opinionated starter so you focus on what matters.",
+			"ctaPrimary": "Get started",
+			"ctaSecondary": "Read the docs"
+		},
+		"nav": {
+			"features": "Features",
+			"pricing": "Pricing",
+			"blog": "Blog",
+			"docs": "Docs"
+		}
+	},
+	"auth": {
+		"emailLabel": "Email",
+		"passwordLabel": "Password",
+		"verifyTitle": "Verify your email",
+		"verifyBody": "We sent a link to {email}."
+	}
+}

@@ -1,0 +1,17 @@
+{
+	"extends": "@starter-saas/config/tsconfig.base.json",
+	"compilerOptions": {
+		"jsx": "preserve",
+		"target": "ES2022",
+		"lib": ["dom", "dom.iterable", "esnext"],
+		"module": "esnext",
+		"moduleResolution": "Bundler",
+		"incremental": true,
+		"plugins": [{ "name": "next" }],
+		"paths": {
+			"@/*": ["./src/*"]
+		}
+	},
+	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+	"exclude": ["node_modules"]
+}

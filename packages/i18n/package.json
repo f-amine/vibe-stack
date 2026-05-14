@@ -1,0 +1,17 @@
+{
+	"name": "@starter-saas/i18n",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"exports": {
+		".": "./src/index.ts",
+		"./messages/*": "./messages/*.json"
+	},
+	"dependencies": {
+		"next-intl": "^4.12.0"
+	},
+	"devDependencies": {
+		"@starter-saas/config": "workspace:*",
+		"typescript": "catalog:"
+	}
+}
