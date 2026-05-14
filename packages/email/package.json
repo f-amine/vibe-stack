@@ -9,7 +9,7 @@
 		"./client": "./src/lib/client.ts"
 	},
 	"scripts": {
-		"dev": "email dev --dir src/templates --port 3010",
+		"preview": "email dev --dir src/templates --port 3010",
 		"build:templates": "email build --dir src/templates"
 	},
 	"dependencies": {

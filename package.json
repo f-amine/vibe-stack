@@ -24,6 +24,7 @@
 		"check-types": "turbo check-types",
 		"format": "biome format --write .",
 		"format:check": "biome format .",
+		"setup": "bash scripts/link-env.sh",
 		"infra:start": "bash scripts/infra-start.sh",
 		"infra:watch": "docker compose up",
 		"infra:stop": "docker compose stop",
@@ -39,7 +40,7 @@
 		"db:migrate": "turbo -F @starter-saas/db db:migrate",
 		"db:studio": "turbo -F @starter-saas/db db:studio",
 		"auth:generate": "pnpm --filter @starter-saas/auth run generate",
-		"email:dev": "pnpm --filter @starter-saas/email run dev",
+		"email:dev": "pnpm --filter @starter-saas/email run preview",
 		"clean": "turbo run clean && rm -rf node_modules .turbo"
 	},
 	"dependencies": {
