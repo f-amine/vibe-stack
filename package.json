@@ -24,7 +24,7 @@
 		"check-types": "turbo check-types",
 		"format": "biome format --write .",
 		"format:check": "biome format .",
-		"infra:start": "docker compose up -d",
+		"infra:start": "bash scripts/infra-start.sh",
 		"infra:watch": "docker compose up",
 		"infra:stop": "docker compose stop",
 		"infra:down": "docker compose down",
