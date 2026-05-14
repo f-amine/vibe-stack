@@ -1,0 +1,37 @@
+{
+  "name": "starter-saas",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "type": "module",
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "check-types": "turbo check-types",
+    "dev:web": "turbo -F web dev",
+    "db:push": "turbo -F @starter-saas/db db:push",
+    "db:studio": "turbo -F @starter-saas/db db:studio",
+    "db:generate": "turbo -F @starter-saas/db db:generate",
+    "db:migrate": "turbo -F @starter-saas/db db:migrate",
+    "db:start": "turbo -F @starter-saas/db db:start",
+    "db:watch": "turbo -F @starter-saas/db db:watch",
+    "db:stop": "turbo -F @starter-saas/db db:stop",
+    "db:down": "turbo -F @starter-saas/db db:down",
+    "check": "biome check --write ."
+  },
+  "dependencies": {
+    "@starter-saas/env": "workspace:*",
+    "dotenv": "catalog:",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.2.0",
+    "@starter-saas/config": "workspace:*",
+    "@types/node": "^22.13.14",
+    "turbo": "^2.8.12",
+    "typescript": "catalog:"
+  },
+  "packageManager": "pnpm@10.30.3"
+}
