@@ -1,13 +1,21 @@
-import Link from "next/link";
+import { Badge } from "@starter-saas/ui/components/badge";
+import { Separator } from "@starter-saas/ui/components/separator";
+import {
+	SidebarInset,
+	SidebarProvider,
+	SidebarTrigger,
+} from "@starter-saas/ui/components/sidebar";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { ThemeProvider } from "next-themes";
 import type { ReactNode } from "react";
 import { Toaster } from "sonner";
+import { AdminSidebar } from "@/components/layout/admin-sidebar";
+import { requireAdmin } from "@/lib/require-admin";
 import "../globals.css";
 
 export const metadata = {
-	title: "Admin · starter-saas",
+	title: "Admin · stack/saas",
 };
 
 type Props = {
@@ -18,6 +26,8 @@ type Props = {
 export default async function AdminLayout({ children, params }: Props) {
 	const { locale } = await params;
 	const messages = await getMessages();
+	const session = await requireAdmin();
+
 	return (
 		<html lang={locale} suppressHydrationWarning>
 			<body className="min-h-dvh bg-background text-foreground antialiased">
@@ -28,37 +38,28 @@ export default async function AdminLayout({ children, params }: Props) {
 						enableSystem
 						disableTransitionOnChange
 					>
-						<div className="grid min-h-dvh grid-cols-[260px_1fr]">
-							<aside className="border-r p-4">
-								<h2 className="px-2 font-semibold text-muted-foreground text-sm uppercase">
-									Admin
-								</h2>
-								<nav className="mt-4 flex flex-col gap-1 text-sm">
-									<Link className="rounded px-2 py-1.5 hover:bg-muted" href="/">
-										Overview
-									</Link>
-									<Link
-										className="rounded px-2 py-1.5 hover:bg-muted"
-										href="/users"
+						<SidebarProvider>
+							<AdminSidebar
+								user={{
+									name: session.user.name,
+									email: session.user.email,
+								}}
+							/>
+							<SidebarInset>
+								<header className="sticky top-0 z-30 flex h-14 items-center gap-3 border-b bg-background/80 px-4 backdrop-blur">
+									<SidebarTrigger className="-ml-1" />
+									<Separator orientation="vertical" className="h-4" />
+									<span className="text-muted-foreground text-sm">Admin</span>
+									<Badge
+										variant="outline"
+										className="ml-2 text-[10px] uppercase"
 									>
-										Users
-									</Link>
-									<Link
-										className="rounded px-2 py-1.5 hover:bg-muted"
-										href="/orgs"
-									>
-										Organizations
-									</Link>
-									<Link
-										className="rounded px-2 py-1.5 hover:bg-muted"
-										href="/audit"
-									>
-										Audit log
-									</Link>
-								</nav>
-							</aside>
-							<main className="p-8">{children}</main>
-						</div>
+										root
+									</Badge>
+								</header>
+								<div className="p-6 sm:p-10">{children}</div>
+							</SidebarInset>
+						</SidebarProvider>
 						<Toaster />
 					</ThemeProvider>
 				</NextIntlClientProvider>

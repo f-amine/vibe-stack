@@ -1,1 +1,99 @@
 @import "@starter-saas/ui/globals.css";
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=JetBrains+Mono:wght@400;500;600&family=Geist:wght@300;400;500;600;700&display=swap");
+
+:root {
+	--font-display: "Fraunces", ui-serif, Georgia, serif;
+	--font-body: "Geist", ui-sans-serif, system-ui, sans-serif;
+	--font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+	--marketing-bg: oklch(0.13 0.012 250);
+	--marketing-fg: oklch(0.96 0.01 90);
+	--marketing-muted: oklch(0.55 0.012 250);
+	--marketing-accent: oklch(0.84 0.13 88);
+	--marketing-line: oklch(0.22 0.012 250);
+}
+
+html.dark,
+html[data-theme="marketing"] {
+	color-scheme: dark;
+}
+
+body.marketing {
+	background: var(--marketing-bg);
+	color: var(--marketing-fg);
+	font-family: var(--font-body);
+	-webkit-font-smoothing: antialiased;
+}
+
+.font-display {
+	font-family: var(--font-display);
+	font-feature-settings: "ss01", "ss02";
+	letter-spacing: -0.02em;
+}
+
+.font-mono {
+	font-family: var(--font-mono);
+}
+
+/* Animated grain overlay */
+.grain::before {
+	content: "";
+	position: fixed;
+	inset: 0;
+	pointer-events: none;
+	z-index: 100;
+	opacity: 0.04;
+	mix-blend-mode: overlay;
+	background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85'/></filter><rect width='256' height='256' filter='url(%23n)'/></svg>");
+}
+
+/* Reveal animation initial states (GSAP will animate to visible) */
+.reveal-up {
+	opacity: 0;
+	transform: translateY(40px);
+}
+
+.reveal-fade {
+	opacity: 0;
+}
+
+.reveal-clip {
+	clip-path: inset(100% 0 0 0);
+}
+
+@keyframes marquee {
+	from {
+		transform: translateX(0);
+	}
+	to {
+		transform: translateX(-50%);
+	}
+}
+
+.animate-marquee {
+	animation: marquee 28s linear infinite;
+}
+
+.gradient-text {
+	background: linear-gradient(
+		135deg,
+		var(--marketing-fg) 0%,
+		var(--marketing-accent) 60%,
+		var(--marketing-fg) 100%
+	);
+	background-size: 200% 100%;
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	animation: shimmer 6s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+	0%,
+	100% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+}

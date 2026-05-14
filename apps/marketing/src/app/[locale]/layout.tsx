@@ -6,8 +6,10 @@ import { Toaster } from "sonner";
 import "../globals.css";
 
 export const metadata = {
-	title: "starter-saas",
-	description: "Ship your SaaS faster",
+	title:
+		"stack/saas — Build the boring parts once. Ship the rest a hundred times.",
+	description:
+		"A pre-wired SaaS starter: auth, billing, email, storage, analytics, admin, AI workflow. Ship features, not plumbing.",
 };
 
 type Props = {
@@ -20,16 +22,16 @@ export default async function LocaleLayout({ children, params }: Props) {
 	const messages = await getMessages();
 	return (
 		<html lang={locale} suppressHydrationWarning>
-			<body className="min-h-dvh bg-background text-foreground antialiased">
+			<body className="min-h-dvh antialiased">
 				<NextIntlClientProvider locale={locale} messages={messages}>
 					<ThemeProvider
 						attribute="class"
-						defaultTheme="system"
-						enableSystem
+						defaultTheme="dark"
+						forcedTheme="dark"
 						disableTransitionOnChange
 					>
 						{children}
-						<Toaster />
+						<Toaster theme="dark" />
 					</ThemeProvider>
 				</NextIntlClientProvider>
 			</body>

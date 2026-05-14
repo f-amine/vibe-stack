@@ -1,38 +1,91 @@
 import { db } from "@starter-saas/db";
 import { auditLog } from "@starter-saas/db/schema/audit";
+import { Badge } from "@starter-saas/ui/components/badge";
+import {
+	Card,
+	CardContent,
+	CardHeader,
+	CardTitle,
+} from "@starter-saas/ui/components/card";
 import { desc } from "drizzle-orm";
-import { requireAdmin } from "@/lib/require-admin";
+import { PageHeader } from "@/components/layout/page-header";
+
+const ACTION_VARIANT: Record<
+	string,
+	"default" | "secondary" | "destructive" | "outline"
+> = {
+	"user.signin": "secondary",
+	"user.signout": "outline",
+	"user.banned": "destructive",
+	"user.role.changed": "default",
+};
 
 export default async function AuditPage() {
-	await requireAdmin();
 	const rows = await db
 		.select()
 		.from(auditLog)
 		.orderBy(desc(auditLog.createdAt))
 		.limit(200);
+
 	return (
-		<div>
-			<h1 className="font-bold text-3xl">Audit log</h1>
-			<table className="mt-6 w-full text-sm">
-				<thead className="border-b text-left">
-					<tr>
-						<th className="py-2">When</th>
-						<th>Action</th>
-						<th>Actor</th>
-						<th>Target</th>
-					</tr>
-				</thead>
-				<tbody>
-					{rows.map((r) => (
-						<tr key={r.id} className="border-b">
-							<td className="py-2">{r.createdAt.toISOString()}</td>
-							<td>{r.action}</td>
-							<td>{r.actorUserId ?? "—"}</td>
-							<td>{r.targetType ? `${r.targetType}#${r.targetId}` : "—"}</td>
-						</tr>
-					))}
-				</tbody>
-			</table>
-		</div>
+		<>
+			<PageHeader
+				title="Audit log"
+				description={`${rows.length} events (latest 200).`}
+			/>
+
+			<Card>
+				<CardHeader className="border-b">
+					<CardTitle className="text-base">Activity feed</CardTitle>
+				</CardHeader>
+				<CardContent className="p-0">
+					{rows.length === 0 ? (
+						<p className="py-16 text-center text-muted-foreground text-sm">
+							No audit events recorded yet.
+						</p>
+					) : (
+						<ul className="divide-y">
+							{rows.map((r) => (
+								<li
+									key={r.id}
+									className="flex items-start gap-4 px-6 py-4 transition-colors hover:bg-muted/30"
+								>
+									<div className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-foreground" />
+									<div className="flex-1">
+										<div className="flex flex-wrap items-center gap-2">
+											<Badge variant={ACTION_VARIANT[r.action] ?? "outline"}>
+												{r.action}
+											</Badge>
+											{r.targetType && (
+												<span className="font-mono text-muted-foreground text-xs">
+													{r.targetType}#{r.targetId ?? "—"}
+												</span>
+											)}
+										</div>
+										<div className="mt-1 text-muted-foreground text-xs">
+											{r.actorUserId ? (
+												<>
+													actor{" "}
+													<span className="font-mono">{r.actorUserId}</span>
+												</>
+											) : (
+												"system"
+											)}
+											{r.ipAddress && <> · {r.ipAddress}</>}
+										</div>
+									</div>
+									<time
+										dateTime={r.createdAt.toISOString()}
+										className="text-muted-foreground text-xs"
+									>
+										{new Date(r.createdAt).toLocaleString()}
+									</time>
+								</li>
+							))}
+						</ul>
+					)}
+				</CardContent>
+			</Card>
+		</>
 	);
 }

@@ -9,6 +9,7 @@
 		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {
+		"@hookform/resolvers": "^5.2.2",
 		"@starter-saas/analytics": "workspace:*",
 		"@starter-saas/api": "workspace:*",
 		"@starter-saas/auth": "workspace:*",
@@ -17,10 +18,12 @@
 		"@starter-saas/i18n": "workspace:*",
 		"@starter-saas/ui": "workspace:*",
 		"@tanstack/react-query": "catalog:",
+		"@tanstack/react-table": "^8.21.3",
 		"@trpc/client": "catalog:",
 		"@trpc/server": "catalog:",
 		"@trpc/tanstack-react-query": "catalog:",
 		"better-auth": "catalog:",
+		"date-fns": "^4.1.0",
 		"drizzle-orm": "catalog:",
 		"lucide-react": "catalog:",
 		"next": "catalog:",
@@ -28,6 +31,8 @@
 		"next-themes": "catalog:",
 		"react": "catalog:",
 		"react-dom": "catalog:",
+		"react-hook-form": "^7.75.0",
+		"recharts": "^3.8.1",
 		"sonner": "catalog:",
 		"zod": "catalog:"
 	},

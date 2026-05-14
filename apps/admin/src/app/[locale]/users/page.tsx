@@ -1,38 +1,137 @@
 import { db } from "@starter-saas/db";
 import { user } from "@starter-saas/db/schema/auth";
+import { Avatar, AvatarFallback } from "@starter-saas/ui/components/avatar";
+import { Badge } from "@starter-saas/ui/components/badge";
+import { Button } from "@starter-saas/ui/components/button";
+import {
+	Card,
+	CardContent,
+	CardHeader,
+	CardTitle,
+} from "@starter-saas/ui/components/card";
+import { Input } from "@starter-saas/ui/components/input";
+import {
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "@starter-saas/ui/components/table";
 import { desc } from "drizzle-orm";
-import { requireAdmin } from "@/lib/require-admin";
+import { MoreHorizontal, Search } from "lucide-react";
+import { PageHeader } from "@/components/layout/page-header";
+
+function initialsOf(name: string | null, email: string) {
+	const src = name || email;
+	return src
+		.split(" ")
+		.map((s) => s[0])
+		.slice(0, 2)
+		.join("")
+		.toUpperCase();
+}
 
 export default async function UsersPage() {
-	await requireAdmin();
-	const users = await db
+	const rows = await db
 		.select()
 		.from(user)
 		.orderBy(desc(user.createdAt))
 		.limit(200);
+
 	return (
-		<div>
-			<h1 className="font-bold text-3xl">Users</h1>
-			<table className="mt-6 w-full text-sm">
-				<thead className="border-b text-left">
-					<tr>
-						<th className="py-2">Email</th>
-						<th>Name</th>
-						<th>Role</th>
-						<th>Created</th>
-					</tr>
-				</thead>
-				<tbody>
-					{users.map((u) => (
-						<tr key={u.id} className="border-b">
-							<td className="py-2">{u.email}</td>
-							<td>{u.name}</td>
-							<td>{u.role ?? "user"}</td>
-							<td>{u.createdAt.toISOString().slice(0, 10)}</td>
-						</tr>
-					))}
-				</tbody>
-			</table>
-		</div>
+		<>
+			<PageHeader
+				title="Users"
+				description={`${rows.length} users (showing latest 200).`}
+				actions={
+					<div className="flex items-center gap-2">
+						<div className="relative">
+							<Search className="absolute top-1/2 left-2.5 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+							<Input
+								placeholder="Search users…"
+								className="w-64 pl-8"
+								disabled
+							/>
+						</div>
+						<Button variant="outline">Export CSV</Button>
+					</div>
+				}
+			/>
+
+			<Card>
+				<CardHeader className="border-b">
+					<CardTitle className="text-base">All users</CardTitle>
+				</CardHeader>
+				<CardContent className="p-0">
+					<Table>
+						<TableHeader>
+							<TableRow>
+								<TableHead>User</TableHead>
+								<TableHead>Status</TableHead>
+								<TableHead>Role</TableHead>
+								<TableHead>Joined</TableHead>
+								<TableHead className="w-12" />
+							</TableRow>
+						</TableHeader>
+						<TableBody>
+							{rows.map((u) => (
+								<TableRow key={u.id}>
+									<TableCell>
+										<div className="flex items-center gap-3">
+											<Avatar className="h-9 w-9">
+												<AvatarFallback>
+													{initialsOf(u.name, u.email)}
+												</AvatarFallback>
+											</Avatar>
+											<div>
+												<div className="font-medium">{u.name}</div>
+												<div className="text-muted-foreground text-xs">
+													{u.email}
+												</div>
+											</div>
+										</div>
+									</TableCell>
+									<TableCell>
+										{u.banned ? (
+											<Badge variant="destructive">Banned</Badge>
+										) : u.emailVerified ? (
+											<Badge>Verified</Badge>
+										) : (
+											<Badge variant="secondary">Unverified</Badge>
+										)}
+									</TableCell>
+									<TableCell>
+										<span className="font-mono text-muted-foreground text-xs uppercase tracking-widest">
+											{u.role ?? "user"}
+										</span>
+									</TableCell>
+									<TableCell className="text-muted-foreground text-sm">
+										{new Date(u.createdAt).toLocaleDateString(undefined, {
+											dateStyle: "medium",
+										})}
+									</TableCell>
+									<TableCell>
+										<Button variant="ghost" size="icon">
+											<MoreHorizontal className="h-4 w-4" />
+										</Button>
+									</TableCell>
+								</TableRow>
+							))}
+							{rows.length === 0 && (
+								<TableRow>
+									<TableCell
+										colSpan={5}
+										className="h-24 text-center text-muted-foreground"
+									>
+										No users yet.
+									</TableCell>
+								</TableRow>
+							)}
+						</TableBody>
+					</Table>
+				</CardContent>
+			</Card>
+		</>
 	);
 }
