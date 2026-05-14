@@ -3,6 +3,7 @@
 import { cn } from "@starter-saas/ui/lib/utils";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { WEB_URLS } from "@/lib/app-urls";
 
 const links = [
 	{ href: "#features", label: "Features" },
@@ -59,13 +60,13 @@ export function MarketingHeader() {
 
 				<div className="flex items-center gap-2">
 					<Link
-						href="http://localhost:3001/login"
+						href={WEB_URLS.signIn}
 						className="hidden rounded-full px-4 py-2 text-[color:var(--marketing-fg)]/80 text-sm transition-colors hover:text-[color:var(--marketing-fg)] sm:inline-block"
 					>
 						Sign in
 					</Link>
 					<Link
-						href="http://localhost:3001/login"
+						href={WEB_URLS.signUp}
 						className="group relative inline-flex items-center gap-1.5 overflow-hidden rounded-full bg-[color:var(--marketing-accent)] px-5 py-2 font-medium text-[color:var(--marketing-bg)] text-sm transition-transform hover:scale-[1.02]"
 					>
 						Start free

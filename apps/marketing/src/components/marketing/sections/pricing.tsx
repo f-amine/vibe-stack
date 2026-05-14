@@ -2,6 +2,7 @@
 
 import { cn } from "@starter-saas/ui/lib/utils";
 import { useRef } from "react";
+import { WEB_URLS } from "@/lib/app-urls";
 import { gsap, useGSAP } from "@/lib/use-gsap";
 
 const tiers = [
@@ -149,7 +150,7 @@ export function Pricing() {
 							</ul>
 
 							<a
-								href="http://localhost:3001/login"
+								href={WEB_URLS.signUp}
 								className={cn(
 									"mt-10 inline-flex items-center justify-center rounded-full px-5 py-3 font-medium text-sm transition-transform hover:scale-[1.02]",
 									t.featured
