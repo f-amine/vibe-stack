@@ -1,0 +1,98 @@
+# Production stack for Dokploy / VPS deploy.
+# Includes apps + Postgres + Redis + nightly R2 backup.
+# Dev should use docker-compose.yml (infra only).
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB:-starter-saas}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
+    volumes:
+      - redisdata:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.next
+      args:
+        APP_NAME: web
+        APP_PORT: 3001
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    env_file: .env.production
+    ports:
+      - "3001:3001"
+
+  marketing:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.next
+      args:
+        APP_NAME: marketing
+        APP_PORT: 3000
+    restart: unless-stopped
+    env_file: .env.production
+    ports:
+      - "3000:3000"
+
+  admin:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.next
+      args:
+        APP_NAME: admin
+        APP_PORT: 3002
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    env_file: .env.production
+    ports:
+      - "3002:3002"
+
+  backup:
+    image: alpine:3.20
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file: .env.production
+    volumes:
+      - ./scripts/backup-r2.sh:/usr/local/bin/backup-r2.sh:ro
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        apk add --no-cache postgresql17-client aws-cli bash curl ca-certificates
+        echo "0 3 * * * /usr/local/bin/backup-r2.sh >> /var/log/backup.log 2>&1" | crontab -
+        crond -f -l 2
+
+volumes:
+  pgdata:
+  redisdata:
