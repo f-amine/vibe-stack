@@ -1,0 +1,11 @@
+{
+	"extends": "@starter-saas/config/tsconfig.base.json",
+	"compilerOptions": {
+		"paths": {
+			"@starter-saas/i18n/*": ["./src/*"]
+		},
+		"resolveJsonModule": true
+	},
+	"include": ["src/**/*.ts", "messages/**/*.json"],
+	"exclude": ["node_modules"]
+}

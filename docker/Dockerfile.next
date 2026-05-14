@@ -1,0 +1,43 @@
+# syntax=docker.io/docker/dockerfile:1
+# Shared Next.js builder for any app in apps/* (web, marketing, admin).
+# Build args:
+#   APP_NAME (required) — directory name under apps/
+#   APP_PORT (required) — port the app listens on
+
+ARG APP_NAME
+ARG APP_PORT=3000
+
+FROM node:22-alpine AS base
+RUN corepack enable && corepack prepare pnpm@10.30.3 --activate
+WORKDIR /repo
+
+FROM base AS deps
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json ./
+COPY apps apps
+COPY packages packages
+RUN pnpm install --frozen-lockfile
+
+FROM base AS builder
+ARG APP_NAME
+ENV NEXT_TELEMETRY_DISABLED=1
+COPY --from=deps /repo /repo
+RUN pnpm --filter "./apps/${APP_NAME}" run build
+
+FROM node:22-alpine AS runner
+ARG APP_NAME
+ARG APP_PORT
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV PORT=${APP_PORT}
+WORKDIR /app
+RUN addgroup -S nodejs && adduser -S nextjs -G nodejs
+
+# Next.js standalone output
+COPY --from=builder --chown=nextjs:nodejs /repo/apps/${APP_NAME}/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /repo/apps/${APP_NAME}/.next/static ./apps/${APP_NAME}/.next/static
+COPY --from=builder --chown=nextjs:nodejs /repo/apps/${APP_NAME}/public ./apps/${APP_NAME}/public 2>/dev/null || true
+
+USER nextjs
+EXPOSE ${APP_PORT}
+ENV HOSTNAME=0.0.0.0
+CMD ["node", "apps/${APP_NAME}/server.js"]

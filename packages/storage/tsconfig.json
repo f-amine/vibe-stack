@@ -1,0 +1,10 @@
+{
+	"extends": "@starter-saas/config/tsconfig.base.json",
+	"compilerOptions": {
+		"paths": {
+			"@starter-saas/storage/*": ["./src/*"]
+		}
+	},
+	"include": ["src/**/*.ts"],
+	"exclude": ["node_modules"]
+}

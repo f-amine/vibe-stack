@@ -1,0 +1,40 @@
+{
+	"name": "marketing",
+	"version": "0.1.0",
+	"private": true,
+	"scripts": {
+		"predev": "fumadocs-mdx",
+		"prebuild": "fumadocs-mdx",
+		"dev": "next dev --port 3000",
+		"build": "next build",
+		"start": "next start --port 3000",
+		"typecheck": "tsc --noEmit"
+	},
+	"dependencies": {
+		"@starter-saas/analytics": "workspace:*",
+		"@starter-saas/env": "workspace:*",
+		"@starter-saas/i18n": "workspace:*",
+		"@starter-saas/ui": "workspace:*",
+		"fumadocs-core": "^16.8.11",
+		"fumadocs-mdx": "^15.0.4",
+		"fumadocs-ui": "^16.8.11",
+		"lucide-react": "catalog:",
+		"next": "catalog:",
+		"next-intl": "^4.12.0",
+		"next-themes": "catalog:",
+		"react": "catalog:",
+		"react-dom": "catalog:",
+		"sonner": "catalog:",
+		"zod": "catalog:"
+	},
+	"devDependencies": {
+		"@starter-saas/config": "workspace:*",
+		"@tailwindcss/postcss": "^4.1.18",
+		"@types/mdx": "^2.0.13",
+		"@types/node": "^20",
+		"@types/react": "catalog:",
+		"@types/react-dom": "catalog:",
+		"tailwindcss": "catalog:",
+		"typescript": "catalog:"
+	}
+}

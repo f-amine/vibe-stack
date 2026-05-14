@@ -1,26 +1,33 @@
 {
-  "name": "@starter-saas/auth",
-  "type": "module",
-  "exports": {
-    ".": {
-      "default": "./src/index.ts"
-    },
-    "./*": {
-      "default": "./src/*.ts"
-    }
-  },
-  "scripts": {},
-  "dependencies": {
-    "@polar-sh/better-auth": "catalog:",
-    "@polar-sh/sdk": "^0.42.2",
-    "@starter-saas/db": "workspace:*",
-    "@starter-saas/env": "workspace:*",
-    "better-auth": "catalog:",
-    "dotenv": "catalog:",
-    "zod": "catalog:"
-  },
-  "devDependencies": {
-    "@starter-saas/config": "workspace:*",
-    "typescript": "catalog:"
-  }
+	"name": "@starter-saas/auth",
+	"type": "module",
+	"exports": {
+		".": {
+			"default": "./src/index.ts"
+		},
+		"./permissions": {
+			"default": "./src/lib/permissions.ts"
+		},
+		"./*": {
+			"default": "./src/*.ts"
+		}
+	},
+	"scripts": {
+		"generate": "npx -y @better-auth/cli@latest generate --output ../db/src/schema/auth.ts --config ./src/index.ts -y"
+	},
+	"dependencies": {
+		"@polar-sh/better-auth": "catalog:",
+		"@polar-sh/sdk": "^0.47.1",
+		"@starter-saas/db": "workspace:*",
+		"@starter-saas/email": "workspace:*",
+		"@starter-saas/env": "workspace:*",
+		"better-auth": "catalog:",
+		"dotenv": "catalog:",
+		"zod": "catalog:"
+	},
+	"devDependencies": {
+		"@better-auth/cli": "^1.4.21",
+		"@starter-saas/config": "workspace:*",
+		"typescript": "catalog:"
+	}
 }

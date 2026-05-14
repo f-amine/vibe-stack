@@ -1,51 +1,47 @@
-# Dependencies
 node_modules
-.pnp
-.pnp.js
+.pnp.*
+.yarn
+.pnpm-store
 
-# Build outputs
+.next
+out
 dist
 build
-*.tsbuildinfo
-
-# Environment variables
-.env
-.env*.local
-
-# IDEs and editors
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-.idea
-*.swp
-*.swo
-*~
-.DS_Store
-
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-lerna-debug.log*
-.pnpm-debug.log*
-
-# Turbo
 .turbo
-.nx
 
-# Better-T-Stack
-.alchemy
-
-# Testing
 coverage
 .nyc_output
+playwright-report
+test-results
 
-# Misc
-*.tgz
+.env
+.env.*
+!.env.example
+.env.production
+.env.local
+
+.vercel
+.alchemy
+
+.DS_Store
+Thumbs.db
+*.log
+*.pem
+*.key
+
 .cache
-tmp
-temp
+.parcel-cache
+tsconfig.tsbuildinfo
+*.tsbuildinfo
+
+.idea
+.vscode
+*.swp
+
+.source
+.contentlayer
+
+.claude/skills/_mattpocock/
+
+.ruflo/autonomous-log.jsonl
+.ruflo/memory/
