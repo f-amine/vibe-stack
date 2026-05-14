@@ -13,16 +13,16 @@
 		"build:templates": "email build --dir src/templates"
 	},
 	"dependencies": {
-		"@react-email/components": "^1.0.12",
+		"@react-email/components": "catalog:",
 		"@starter-saas/env": "workspace:*",
 		"react": "catalog:",
 		"react-dom": "catalog:",
-		"resend": "^6.12.3"
+		"resend": "catalog:"
 	},
 	"devDependencies": {
 		"@starter-saas/config": "workspace:*",
 		"@types/react": "catalog:",
-		"react-email": "^6.1.4",
+		"react-email": "catalog:",
 		"typescript": "catalog:"
 	}
 }
