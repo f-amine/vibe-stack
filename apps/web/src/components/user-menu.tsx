@@ -24,7 +24,7 @@ export default function UserMenu() {
 
 	if (!session) {
 		return (
-			<Link href="/login">
+			<Link href="/sign-in">
 				<Button variant="outline">Sign In</Button>
 			</Link>
 		);
