@@ -1,30 +1,39 @@
 "use client";
 
 import { Button } from "@starter-saas/ui/components/button";
+import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { Suspense } from "react";
+import { Suspense, useState } from "react";
 import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";
+import { formatError } from "@/lib/format-error";
 
 function Inner() {
 	const params = useSearchParams();
 	const email = params.get("email") ?? "";
+	const [resending, setResending] = useState(false);
 
 	const resend = async () => {
 		if (!email) {
-			toast.error("Missing email — sign up again");
+			toast.error("We don't know which email to resend to — sign up again");
 			return;
 		}
-		const { error } = await authClient.sendVerificationEmail({
-			email,
-			callbackURL: "/dashboard",
-		});
-		if (error) {
-			toast.error("Couldn't resend", { description: error.message });
-			return;
+		setResending(true);
+		const id = toast.loading("Resending verification email…");
+		try {
+			const { error } = await authClient.sendVerificationEmail({
+				email,
+				callbackURL: "/dashboard",
+			});
+			if (error) {
+				toast.error(formatError(error, "Couldn't resend"), { id });
+				return;
+			}
+			toast.success("Sent — check your inbox", { id });
+		} finally {
+			setResending(false);
 		}
-		toast.success("Verification email sent");
 	};
 
 	return (
@@ -50,15 +59,22 @@ function Inner() {
 				<p className="mt-2 text-muted-foreground text-sm">
 					{email ? (
 						<>
-							We sent a verification link to <strong>{email}</strong>.
+							We sent a verification link to <strong>{email}</strong>. Click it
+							to finish creating your account.
 						</>
 					) : (
 						"We sent you a verification link."
 					)}
 				</p>
 			</div>
-			<Button onClick={resend} variant="outline">
-				Resend email
+			<Button onClick={resend} variant="outline" disabled={resending}>
+				{resending ? (
+					<>
+						<Loader2 className="mr-2 h-4 w-4 animate-spin" /> Sending…
+					</>
+				) : (
+					"Resend email"
+				)}
 			</Button>
 			<p className="text-muted-foreground text-sm">
 				<Link

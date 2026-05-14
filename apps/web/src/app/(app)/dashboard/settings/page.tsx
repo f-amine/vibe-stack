@@ -20,12 +20,14 @@ import {
 	FormMessage,
 } from "@starter-saas/ui/components/form";
 import { Input } from "@starter-saas/ui/components/input";
+import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { PageHeader } from "@/components/app/page-header";
 import { authClient } from "@/lib/auth-client";
+import { formatError } from "@/lib/format-error";
 
 const profile = z.object({
 	name: z.string().min(2, "Required"),
@@ -54,13 +56,17 @@ export default function SettingsPage() {
 
 	const onSubmit = async (values: ProfileValues) => {
 		setSaving(true);
-		const { error } = await authClient.updateUser({ name: values.name });
-		setSaving(false);
-		if (error) {
-			toast.error("Couldn't save", { description: error.message });
-			return;
+		const id = toast.loading("Saving…");
+		try {
+			const { error } = await authClient.updateUser({ name: values.name });
+			if (error) {
+				toast.error(formatError(error, "Couldn't save"), { id });
+				return;
+			}
+			toast.success("Profile updated", { id });
+		} finally {
+			setSaving(false);
 		}
-		toast.success("Profile updated");
 	};
 
 	return (
@@ -112,7 +118,13 @@ export default function SettingsPage() {
 						</CardContent>
 						<CardFooter className="border-t pt-6">
 							<Button type="submit" disabled={saving}>
-								{saving ? "Saving…" : "Save changes"}
+								{saving ? (
+									<>
+										<Loader2 className="mr-2 h-4 w-4 animate-spin" /> Saving…
+									</>
+								) : (
+									"Save changes"
+								)}
 							</Button>
 						</CardFooter>
 					</form>

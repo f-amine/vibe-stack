@@ -11,12 +11,14 @@ import {
 	FormMessage,
 } from "@starter-saas/ui/components/form";
 import { Input } from "@starter-saas/ui/components/input";
+import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { authClient } from "@/lib/auth-client";
+import { formatError } from "@/lib/format-error";
 
 const schema = z.object({
 	name: z.string().min(2, "Tell us your name"),
@@ -37,21 +39,30 @@ export function SignUpForm() {
 
 	const onSubmit = async (values: Values) => {
 		setSubmitting(true);
-		const { error } = await authClient.signUp.email({
-			name: values.name,
-			email: values.email,
-			password: values.password,
-			callbackURL: "/dashboard",
-		});
-		setSubmitting(false);
-		if (error) {
-			toast.error("Couldn't create your account", {
-				description: error.message,
+		const id = toast.loading("Creating your account…");
+		try {
+			const { error } = await authClient.signUp.email({
+				name: values.name,
+				email: values.email,
+				password: values.password,
+				callbackURL: "/dashboard",
 			});
-			return;
+			if (error) {
+				toast.error(formatError(error, "Couldn't create your account"), { id });
+				return;
+			}
+			toast.success("Account created", {
+				id,
+				description: "Check your email for the verification link.",
+			});
+			router.push(`/verify-email?email=${encodeURIComponent(values.email)}`);
+		} catch (err) {
+			toast.error(formatError(err as Error, "Couldn't create your account"), {
+				id,
+			});
+		} finally {
+			setSubmitting(false);
 		}
-		toast.success("Account created — check your email to verify");
-		router.push(`/verify-email?email=${encodeURIComponent(values.email)}`);
 	};
 
 	return (
@@ -67,6 +78,7 @@ export function SignUpForm() {
 								<Input
 									autoComplete="name"
 									placeholder="Ada Lovelace"
+									disabled={submitting}
 									{...field}
 								/>
 							</FormControl>
@@ -85,6 +97,7 @@ export function SignUpForm() {
 									type="email"
 									autoComplete="email"
 									placeholder="you@company.com"
+									disabled={submitting}
 									{...field}
 								/>
 							</FormControl>
@@ -103,6 +116,7 @@ export function SignUpForm() {
 									type="password"
 									autoComplete="new-password"
 									placeholder="••••••••"
+									disabled={submitting}
 									{...field}
 								/>
 							</FormControl>
@@ -112,7 +126,14 @@ export function SignUpForm() {
 				/>
 
 				<Button type="submit" size="lg" disabled={submitting}>
-					{submitting ? "Creating account…" : "Create account"}
+					{submitting ? (
+						<>
+							<Loader2 className="mr-2 h-4 w-4 animate-spin" /> Creating
+							account…
+						</>
+					) : (
+						"Create account"
+					)}
 				</Button>
 			</form>
 		</Form>
