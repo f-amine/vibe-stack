@@ -1,11 +1,6 @@
 @import "@starter-saas/ui/globals.css";
-@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=JetBrains+Mono:wght@400;500;600&family=Geist:wght@300;400;500;600;700&display=swap");
 
 :root {
-	--font-display: "Fraunces", ui-serif, Georgia, serif;
-	--font-body: "Geist", ui-sans-serif, system-ui, sans-serif;
-	--font-mono: "JetBrains Mono", ui-monospace, monospace;
-
 	--marketing-bg: oklch(0.13 0.012 250);
 	--marketing-fg: oklch(0.96 0.01 90);
 	--marketing-muted: oklch(0.55 0.012 250);
@@ -21,18 +16,18 @@ html[data-theme="marketing"] {
 body.marketing {
 	background: var(--marketing-bg);
 	color: var(--marketing-fg);
-	font-family: var(--font-body);
+	font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
 	-webkit-font-smoothing: antialiased;
 }
 
 .font-display {
-	font-family: var(--font-display);
+	font-family: var(--font-display), ui-serif, Georgia, serif;
 	font-feature-settings: "ss01", "ss02";
 	letter-spacing: -0.02em;
 }
 
 .font-mono {
-	font-family: var(--font-mono);
+	font-family: var(--font-mono), ui-monospace, monospace;
 }
 
 /* Animated grain overlay */
@@ -47,7 +42,6 @@ body.marketing {
 	background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85'/></filter><rect width='256' height='256' filter='url(%23n)'/></svg>");
 }
 
-/* Reveal animation initial states (GSAP will animate to visible) */
 .reveal-up {
 	opacity: 0;
 	transform: translateY(40px);
