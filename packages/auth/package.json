@@ -18,6 +18,7 @@
 	"dependencies": {
 		"@polar-sh/better-auth": "catalog:",
 		"@polar-sh/sdk": "catalog:",
+		"@starter-saas/billing": "workspace:*",
 		"@starter-saas/db": "workspace:*",
 		"@starter-saas/email": "workspace:*",
 		"@starter-saas/env": "workspace:*",

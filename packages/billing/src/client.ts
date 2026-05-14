@@ -1,7 +1,9 @@
 import { Polar } from "@polar-sh/sdk";
 import { env } from "@starter-saas/env/server";
 
-export const polarClient = new Polar({
+export const polar = new Polar({
 	accessToken: env.POLAR_ACCESS_TOKEN,
-	server: "sandbox",
+	server: env.POLAR_SERVER,
 });
+
+export type PolarServer = "sandbox" | "production";

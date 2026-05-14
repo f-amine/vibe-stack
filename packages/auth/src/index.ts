@@ -1,4 +1,6 @@
 import { checkout, polar, portal, webhooks } from "@polar-sh/better-auth";
+import { polar as polarClient } from "@starter-saas/billing/client";
+import { polarCheckoutProducts } from "@starter-saas/billing/plans-server";
 import { createDb } from "@starter-saas/db";
 import * as schema from "@starter-saas/db/schema/auth";
 import { env } from "@starter-saas/env/server";
@@ -9,7 +11,6 @@ import { admin, magicLink, organization, twoFactor } from "better-auth/plugins";
 // TODO: passkey plugin not exported from better-auth@1.6.9. Re-enable when upgrading.
 // import { passkey } from "better-auth/plugins/passkey";
 
-import { polarClient } from "./lib/payments";
 import { ac, admin as adminRole, member, owner } from "./lib/permissions";
 import {
 	sendMagicLink,
@@ -97,7 +98,7 @@ export function createAuth() {
 				enableCustomerPortal: true,
 				use: [
 					checkout({
-						products: [{ productId: "your-product-id", slug: "pro" }],
+						products: polarCheckoutProducts(),
 						successUrl: env.POLAR_SUCCESS_URL,
 						authenticatedUsersOnly: true,
 					}),

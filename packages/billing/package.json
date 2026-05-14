@@ -1,0 +1,21 @@
+{
+	"name": "@starter-saas/billing",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"exports": {
+		".": "./src/index.ts",
+		"./plans": "./src/plans.ts",
+		"./plans-server": "./src/plans-server.ts",
+		"./client": "./src/client.ts"
+	},
+	"dependencies": {
+		"@polar-sh/sdk": "catalog:",
+		"@starter-saas/env": "workspace:*",
+		"zod": "catalog:"
+	},
+	"devDependencies": {
+		"@starter-saas/config": "workspace:*",
+		"typescript": "catalog:"
+	}
+}
