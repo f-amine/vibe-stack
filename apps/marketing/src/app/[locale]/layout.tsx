@@ -1,9 +1,28 @@
+import { Fraunces, Geist, JetBrains_Mono } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { ThemeProvider } from "next-themes";
 import type { ReactNode } from "react";
 import { Toaster } from "sonner";
 import "../globals.css";
+
+const fraunces = Fraunces({
+	subsets: ["latin"],
+	variable: "--font-display",
+	display: "swap",
+});
+
+const geist = Geist({
+	subsets: ["latin"],
+	variable: "--font-body",
+	display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+	subsets: ["latin"],
+	variable: "--font-mono",
+	display: "swap",
+});
 
 export const metadata = {
 	title:
@@ -21,7 +40,11 @@ export default async function LocaleLayout({ children, params }: Props) {
 	const { locale } = await params;
 	const messages = await getMessages();
 	return (
-		<html lang={locale} suppressHydrationWarning>
+		<html
+			lang={locale}
+			suppressHydrationWarning
+			className={`${fraunces.variable} ${geist.variable} ${jetbrainsMono.variable}`}
+		>
 			<body className="min-h-dvh antialiased">
 				<NextIntlClientProvider locale={locale} messages={messages}>
 					<ThemeProvider
