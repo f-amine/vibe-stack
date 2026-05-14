@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
 import "../index.css";
-import Header from "@/components/header";
 import Providers from "@/components/providers";
 
 const geistSans = Geist({
@@ -16,8 +15,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-	title: "starter-saas",
-	description: "starter-saas",
+	title: "stack/saas",
+	description: "Ship your SaaS faster",
 };
 
 export default function RootLayout({
@@ -28,14 +27,9 @@ export default function RootLayout({
 	return (
 		<html lang="en" suppressHydrationWarning>
 			<body
-				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+				className={`${geistSans.variable} ${geistMono.variable} min-h-dvh antialiased`}
 			>
-				<Providers>
-					<div className="grid h-svh grid-rows-[auto_1fr]">
-						<Header />
-						{children}
-					</div>
-				</Providers>
+				<Providers>{children}</Providers>
 			</body>
 		</html>
 	);

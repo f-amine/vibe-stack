@@ -25,6 +25,9 @@ export const env = createEnv({
 		POLAR_ACCESS_TOKEN: z.string().min(1),
 		POLAR_SUCCESS_URL: z.url(),
 		POLAR_WEBHOOK_SECRET: z.string().min(1).optional(),
+		POLAR_SERVER: z.enum(["sandbox", "production"]).default("sandbox"),
+		POLAR_PRODUCT_ID_PRO: z.string().min(1).optional(),
+		POLAR_PRODUCT_ID_TEAM: z.string().min(1).optional(),
 
 		// Resend (email)
 		RESEND_API_KEY: z.string().min(1),
