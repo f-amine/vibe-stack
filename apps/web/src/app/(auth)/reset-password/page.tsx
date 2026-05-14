@@ -16,7 +16,7 @@ import {
 	FormMessage,
 } from "@starter-saas/ui/components/form";
 import { Input } from "@starter-saas/ui/components/input";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
@@ -24,6 +24,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { authClient } from "@/lib/auth-client";
+import { formatError } from "@/lib/format-error";
 
 const schema = z
 	.object({
@@ -51,17 +52,21 @@ function Inner() {
 	const onSubmit = async (values: Values) => {
 		if (!token) return;
 		setSubmitting(true);
-		const { error } = await authClient.resetPassword({
-			newPassword: values.password,
-			token,
-		});
-		setSubmitting(false);
-		if (error) {
-			toast.error("Couldn't reset password", { description: error.message });
-			return;
+		const id = toast.loading("Saving new password…");
+		try {
+			const { error } = await authClient.resetPassword({
+				newPassword: values.password,
+				token,
+			});
+			if (error) {
+				toast.error(formatError(error, "Couldn't reset password"), { id });
+				return;
+			}
+			toast.success("Password updated — please sign in", { id });
+			router.push("/sign-in");
+		} finally {
+			setSubmitting(false);
 		}
-		toast.success("Password updated — sign in with your new password");
-		router.push("/sign-in");
 	};
 
 	if (!token) {
@@ -140,7 +145,13 @@ function Inner() {
 						)}
 					/>
 					<Button type="submit" size="lg" disabled={submitting}>
-						{submitting ? "Saving…" : "Set new password"}
+						{submitting ? (
+							<>
+								<Loader2 className="mr-2 h-4 w-4 animate-spin" /> Saving…
+							</>
+						) : (
+							"Set new password"
+						)}
 					</Button>
 				</form>
 			</Form>
