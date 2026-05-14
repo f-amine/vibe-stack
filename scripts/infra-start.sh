@@ -54,7 +54,7 @@ for port in "${PORTS[@]}"; do
     echo "  name:  $name"
     echo "  image: $image"
     echo "  ports: $ports"
-    ans=$(ask "stop and remove this container? [y/N] ")
+    ans=$(ask "stop this container (it will NOT be removed)? [y/N] ")
     if [[ "$ans" =~ ^[Yy]$ ]]; then
       docker stop "$id" >/dev/null
       echo "[infra:start] stopped $name"
