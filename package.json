@@ -26,6 +26,7 @@
 		"format:check": "biome format .",
 		"setup": "bash scripts/link-env.sh",
 		"gen:image": "tsx scripts/gen-image.ts",
+		"gen:changelog": "tsx scripts/agents/write-changelog.ts",
 		"infra:start": "bash scripts/infra-start.sh",
 		"infra:watch": "docker compose up",
 		"infra:stop": "docker compose stop",
