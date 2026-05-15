@@ -18,6 +18,7 @@ import {
 	sendPasswordReset,
 	sendVerify,
 } from "./lib/send";
+import { maybeSendWelcomeOnVerify } from "./lib/welcome";
 
 export function createAuth() {
 	const db = createDb();
@@ -45,6 +46,22 @@ export function createAuth() {
 			autoSignInAfterVerification: true,
 			sendVerificationEmail: async ({ user, url }) => {
 				await sendVerify({ to: user.email, name: user.name, url });
+			},
+		},
+
+		databaseHooks: {
+			user: {
+				update: {
+					after: async (user) => {
+						// First-verified login → welcome email (idempotent via audit_log).
+						await maybeSendWelcomeOnVerify({
+							id: user.id,
+							email: user.email,
+							name: user.name,
+							emailVerified: user.emailVerified,
+						});
+					},
+				},
 			},
 		},
 

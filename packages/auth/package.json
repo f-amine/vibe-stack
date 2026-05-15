@@ -24,6 +24,8 @@
 		"@starter-saas/env": "workspace:*",
 		"better-auth": "catalog:",
 		"dotenv": "catalog:",
+		"drizzle-orm": "catalog:",
+		"nanoid": "catalog:",
 		"zod": "catalog:"
 	},
 	"devDependencies": {
