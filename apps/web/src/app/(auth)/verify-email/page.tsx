@@ -4,17 +4,43 @@ import { Button } from "@starter-saas/ui/components/button";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { Suspense, useState } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";
 import { formatError } from "@/lib/format-error";
+
+const RESEND_COOLDOWN_SECONDS = 60;
 
 function Inner() {
 	const params = useSearchParams();
 	const email = params.get("email") ?? "";
 	const [resending, setResending] = useState(false);
+	const [cooldown, setCooldown] = useState(0);
+	const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+	useEffect(() => {
+		if (cooldown <= 0) {
+			if (timerRef.current) {
+				clearInterval(timerRef.current);
+				timerRef.current = null;
+			}
+			return;
+		}
+		timerRef.current = setInterval(() => {
+			setCooldown((c) => (c <= 1 ? 0 : c - 1));
+		}, 1000);
+		return () => {
+			if (timerRef.current) {
+				clearInterval(timerRef.current);
+				timerRef.current = null;
+			}
+		};
+	}, [cooldown]);
 
 	const resend = async () => {
+		if (cooldown > 0 || resending) {
+			return;
+		}
 		if (!email) {
 			toast.error("We don't know which email to resend to — sign up again");
 			return;
@@ -31,6 +57,7 @@ function Inner() {
 				return;
 			}
 			toast.success("Sent — check your inbox", { id });
+			setCooldown(RESEND_COOLDOWN_SECONDS);
 		} finally {
 			setResending(false);
 		}
@@ -67,15 +94,27 @@ function Inner() {
 					)}
 				</p>
 			</div>
-			<Button onClick={resend} variant="outline" disabled={resending}>
+			<Button
+				onClick={resend}
+				variant="outline"
+				disabled={resending || cooldown > 0}
+				aria-live="polite"
+			>
 				{resending ? (
 					<>
 						<Loader2 className="mr-2 h-4 w-4 animate-spin" /> Sending…
 					</>
+				) : cooldown > 0 ? (
+					`Resend in ${cooldown}s`
 				) : (
 					"Resend email"
 				)}
 			</Button>
+			{cooldown > 0 ? (
+				<p className="-mt-2 text-muted-foreground text-xs">
+					Email already sent — you can ask for another in {cooldown}s.
+				</p>
+			) : null}
 			<p className="text-muted-foreground text-sm">
 				<Link
 					href="/sign-in"

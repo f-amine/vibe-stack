@@ -15,7 +15,6 @@ import {
 	FormLabel,
 	FormMessage,
 } from "@starter-saas/ui/components/form";
-import { Input } from "@starter-saas/ui/components/input";
 import { AlertCircle, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -23,6 +22,7 @@ import { Suspense, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import { PasswordInput } from "@/components/auth/password-input";
 import { authClient } from "@/lib/auth-client";
 import { formatError } from "@/lib/format-error";
 
@@ -115,8 +115,7 @@ function Inner() {
 							<FormItem>
 								<FormLabel>New password</FormLabel>
 								<FormControl>
-									<Input
-										type="password"
+									<PasswordInput
 										autoComplete="new-password"
 										placeholder="••••••••"
 										{...field}
@@ -133,8 +132,7 @@ function Inner() {
 							<FormItem>
 								<FormLabel>Confirm</FormLabel>
 								<FormControl>
-									<Input
-										type="password"
+									<PasswordInput
 										autoComplete="new-password"
 										placeholder="••••••••"
 										{...field}
