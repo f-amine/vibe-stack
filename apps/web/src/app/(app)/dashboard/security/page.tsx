@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import { GdprSection } from "@/components/app/gdpr-section";
 import { PageHeader } from "@/components/app/page-header";
 import { authClient } from "@/lib/auth-client";
 
@@ -187,6 +188,8 @@ export default function SecurityPage() {
 						</ul>
 					</CardContent>
 				</Card>
+
+				<GdprSection />
 			</div>
 		</>
 	);

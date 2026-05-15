@@ -519,6 +519,9 @@ importers:
 
   packages/api:
     dependencies:
+      '@aws-sdk/client-s3':
+        specifier: 'catalog:'
+        version: 3.1046.0
       '@starter-saas/auth':
         specifier: workspace:*
         version: link:../auth
@@ -528,6 +531,9 @@ importers:
       '@starter-saas/env':
         specifier: workspace:*
         version: link:../env
+      '@starter-saas/storage':
+        specifier: workspace:*
+        version: link:../storage
       '@trpc/client':
         specifier: 'catalog:'
         version: 11.17.0(@trpc/server@11.17.0(typescript@6.0.3))(typescript@6.0.3)
