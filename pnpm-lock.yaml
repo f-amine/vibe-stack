@@ -394,6 +394,9 @@ importers:
       '@starter-saas/billing':
         specifier: workspace:*
         version: link:../../packages/billing
+      '@starter-saas/db':
+        specifier: workspace:*
+        version: link:../../packages/db
       '@starter-saas/env':
         specifier: workspace:*
         version: link:../../packages/env
@@ -427,6 +430,9 @@ importers:
       dotenv:
         specifier: 'catalog:'
         version: 17.4.2
+      drizzle-orm:
+        specifier: 0.45.2
+        version: 0.45.2(@opentelemetry/api@1.9.1)(@prisma/client@5.22.0)(@types/pg@8.20.0)(better-sqlite3@12.10.0)(kysely@0.28.17)(pg@8.20.0)
       lucide-react:
         specifier: 'catalog:'
         version: 1.16.0(react@19.2.6)

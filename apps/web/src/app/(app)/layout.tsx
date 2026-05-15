@@ -8,6 +8,7 @@ import {
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { AppSidebar } from "@/components/app/app-sidebar";
+import { hasCompletedOnboarding } from "@/lib/onboarding";
 
 export default async function AppLayout({
 	children,
@@ -16,6 +17,11 @@ export default async function AppLayout({
 }) {
 	const session = await auth.api.getSession({ headers: await headers() });
 	if (!session) redirect("/sign-in");
+	if (!(await hasCompletedOnboarding(session.user.id))) {
+		// Next typedRoutes hasn't picked up /onboarding yet on first compile;
+		// route is real, cast quiets the static-route narrowing.
+		redirect("/onboarding" as never);
+	}
 
 	return (
 		<SidebarProvider>
