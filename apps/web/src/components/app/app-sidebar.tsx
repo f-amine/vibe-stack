@@ -25,40 +25,82 @@ import {
 import {
 	CreditCard,
 	FolderOpen,
-	KeyRound,
+	Gift,
+	HandCoins,
 	LayoutDashboard,
 	LogOut,
-	Palette,
 	Settings,
-	Shield,
 	Users,
-	Webhook,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import type { ComponentType } from "react";
+import { type FeatureKey, isFeatureEnabled } from "@/config/features";
 import { authClient } from "@/lib/auth-client";
 
-const groups = [
+type Item = {
+	href: string;
+	label: string;
+	icon: ComponentType<{ className?: string }>;
+	feature?: FeatureKey;
+};
+
+type Group = { label: string; items: Item[] };
+
+// One-source-of-truth nav. Items with a `feature` are filtered out at
+// render time when that feature is disabled in `config/features.ts`.
+// "Settings" lives at /dashboard/settings and contains profile +
+// appearance + billing + security + api-keys + webhooks tabs in a hub.
+const groups: readonly Group[] = [
 	{
 		label: "Workspace",
 		items: [
 			{ href: "/dashboard", label: "Overview", icon: LayoutDashboard },
-			{ href: "/dashboard/organizations", label: "Organizations", icon: Users },
-			{ href: "/dashboard/files", label: "Files", icon: FolderOpen },
+			{
+				href: "/dashboard/organizations",
+				label: "Organizations",
+				icon: Users,
+				feature: "organizations",
+			},
+			{
+				href: "/dashboard/files",
+				label: "Files",
+				icon: FolderOpen,
+				feature: "files",
+			},
+		],
+	},
+	{
+		label: "Growth",
+		items: [
+			{
+				href: "/dashboard/affiliate",
+				label: "Affiliate",
+				icon: HandCoins,
+				feature: "affiliate",
+			},
+			{
+				href: "/dashboard/referrals",
+				label: "Referrals",
+				icon: Gift,
+				feature: "referrals",
+			},
 		],
 	},
 	{
 		label: "Account",
-		items: [
-			{ href: "/dashboard/settings", label: "Settings", icon: Settings },
-			{ href: "/dashboard/billing", label: "Billing", icon: CreditCard },
-			{ href: "/dashboard/appearance", label: "Appearance", icon: Palette },
-			{ href: "/dashboard/security", label: "Security", icon: Shield },
-			{ href: "/dashboard/api-keys", label: "API keys", icon: KeyRound },
-			{ href: "/dashboard/webhooks", label: "Webhooks", icon: Webhook },
-		],
+		items: [{ href: "/dashboard/settings", label: "Settings", icon: Settings }],
 	},
-] as const;
+];
+
+function visibleGroups(): Group[] {
+	return groups
+		.map((g) => ({
+			label: g.label,
+			items: g.items.filter((i) => !i.feature || isFeatureEnabled(i.feature)),
+		}))
+		.filter((g) => g.items.length > 0);
+}
 
 export function AppSidebar() {
 	const router = useRouter();
@@ -90,7 +132,7 @@ export function AppSidebar() {
 			</SidebarHeader>
 
 			<SidebarContent>
-				{groups.map((g) => (
+				{visibleGroups().map((g) => (
 					<SidebarGroup key={g.label}>
 						<SidebarGroupLabel>{g.label}</SidebarGroupLabel>
 						<SidebarGroupContent>
@@ -156,12 +198,16 @@ export function AppSidebar() {
 										<Settings className="mr-2 h-4 w-4" />
 										Settings
 									</DropdownMenuItem>
-									<DropdownMenuItem
-										onClick={() => router.push("/dashboard/billing")}
-									>
-										<CreditCard className="mr-2 h-4 w-4" />
-										Billing
-									</DropdownMenuItem>
+									{isFeatureEnabled("billing") ? (
+										<DropdownMenuItem
+											onClick={() =>
+												router.push("/dashboard/settings#billing" as never)
+											}
+										>
+											<CreditCard className="mr-2 h-4 w-4" />
+											Billing
+										</DropdownMenuItem>
+									) : null}
 									<DropdownMenuSeparator />
 									<DropdownMenuItem
 										onClick={async () => {

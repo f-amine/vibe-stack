@@ -121,10 +121,7 @@ export function UserActionsMenu({ row, currentUserId }: Props) {
 						</DropdownMenuLabel>
 						<DropdownMenuSeparator />
 						{isAdmin ? (
-							<DropdownMenuItem
-								onClick={onDemote}
-								disabled={pending || isSelf}
-							>
+							<DropdownMenuItem onClick={onDemote} disabled={pending || isSelf}>
 								<ShieldOff className="mr-2 h-4 w-4" />
 								Demote to user
 							</DropdownMenuItem>
