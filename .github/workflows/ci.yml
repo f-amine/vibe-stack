@@ -3,7 +3,7 @@ name: CI
 on:
   pull_request:
   push:
-    branches: [main]
+    branches: [master, main]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -54,7 +54,33 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
+      - name: Materialize CI .env
+        # `@starter-saas/env` calls `dotenv/config` on import, and Next 16 build
+        # workers don't always inherit the job-level `env:` block. Write the
+        # repo-root .env from those vars and symlink it into each app so server
+        # builds see the same vars as local dev.
+        run: |
+          cat > .env <<EOF
+          NODE_ENV=production
+          DATABASE_URL=${DATABASE_URL}
+          BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET}
+          BETTER_AUTH_URL=${BETTER_AUTH_URL}
+          APP_URL=${APP_URL}
+          CORS_ORIGIN=${CORS_ORIGIN}
+          POLAR_ACCESS_TOKEN=${POLAR_ACCESS_TOKEN}
+          POLAR_SUCCESS_URL=${POLAR_SUCCESS_URL}
+          POLAR_SERVER=sandbox
+          RESEND_API_KEY=${RESEND_API_KEY}
+          EMAIL_FROM=${EMAIL_FROM}
+          R2_ACCOUNT_ID=${R2_ACCOUNT_ID}
+          R2_ACCESS_KEY_ID=${R2_ACCESS_KEY_ID}
+          R2_SECRET_ACCESS_KEY=${R2_SECRET_ACCESS_KEY}
+          R2_BUCKET=${R2_BUCKET}
+          R2_ENDPOINT=${R2_ENDPOINT}
+          NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL}
+          EOF
       - run: pnpm install --frozen-lockfile
+      - run: pnpm run setup
       - run: pnpm db:push --filter @starter-saas/db
         continue-on-error: true
       - run: pnpm check
