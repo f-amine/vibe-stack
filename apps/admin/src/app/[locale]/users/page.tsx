@@ -20,8 +20,10 @@ import {
 	TableRow,
 } from "@starter-saas/ui/components/table";
 import { desc } from "drizzle-orm";
-import { MoreHorizontal, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { PageHeader } from "@/components/layout/page-header";
+import { requireAdmin } from "@/lib/require-admin";
+import { UserActionsMenu } from "./_user-actions-menu";
 
 function initialsOf(name: string | null, email: string) {
 	const src = name || email;
@@ -34,6 +36,7 @@ function initialsOf(name: string | null, email: string) {
 }
 
 export default async function UsersPage() {
+	const session = await requireAdmin();
 	const rows = await db
 		.select()
 		.from(user)
@@ -121,9 +124,16 @@ export default async function UsersPage() {
 											})}
 										</TableCell>
 										<TableCell>
-											<Button variant="ghost" size="icon">
-												<MoreHorizontal className="h-4 w-4" />
-											</Button>
+											<UserActionsMenu
+												row={{
+													id: u.id,
+													email: u.email,
+													name: u.name,
+													role: u.role,
+													banned: u.banned,
+												}}
+												currentUserId={session.user.id}
+											/>
 										</TableCell>
 									</TableRow>
 								))}
