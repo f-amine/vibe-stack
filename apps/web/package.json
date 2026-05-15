@@ -15,6 +15,7 @@
 		"@starter-saas/auth": "workspace:*",
 		"@starter-saas/billing": "workspace:*",
 		"@starter-saas/env": "workspace:*",
+		"@starter-saas/storage": "workspace:*",
 		"@starter-saas/ui": "workspace:*",
 		"@tanstack/react-form": "^1.28.0",
 		"@tanstack/react-query": "catalog:",

@@ -23,6 +23,7 @@ import {
 } from "@starter-saas/ui/components/sidebar";
 import {
 	CreditCard,
+	FolderOpen,
 	LayoutDashboard,
 	LogOut,
 	Palette,
@@ -40,6 +41,7 @@ const groups = [
 		items: [
 			{ href: "/dashboard", label: "Overview", icon: LayoutDashboard },
 			{ href: "/dashboard/organizations", label: "Organizations", icon: Users },
+			{ href: "/dashboard/files", label: "Files", icon: FolderOpen },
 		],
 	},
 	{
@@ -98,7 +100,7 @@ export function AppSidebar() {
 										<SidebarMenuItem key={item.href}>
 											<SidebarMenuButton
 												isActive={active}
-												render={<Link href={item.href} />}
+												render={<Link href={{ pathname: item.href }} />}
 												tooltip={item.label}
 											>
 												<Icon className="h-4 w-4" />

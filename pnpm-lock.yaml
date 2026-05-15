@@ -367,6 +367,9 @@ importers:
       '@starter-saas/env':
         specifier: workspace:*
         version: link:../../packages/env
+      '@starter-saas/storage':
+        specifier: workspace:*
+        version: link:../../packages/storage
       '@starter-saas/ui':
         specifier: workspace:*
         version: link:../../packages/ui
