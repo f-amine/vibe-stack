@@ -11,6 +11,7 @@
 	"dependencies": {
 		"@hookform/resolvers": "^5.2.2",
 		"@polar-sh/better-auth": "catalog:",
+		"@starter-saas/analytics": "workspace:*",
 		"@starter-saas/api": "workspace:*",
 		"@starter-saas/auth": "workspace:*",
 		"@starter-saas/billing": "workspace:*",
