@@ -5,4 +5,6 @@ export * from "./auth";
 export * from "./billing";
 export * from "./gdpr";
 export * from "./notification";
+export * from "./preferences";
 export * from "./referral";
+export * from "./user-webhook";
