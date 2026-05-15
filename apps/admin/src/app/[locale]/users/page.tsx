@@ -9,6 +9,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@starter-saas/ui/components/card";
+import { EmptyState } from "@starter-saas/ui/components/empty-state";
 import { Input } from "@starter-saas/ui/components/input";
 import {
 	Table,
@@ -64,72 +65,71 @@ export default async function UsersPage() {
 					<CardTitle className="text-base">All users</CardTitle>
 				</CardHeader>
 				<CardContent className="p-0">
-					<Table>
-						<TableHeader>
-							<TableRow>
-								<TableHead>User</TableHead>
-								<TableHead>Status</TableHead>
-								<TableHead>Role</TableHead>
-								<TableHead>Joined</TableHead>
-								<TableHead className="w-12" />
-							</TableRow>
-						</TableHeader>
-						<TableBody>
-							{rows.map((u) => (
-								<TableRow key={u.id}>
-									<TableCell>
-										<div className="flex items-center gap-3">
-											<Avatar className="h-9 w-9">
-												<AvatarFallback>
-													{initialsOf(u.name, u.email)}
-												</AvatarFallback>
-											</Avatar>
-											<div>
-												<div className="font-medium">{u.name}</div>
-												<div className="text-muted-foreground text-xs">
-													{u.email}
+					{rows.length === 0 ? (
+						<EmptyState
+							illustration="stack"
+							title="No users yet"
+							description="Every sign-up appears here. The first user to register gets routed to /onboarding — see #29 for the wizard."
+							className="border-0 bg-transparent py-12"
+						/>
+					) : (
+						<Table>
+							<TableHeader>
+								<TableRow>
+									<TableHead>User</TableHead>
+									<TableHead>Status</TableHead>
+									<TableHead>Role</TableHead>
+									<TableHead>Joined</TableHead>
+									<TableHead className="w-12" />
+								</TableRow>
+							</TableHeader>
+							<TableBody>
+								{rows.map((u) => (
+									<TableRow key={u.id}>
+										<TableCell>
+											<div className="flex items-center gap-3">
+												<Avatar className="h-9 w-9">
+													<AvatarFallback>
+														{initialsOf(u.name, u.email)}
+													</AvatarFallback>
+												</Avatar>
+												<div>
+													<div className="font-medium">{u.name}</div>
+													<div className="text-muted-foreground text-xs">
+														{u.email}
+													</div>
 												</div>
 											</div>
-										</div>
-									</TableCell>
-									<TableCell>
-										{u.banned ? (
-											<Badge variant="destructive">Banned</Badge>
-										) : u.emailVerified ? (
-											<Badge>Verified</Badge>
-										) : (
-											<Badge variant="secondary">Unverified</Badge>
-										)}
-									</TableCell>
-									<TableCell>
-										<span className="font-mono text-muted-foreground text-xs uppercase tracking-widest">
-											{u.role ?? "user"}
-										</span>
-									</TableCell>
-									<TableCell className="text-muted-foreground text-sm">
-										{new Date(u.createdAt).toLocaleDateString(undefined, {
-											dateStyle: "medium",
-										})}
-									</TableCell>
-									<TableCell>
-										<Button variant="ghost" size="icon">
-											<MoreHorizontal className="h-4 w-4" />
-										</Button>
-									</TableCell>
-								</TableRow>
-							))}
-							{rows.length === 0 && (
-								<TableRow>
-									<TableCell
-										colSpan={5}
-										className="h-24 text-center text-muted-foreground"
-									>
-										No users yet.
-									</TableCell>
-								</TableRow>
-							)}
-						</TableBody>
-					</Table>
+										</TableCell>
+										<TableCell>
+											{u.banned ? (
+												<Badge variant="destructive">Banned</Badge>
+											) : u.emailVerified ? (
+												<Badge>Verified</Badge>
+											) : (
+												<Badge variant="secondary">Unverified</Badge>
+											)}
+										</TableCell>
+										<TableCell>
+											<span className="font-mono text-muted-foreground text-xs uppercase tracking-widest">
+												{u.role ?? "user"}
+											</span>
+										</TableCell>
+										<TableCell className="text-muted-foreground text-sm">
+											{new Date(u.createdAt).toLocaleDateString(undefined, {
+												dateStyle: "medium",
+											})}
+										</TableCell>
+										<TableCell>
+											<Button variant="ghost" size="icon">
+												<MoreHorizontal className="h-4 w-4" />
+											</Button>
+										</TableCell>
+									</TableRow>
+								))}
+							</TableBody>
+						</Table>
+					)}
 				</CardContent>
 			</Card>
 		</>

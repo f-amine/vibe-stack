@@ -8,6 +8,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@starter-saas/ui/components/card";
+import { EmptyState } from "@starter-saas/ui/components/empty-state";
 import {
 	Table,
 	TableBody,
@@ -46,53 +47,52 @@ export default async function OrgsPage() {
 					<CardTitle className="text-base">All organizations</CardTitle>
 				</CardHeader>
 				<CardContent className="p-0">
-					<Table>
-						<TableHeader>
-							<TableRow>
-								<TableHead>Organization</TableHead>
-								<TableHead>Slug</TableHead>
-								<TableHead>Members</TableHead>
-								<TableHead>Created</TableHead>
-							</TableRow>
-						</TableHeader>
-						<TableBody>
-							{orgs.map((o) => (
-								<TableRow key={o.id}>
-									<TableCell>
-										<div className="flex items-center gap-3">
-											<Avatar className="h-9 w-9 rounded-lg">
-												<AvatarFallback className="rounded-lg">
-													{o.name.slice(0, 2).toUpperCase()}
-												</AvatarFallback>
-											</Avatar>
-											<div className="font-medium">{o.name}</div>
-										</div>
-									</TableCell>
-									<TableCell className="font-mono text-muted-foreground text-xs">
-										{o.slug ?? "—"}
-									</TableCell>
-									<TableCell>
-										<Badge variant="secondary">{Number(o.members)}</Badge>
-									</TableCell>
-									<TableCell className="text-muted-foreground text-sm">
-										{new Date(o.createdAt).toLocaleDateString(undefined, {
-											dateStyle: "medium",
-										})}
-									</TableCell>
-								</TableRow>
-							))}
-							{orgs.length === 0 && (
+					{orgs.length === 0 ? (
+						<EmptyState
+							illustration="orbits"
+							title="No organizations yet"
+							description="Once users create workspaces, they'll show up here with member counts and creation dates."
+							className="border-0 bg-transparent py-12"
+						/>
+					) : (
+						<Table>
+							<TableHeader>
 								<TableRow>
-									<TableCell
-										colSpan={4}
-										className="h-24 text-center text-muted-foreground"
-									>
-										No organizations yet.
-									</TableCell>
+									<TableHead>Organization</TableHead>
+									<TableHead>Slug</TableHead>
+									<TableHead>Members</TableHead>
+									<TableHead>Created</TableHead>
 								</TableRow>
-							)}
-						</TableBody>
-					</Table>
+							</TableHeader>
+							<TableBody>
+								{orgs.map((o) => (
+									<TableRow key={o.id}>
+										<TableCell>
+											<div className="flex items-center gap-3">
+												<Avatar className="h-9 w-9 rounded-lg">
+													<AvatarFallback className="rounded-lg">
+														{o.name.slice(0, 2).toUpperCase()}
+													</AvatarFallback>
+												</Avatar>
+												<div className="font-medium">{o.name}</div>
+											</div>
+										</TableCell>
+										<TableCell className="font-mono text-muted-foreground text-xs">
+											{o.slug ?? "—"}
+										</TableCell>
+										<TableCell>
+											<Badge variant="secondary">{Number(o.members)}</Badge>
+										</TableCell>
+										<TableCell className="text-muted-foreground text-sm">
+											{new Date(o.createdAt).toLocaleDateString(undefined, {
+												dateStyle: "medium",
+											})}
+										</TableCell>
+									</TableRow>
+								))}
+							</TableBody>
+						</Table>
+					)}
 				</CardContent>
 			</Card>
 		</>

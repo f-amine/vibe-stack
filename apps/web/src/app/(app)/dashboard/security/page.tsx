@@ -9,6 +9,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@starter-saas/ui/components/card";
+import { EmptyState } from "@starter-saas/ui/components/empty-state";
 import { Label } from "@starter-saas/ui/components/label";
 import { Skeleton } from "@starter-saas/ui/components/skeleton";
 import { Switch } from "@starter-saas/ui/components/switch";
@@ -129,6 +130,14 @@ export default function SecurityPage() {
 						</CardDescription>
 					</CardHeader>
 					<CardContent>
+						{sessions !== null && sessions.length === 0 ? (
+							<EmptyState
+								illustration="arc"
+								title="No other devices signed in"
+								description="When you sign in from another browser or device, it'll appear here so you can revoke it."
+								className="border-0 bg-transparent py-8"
+							/>
+						) : null}
 						<ul className="divide-y">
 							{sessions === null
 								? Array.from({ length: 3 }).map((_, i) => (
