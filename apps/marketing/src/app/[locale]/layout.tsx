@@ -4,6 +4,7 @@ import { getMessages } from "next-intl/server";
 import { ThemeProvider } from "next-themes";
 import type { ReactNode } from "react";
 import { Toaster } from "sonner";
+import { ogMetadata } from "@/lib/og";
 import "../globals.css";
 
 const fraunces = Fraunces({
@@ -24,11 +25,18 @@ const jetbrainsMono = JetBrains_Mono({
 	display: "swap",
 });
 
+const SITE_TITLE = "stack/saas — Ship the interesting part. We wired the rest.";
+const SITE_DESCRIPTION =
+	"A pre-wired SaaS starter: auth, billing, email, storage, analytics, admin, AI workflow. Ship features, not plumbing.";
+
 export const metadata = {
-	title:
-		"stack/saas — Build the boring parts once. Ship the rest a hundred times.",
-	description:
-		"A pre-wired SaaS starter: auth, billing, email, storage, analytics, admin, AI workflow. Ship features, not plumbing.",
+	title: SITE_TITLE,
+	description: SITE_DESCRIPTION,
+	...ogMetadata({
+		title: "Ship the interesting part.",
+		subtitle: "Auth, billing, email, storage, analytics — all pre-wired.",
+		eyebrow: "stack/saas",
+	}),
 };
 
 type Props = {
