@@ -52,3 +52,5 @@ catalog:
   sharp: ^0.34.5
   mri: ^1.2.0
   tsx: ^4.22.0
+  "@playwright/test": ^1.55.1
+  "@axe-core/playwright": ^4.10.2
