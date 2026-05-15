@@ -7,8 +7,7 @@ import {
 	CardTitle,
 } from "@starter-saas/ui/components/card";
 import { Building2, CreditCard, TrendingUp, Users } from "lucide-react";
-import { GrowthArea } from "@/components/charts/area-chart";
-import { CountBar } from "@/components/charts/bar-chart";
+import { CountBar, GrowthArea } from "@/components/charts/lazy";
 import { PageHeader } from "@/components/layout/page-header";
 import {
 	fetchAuditByAction,
