@@ -14,6 +14,7 @@
 	"dependencies": {
 		"@gsap/react": "^2.1.2",
 		"@starter-saas/analytics": "workspace:*",
+		"@starter-saas/api": "workspace:*",
 		"@starter-saas/env": "workspace:*",
 		"@starter-saas/i18n": "workspace:*",
 		"@starter-saas/ui": "workspace:*",
