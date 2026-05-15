@@ -11,7 +11,9 @@ import { expect, test } from "@playwright/test";
 const ROUTES = ["/", "/en", "/en/changelog", "/en/roadmap", "/en/status"];
 
 for (const route of ROUTES) {
-	test(`marketing ${route} has no serious a11y violations`, async ({ page }) => {
+	test(`marketing ${route} has no serious a11y violations`, async ({
+		page,
+	}) => {
 		const res = await page.goto(`http://localhost:3000${route}`, {
 			waitUntil: "domcontentloaded",
 		});
