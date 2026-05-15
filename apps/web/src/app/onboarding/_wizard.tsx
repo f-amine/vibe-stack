@@ -18,7 +18,6 @@ import { Input } from "@starter-saas/ui/components/input";
 import { Label } from "@starter-saas/ui/components/label";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import * as React from "react";
 import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";
@@ -82,7 +81,6 @@ function StepDots({ active }: { active: StepKey }) {
 }
 
 export function OnboardingWizard({ user }: Props) {
-	const router = useRouter();
 	const [step, setStep] = React.useState<StepKey>("profile");
 	const [name, setName] = React.useState(user.name);
 	const [orgName, setOrgName] = React.useState("");
@@ -123,16 +121,25 @@ export function OnboardingWizard({ user }: Props) {
 					id: toastId,
 					description: result.error,
 				});
+				setFinishing(false);
 				return;
 			}
 			toast.success(skipped ? "Skipped — see you later" : "You're set", {
 				id: toastId,
 			});
-			router.replace("/dashboard");
-			router.refresh();
-		} finally {
+			// Hard navigation — `router.replace` doesn't always pick up the new
+			// audit-log row before the app layout re-runs `hasCompletedOnboarding`,
+			// which bounces us back to /onboarding. A full reload sidesteps that.
+			window.location.href = "/dashboard";
+		} catch (err) {
+			toast.error("Couldn't finish", {
+				id: toastId,
+				description: err instanceof Error ? err.message : "?",
+			});
 			setFinishing(false);
 		}
+		// Intentionally leave `finishing` true on success — the hard nav
+		// will unmount this component momentarily.
 	};
 
 	const saveProfile = async () => {
