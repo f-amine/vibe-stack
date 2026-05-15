@@ -9,9 +9,11 @@
 		"./events": "./src/events.ts",
 		"./provider": "./src/provider.tsx",
 		"./proxy": "./src/proxy.ts",
-		"./ga": "./src/ga.tsx"
+		"./ga": "./src/ga.tsx",
+		"./sentry": "./src/sentry.ts"
 	},
 	"dependencies": {
+		"@sentry/nextjs": "catalog:",
 		"@starter-saas/env": "workspace:*",
 		"next": "catalog:",
 		"posthog-js": "catalog:",
