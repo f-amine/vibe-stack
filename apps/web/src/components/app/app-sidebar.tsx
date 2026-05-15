@@ -31,6 +31,7 @@ import {
 	Settings,
 	Shield,
 	Users,
+	Webhook,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -53,6 +54,7 @@ const groups = [
 			{ href: "/dashboard/appearance", label: "Appearance", icon: Palette },
 			{ href: "/dashboard/security", label: "Security", icon: Shield },
 			{ href: "/dashboard/api-keys", label: "API keys", icon: KeyRound },
+			{ href: "/dashboard/webhooks", label: "Webhooks", icon: Webhook },
 		],
 	},
 ] as const;
