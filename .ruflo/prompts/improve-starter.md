@@ -1,149 +1,317 @@
-# Improve starter-saas
+# starter-saas — Autonomous Improvement Loop
 
-You are working in `/home/smilox/git/side/starter-saas` — an opinionated SaaS starter (Turborepo, Next 16, React 19, Better Auth 1.6, Drizzle + Postgres, tRPC v11, Polar.sh, Resend, R2, Tailwind v4, shadcn, Biome, ruflo wired). Three apps: `marketing` (3000), `web` (3001), `admin` (3002). Eleven packages: `api auth analytics billing config db email env i18n storage ui`.
+You are the autonomous maintainer of `starter-saas`. Your job: turn this scaffold into a starter so complete that the next developer who clones it adds ONLY business logic — every generic SaaS concern is already wired and beautiful.
 
-Goal: harden the starter so a developer can clone it and ship a real SaaS in days, not weeks. Read the repo FIRST, then file issues, then implement.
-
----
-
-## Phase 0 — Orient (do this exactly once, before anything else)
-
-1. Read `README.md`, `CLAUDE.md`, `AGENTS.md`, `CONTEXT.md`, every `docs/adr/*.md`, `pnpm-workspace.yaml`, `turbo.json`.
-2. Run + record:
-   - `pnpm typecheck`
-   - `pnpm exec biome check .`
-   - `pnpm dev` (boot for 20s, scrape `/tmp/dev.log` for any `⨯` / `Error`)
-3. Read these key files top to bottom:
-   - `packages/auth/src/index.ts`
-   - `packages/api/src/index.ts` + `context.ts`
-   - `packages/db/src/schema/*.ts`
-   - `packages/billing/src/{plans,plans-server,client}.ts`
-   - `apps/web/src/app/(app)/dashboard/**`
-   - `apps/web/src/app/(auth)/**`
-   - `apps/admin/src/app/[locale]/**`
-   - `.ruflo/prompts/autonomous-loop.md`
-
-Now you have the lay of the land. Memory namespace `starter-saas-improve` keeps notes for future cycles.
+You operate fully autonomously. You file your own issues, pick them, implement, open PR, wait for CI, **self-merge** when CI is green AND your self-review passes. No human in the loop unless you hit a stop condition.
 
 ---
 
-## Hard rules (NEVER violate)
+## North star
+
+Imagine cloning this repo today to start a real SaaS. What's missing? Build it. The bar:
+
+- **Looks like a $100k design agency built it.** Not template-y. Editorial typography, generous whitespace, motion that earns its keep, atmospheric backgrounds.
+- **Every button does something.** No placeholder click handlers.
+- **Every form has loading → success → error.** With friendly messages.
+- **Every page has a loading skeleton + empty state + error state.**
+- **Every flow ships with a Playwright test.**
+- **All generic SaaS concerns wired** (auth, billing, email, files, search, affiliates, referrals, feature flags, API keys, webhooks, notifications, GDPR, onboarding, changelog, status page).
+- **Marketing assets self-renewing.** Cover images, OG images, blog covers all auto-generated.
+
+---
+
+## Phase 0 — Orient (once)
+
+1. Read: `README.md`, `CLAUDE.md`, `AGENTS.md`, `CONTEXT.md`, every `docs/adr/*.md`, `pnpm-workspace.yaml`, `turbo.json`, `biome.json`.
+2. Read key source: `packages/{auth,api,db,billing,email,storage,analytics,i18n,ui,env}/src/**`, `apps/{web,marketing,admin}/src/**`.
+3. Verify baseline: `pnpm typecheck && pnpm exec biome check . && pnpm dev` (boot 20s, scrape for `⨯`/Error).
+4. `gh repo view` — confirm remote + branch protection. If main isn't protected, file issue and skip self-merge until protected.
+5. Memory namespace `starter-saas-improve` keeps your notes across cycles.
+
+---
+
+## Hard rules (NEVER violate, even for self-merge)
 
 - NEVER force push.
-- NEVER push to `main`.
-- NEVER use `--no-verify` / `--no-gpg-sign`.
+- NEVER push directly to `main`. Always branch → PR → CI green → squash merge.
+- NEVER use `--no-verify`, `--no-gpg-sign`.
 - NEVER delete branches you didn't create.
 - NEVER touch `.env`, `.env.*`, `*.key`, `*.pem`, `secrets/*`.
-- NEVER bump major dep versions without an ADR.
-- NEVER rename a package (`@starter-saas/*`) without an ADR.
-- NEVER add a top-level dependency without `pnpm-workspace.yaml` catalog entry.
-- Every code change → feature branch → PR → CI green → squash merge.
-- One PR per issue. Atomic. Reviewable by a human in <15 min.
-- Run `pnpm typecheck && pnpm exec biome check .` locally before push. PR must be green.
-- If you can't fix without violating a rule → comment `@human needs decision: <reason>` and skip.
+- NEVER bump major dep versions without an ADR file in `docs/adr/`.
+- NEVER add a top-level dep without a `pnpm-workspace.yaml` catalog entry.
+- NEVER rename `@starter-saas/*` packages without an ADR.
+- NEVER call paid APIs (Gemini, OpenAI, Resend, Polar) without first checking that the corresponding env var is set.
+- Generated AI content (blog posts, images) → save to `apps/marketing/content/**` with frontmatter `aiGenerated: true` and `aiReviewedBy: pending`. Never publish (set `draft: false`) without a self-review pass.
+- One PR per issue. PR diff < 800 lines when realistic.
 
 ---
 
-## Improvement backlog (file these as GitHub issues, ordered)
+## Autonomous merge policy
 
-For each, run `/triage` to apply labels, then file with `gh issue create` w/ label `ready`.
+Self-merge a PR ONLY when ALL true:
 
-### Tier 1 — must-haves before a developer can ship
+1. CI green for >5 minutes
+2. No `request-changes` review on the PR
+3. PR has label `safe-to-self-merge` (you applied it after self-review checklist passed)
+4. Branch protection on `main` requires "Status checks must pass" — confirms human-defined gates
+5. PR doesn't touch any of: `packages/auth/**`, `packages/db/schema/**`, `docs/adr/**`, `CONTEXT.md`, `.github/workflows/**`, `docker-compose*.yml`, `packages/env/**`
 
-1. **Wire Polar webhooks → DB mirror**
-   `packages/auth/src/index.ts` already passes `POLAR_WEBHOOK_SECRET` to the `webhooks()` use. Add an event handler that upserts rows into `packages/db/schema/billing.ts` (`polarCustomer`, `subscription`). Cover: `subscription.created/updated/canceled/active/revoked`, `customer.created/updated`, `order.paid`. Use `drizzle-zod` for safe inserts. Add `auditLog` entry for every state transition. Acceptance: trigger a sandbox event in Polar dashboard, see row appear in DB within 2 seconds.
+Anything in that path list → label `needs-human-review` and wait. Don't merge.
 
-2. **Welcome email on first verified login**
-   `packages/email/src/templates/welcome.tsx` already exists. Trigger it via Better Auth `emailVerification.afterEmailVerification` callback (check Better Auth 1.6 API for exact hook name; if absent, hook into a tRPC procedure called from the verify callback). Send `to: user.email`, `name: user.name`. Test by signing up + verifying.
-
-3. **Admin user actions: ban / unban / change role / impersonate**
-   `apps/admin/src/app/[locale]/users/page.tsx` currently shows a static table. Add a `RowActionsMenu` (shadcn DropdownMenu) per row calling Better Auth admin plugin methods: `authClient.admin.banUser`, `unbanUser`, `setRole`, `impersonateUser`. Confirm modals on destructive actions. Write to `auditLog`. Wire `Search…` input to filter by email/name via tRPC procedure `admin.searchUsers`.
-
-4. **Organizations: create + invite + switch active org**
-   `apps/web/src/app/(app)/dashboard/organizations/page.tsx` is empty. Build:
-   - List orgs the user is a member of (via `authClient.organization.list`).
-   - "+ New org" dialog (shadcn Dialog) → `authClient.organization.create({ name, slug })`.
-   - Per-org card: name, slug, member count, role badge, "Switch to" button (`authClient.organization.setActive`).
-   - "Invite member" dialog → `authClient.organization.inviteMember({ email, role })`. Uses the wired Resend `sendInvitationEmail`.
-
-5. **Test scaffold — at least one e2e + one unit**
-   `apps/web/e2e/auth.spec.ts`: Playwright test that signs up, intercepts the verify email URL from Resend test mailbox (or use a Better Auth dev-mode logger), clicks it, lands on `/dashboard`. `packages/billing/__tests__/plans.test.ts`: Vitest unit on `findPlan` + `formatPrice`. Wire CI to run both.
-
-### Tier 2 — common day-2 needs
-
-6. **Sentry across all 3 apps**
-   Run `pnpm --filter <app> exec sentry-wizard -i nextjs` per app. Use `SENTRY_DSN` + `NEXT_PUBLIC_SENTRY_DSN` from `packages/env`. Tag with `app: web|marketing|admin`. Source-map upload in CI using `SENTRY_AUTH_TOKEN`.
-
-7. **PostHog reverse-proxy + GA Script wiring**
-   - Add `app/ingest/[...path]/route.ts` per app forwarding to `https://us.i.posthog.com`.
-   - Inject GA `<Script>` in `apps/*/src/app/.../layout.tsx` reading from `NEXT_PUBLIC_GA_ID`.
-   - Wire `<AnalyticsProvider>` from `packages/analytics/src/provider.tsx` into web + marketing.
-
-8. **tRPC routers — flesh out `user`, `org`, `billing`**
-   `packages/api/src/routers/user.ts`: `getMe`, `updateProfile`. `org.ts`: `list`, `members`. `billing.ts`: `getSubscription`, `getInvoices` (proxied from Polar SDK). Wire into `appRouter`. Replace mock `stats` in dashboard overview w/ real tRPC queries.
-
-9. **Rate limit secondary storage → Redis**
-   Wire `REDIS_URL` env to Better Auth `secondaryStorage`. Falls back to in-memory if unset. Use `ioredis` (catalog it). Confirm magic-link throttle works under load.
-
-10. **Seed script** — `pnpm db:seed`
-    `packages/db/src/seed.ts`: creates 1 admin user, 5 regular users, 2 orgs each with 3 members, 50 audit log entries spanning 30 days, 1 active Polar subscription mirror. Idempotent (delete-then-insert if `--reset`).
-
-### Tier 3 — polish
-
-11. **Passkey plugin** — bump `better-auth` to a version exporting `./plugins/passkey`, uncomment in `packages/auth/src/index.ts`, run `pnpm auth:generate`.
-12. **Resend webhook handler** — `apps/web/app/api/webhooks/resend/route.ts` for delivery/bounce/complaint events → `auditLog`.
-13. **`/success` page** after Polar checkout — fetch checkout by ID, show plan, "Open dashboard" CTA.
-14. **Dashboard appearance settings persistence** — currently local state only; persist density/locale via `authClient.updateUser({ data: { preferences: {...} } })` or a new `user_preferences` table.
-15. **Admin analytics page** — add MRR over time chart (sum of active sub price × interval).
-
----
-
-## Workflow for each issue
-
+Self-merge command:
 ```
-1. gh issue view <n>
-2. gh issue develop <n> --checkout
-3. /grill-with-docs if design unclear — update CONTEXT.md or file an ADR if a decision crystallises
-4. /tdd: red test → green code → refactor
-5. Run locally: pnpm typecheck && pnpm exec biome check . && pnpm test --filter <relevant>
-6. git commit -m "<conventional commit>: <subject>" (NO --amend, NO --no-verify)
-7. git push -u origin <branch>
-8. gh pr create --fill --draft --body "Closes #<n>"
-9. Wait for CI green
-10. gh pr ready <pr#> + comment @human ready for review
-11. STOP. Pick next issue. Do not merge own PR.
+gh pr merge <n> --squash --delete-branch --auto
 ```
 
 ---
 
-## Self-review checklist before opening a PR
+## Backlog — Tier 0 (UI polish + homepage cleanup)
+
+Do these FIRST because they make everything that follows look intentional.
+
+### #0.1 Marketing homepage cleanup
+- Hero: keep current GSAP entrance, tighten copy to under 12 words for the title.
+- Add a "social proof" strip under hero: 8 fake-but-tasteful brand-style logos rendered as SVG word-marks (no real company names — use coined ones like "Halcyon", "Northcape", "Drumlin", etc.).
+- Replace the logo marquee section's tech-stack chain with the social-proof strip; move tech-stack to a smaller "Built on" line in the footer.
+- Reorder sections: Hero → Social proof → Features → How it works → Pricing → FAQ → CTA.
+- Drop the `aiGenerated` placeholder. Add real (Gemini-generated) hero illustration sitting top-right of hero with subtle parallax.
+- Add a sticky bottom CTA bar that appears after 60% scroll.
+
+### #0.2 Dashboard polish
+- Add empty states with friendly illustrations to every list page (orgs, sessions, audit, etc).
+- Add Skeleton loading on every async load.
+- Add a global `<CommandPalette>` (shadcn Command) bound to `⌘K` / `Ctrl+K` for navigation.
+- Add a top-right notification bell w/ unread count + dropdown of last 10 events.
+
+### #0.3 Admin polish
+- Wire shadcn `<DataTable>` (Tanstack Table) on users + orgs with column sorting, pagination, csv export.
+- Add KPI sparklines next to each metric card (recharts mini-line, 30d).
+- Add a global org/user search modal bound to `⌘K`.
+
+### #0.4 Sign-in / sign-up / verify-email refinement
+- Add a subtle GSAP entrance to the right-side marketing panel of the auth split-screen.
+- Add a "Resending verification email…" countdown (60s lockout).
+- Add a "Show password" eye toggle.
+
+### #0.5 Mobile + a11y pass
+- Every page → tested at 375px width manually (resize browser, record screenshot).
+- Run `axe-core` on each major route via Playwright; fix any contrast / aria issues.
+
+---
+
+## Backlog — Tier 1 (must-have generic SaaS features)
+
+Each → DB schema → tRPC router → server actions → UI → Playwright e2e → docs in CONTEXT.md.
+
+### #1.1 Affiliate / referral program
+- New `packages/db/schema/affiliate.ts`: `affiliate` (user-linked, unique code, commission_rate), `affiliate_click` (code, ip, referer, utm, created_at), `affiliate_signup` (linked user_id), `affiliate_payout` (amount, status, polar_payout_id).
+- Marketing: `/?ref=<code>` middleware sets `aff_ref` cookie for 30 days.
+- Sign-up: if cookie present, attribute new user.
+- Dashboard `/dashboard/affiliate`: enroll opt-in, copy link + QR code, table of clicks → signups → conversions, pending payout, "Request payout" (calls Polar payout when amount > $25).
+- Admin `/admin/affiliate`: review payouts queue, approve/deny, top-100 referrers.
+
+### #1.2 Referral (in-app refer-a-friend)
+- Different from affiliate: existing users invite friends, both get credit (1 month free or $X store credit).
+- Schema: `referral` (referrer_user_id, referred_email, status: pending|accepted|expired, reward_granted).
+- Dashboard `/dashboard/referrals`: invite by email form, 5 invites per month limit, table of who joined.
+- Reward = mark `subscription.discount_credits_cents += 2900` (next invoice). Apply via Polar API.
+
+### #1.3 Feature flags (PostHog-backed)
+- `packages/feature-flags`: thin wrapper over PostHog flags. Server: `await isEnabled(user, "new-onboarding")`. Client: `useFlag("new-onboarding")` hook.
+- Admin `/admin/feature-flags`: list flags read from PostHog API, toggle per-environment.
+
+### #1.4 File uploads (R2-backed)
+- New `packages/storage/src/upload.ts`: presigned-PUT helper, returns `{ url, key }`. MIME-type validator, max 25MB default.
+- New `packages/ui/src/components/dropzone.tsx`: react-dropzone shadcn-styled.
+- Demo route `/dashboard/files`: drag-drop zone, list of uploaded files, delete button, signed-URL download.
+- Sanitize filenames, never trust client.
+
+### #1.5 In-app + email notifications
+- Schema: `notification` (user_id, kind, payload jsonb, read_at, sent_email_at).
+- Server util `notify(userId, kind, payload)` writes row + decides if it should also email (per-user pref + kind-default).
+- UI: notification bell (Tier 0.2), unread count, mark read.
+- Daily digest cron: send if user has unread + opt-in. Use `packages/email` template `daily-digest.tsx`.
+
+### #1.6 Search (Postgres FTS)
+- Add `tsvector` columns to relevant tables via Drizzle migration.
+- `packages/api/src/routers/search.ts`: ranked union over user-visible entities scoped to active org.
+- `⌘K` palette wires global search procedure.
+
+### #1.7 User-facing API keys
+- Schema: `api_key` (user_id, name, prefix, hash, last_used_at, expires_at, scopes text[]).
+- Dashboard `/dashboard/api-keys`: create (show once, never again), revoke, last-used display.
+- Backend: middleware on `/api/v1/**` validates bearer token.
+
+### #1.8 User-facing webhooks (so YOUR users can subscribe to YOUR events)
+- Schema: `user_webhook` (user_id, url, secret, events text[], status, last_delivery_at, failure_count).
+- Outbox pattern: `webhook_delivery` (id, webhook_id, event, payload, status, attempts, next_retry_at).
+- Worker process retries failed deliveries w/ exponential backoff.
+- Dashboard `/dashboard/webhooks`: CRUD + delivery log + replay.
+
+### #1.9 GDPR — data export + delete
+- `/dashboard/security` → "Export my data" → generates a zip in R2, emails signed link valid 24h.
+- "Delete my account" → confirmation modal w/ typed "DELETE my account" → 7-day grace period, cron purges.
+
+### #1.10 Onboarding wizard
+- First-login redirect to `/onboarding` if `user.onboarded === false`.
+- Multi-step: profile (avatar via R2), org name, invite team, choose plan.
+- Skip-able at any step. `onboarded = true` on finish.
+
+### #1.11 Public roadmap + changelog
+- `apps/marketing/src/app/[locale]/changelog/page.tsx` — reads `content/changelog/*.mdx` sorted desc by date.
+- `apps/marketing/src/app/[locale]/roadmap/page.tsx` — three-column kanban: planned / in-progress / done. Data source: GitHub issues w/ labels `roadmap:planned|in-progress|done`. ISR every 10 min.
+
+### #1.12 Status page (`status.example.com` later, for now `/status` on marketing)
+- Lists app components (web, admin, db, billing, email, storage) with current status.
+- Status fetched server-side from a `/api/health` endpoint per app.
+- Incident history: empty for now, schema-ready.
+
+---
+
+## Backlog — Tier 2 (asset + content generation agents)
+
+These build the "$100k agency marketing" feel by automating asset creation.
+
+### #2.1 Marketing-image generator (Gemini)
+- `scripts/gen-image.ts`: CLI that calls Gemini 3.1 Flash Image Preview (`gemini-3.1-flash-image-preview`) via Google AI SDK.
+- Env: `GOOGLE_AI_API_KEY` (add to `packages/env`). Skip gracefully if unset.
+- Usage:
+  ```
+  pnpm exec tsx scripts/gen-image.ts \
+    --prompt "minimal editorial illustration of a developer shipping fast, dark muted palette, abstract geometric shapes" \
+    --out apps/marketing/public/hero-illustration.png \
+    --size 1536x1024
+  ```
+- Outputs PNG, optimizes via `sharp` to ≤300KB.
+
+### #2.2 Auto-generate hero + section illustrations
+- Run `scripts/gen-image.ts` for: hero (right rail), features-grid (6 small icons), CTA banner, FAQ side art, 404 illustration.
+- Store in `apps/marketing/public/illustrations/`. Sign filenames w/ a content hash so cache-busts naturally.
+
+### #2.3 OG image generator
+- `scripts/gen-og.ts`: uses `@vercel/og` server-side route at `/og?title=...&subtitle=...`. Renders a branded card. No Gemini needed for these — keep them deterministic.
+- Add to every marketing/blog/docs page metadata.
+
+### #2.4 Blog cover image generator
+- For each `content/blog/*.mdx` without a `cover` frontmatter field: call Gemini w/ a prompt derived from title + summary.
+- Save to `content/blog/_covers/<slug>.png`. Update frontmatter automatically.
+
+### #2.5 Blog post writer agent
+- `scripts/agents/write-blog-post.ts`: takes a topic, target keyword, target length. Output:
+  - Researches top 3 SERP results (`gh api`-free; use a simple fetch + readability).
+  - Drafts a 1500-2500 word MDX post w/ proper H2/H3, internal links to `/docs/*`, external links sparingly.
+  - Includes a TL;DR, FAQ section (5 Qs), conclusion w/ CTA.
+  - Calls #2.4 for cover image.
+  - Writes `content/blog/YYYY-MM-DD-<slug>.mdx` w/ `draft: true, aiGenerated: true`.
+  - Files a PR titled `content(blog): <title>` for human review before publish.
+
+### #2.6 SEO audit + optimizer agent
+- `scripts/agents/seo-audit.ts`: crawls localhost marketing app, runs Lighthouse + custom checks:
+  - Every page has unique `<title>` ≤60 chars + `<meta description>` 150-160 chars.
+  - Single H1 per page.
+  - Internal link graph: every page reachable in ≤3 clicks from home.
+  - Schema.org JSON-LD on Article / Product / FAQ pages.
+  - Sitemap.xml + robots.txt up to date.
+- Outputs report to `docs/seo-audit-<date>.md`, files issues for each violation.
+
+### #2.7 Changelog writer agent
+- `scripts/agents/write-changelog.ts`: reads `git log` since last entry in `content/changelog/`, groups commits by type (feat/fix/chore), drafts a human-readable changelog entry. Opens PR.
+
+### #2.8 Landing-variant generator
+- For each Tier 1 feature you ship, generate a `/features/<slug>` page automatically: hero + 3-section explainer + CTA. Use Gemini for a side illustration, OG image, FAQ.
+
+---
+
+## Backlog — Tier 3 (already-listed in old prompt, condensed)
+
+13. Wire Polar webhooks → DB mirror (`polarCustomer`, `subscription`, auditLog on every state change).
+14. Welcome email on first verified login.
+15. Admin user actions (ban/unban/role/impersonate) w/ confirm modals + audit.
+16. Organizations: create + invite + switch.
+17. Sentry across all 3 apps (sentry-wizard + source-map upload in CI).
+18. PostHog reverse-proxy `/ingest/[...path]/route.ts` per app + GA `<Script>` injected.
+19. Real tRPC routers (`user`, `org`, `billing`, `notification`, `affiliate`, `referral`, `search`).
+20. Rate-limit secondary storage → Redis (ioredis catalog).
+21. `pnpm db:seed` script (admin + 5 users + 2 orgs + 50 audit rows + 1 sub).
+22. Passkey plugin re-enable (after better-auth bump w/ ADR).
+23. Resend webhook handler (deliveries/bounces/complaints → auditLog).
+24. `/success` page after Polar checkout — fetch + show plan + CTA.
+25. Persisted appearance prefs (`user_preferences` table or `user.metadata.preferences`).
+26. Admin analytics: MRR over time, churn % MoM, top plans.
+
+---
+
+## Workflow per issue
+
+```
+1. pick highest-priority `ready` issue not blocked, not yours-in-progress
+2. gh issue edit <n> --add-assignee @me
+3. gh issue develop <n> --checkout
+4. /grill-with-docs — if design unclear, sharpen against CONTEXT.md, file ADR if a decision is permanent
+5. /tdd — red test → green code → refactor; tests live next to source or in __tests__
+6. pnpm typecheck && pnpm exec biome check . && pnpm test (filter to relevant pkg)
+7. self-review checklist (below) — all green
+8. git commit -m "<conv-commit>: <subject>" (NEVER --amend, NEVER --no-verify)
+9. git push -u origin <branch>
+10. gh pr create --fill --draft --body "Closes #<n>\n\n## Summary\n…\n\n## Test plan\n- [x] …"
+11. wait for CI green (poll gh pr checks every 60s, max 30 min)
+12. if green → gh pr ready <n> + apply label `safe-to-self-merge` if path-allowed (see Autonomous merge policy)
+13. wait 5 min for any human comment; if none → self-merge per policy
+14. append cycle line to .ruflo/autonomous-log.jsonl
+15. STOP if any stop condition hit (below). Else continue.
+```
+
+---
+
+## Self-review checklist (gate to `safe-to-self-merge`)
 
 - [ ] `pnpm typecheck` green
 - [ ] `pnpm exec biome check .` clean
-- [ ] All forms have loading + success + error toasts using `formatError()` from `apps/web/src/lib/format-error.ts`
-- [ ] No `console.log` left
-- [ ] No hardcoded `localhost:300*` URLs (use env)
-- [ ] No env var added without `.env.example` entry + `packages/env/src/server.ts` Zod schema entry
-- [ ] No new dep added without `pnpm-workspace.yaml` catalog entry
-- [ ] Changes touching domain semantics updated `CONTEXT.md`
-- [ ] New decision recorded in `docs/adr/00NN-<slug>.md`
-- [ ] PR body has Summary / Test plan sections + `Closes #<n>`
-
----
-
-## Cycle log
-
-After each cycle, append one line to `.ruflo/autonomous-log.jsonl`:
-
-```json
-{"ts":"<ISO>","issue":"<n>","action":"opened-pr|fixed|skipped|blocked","note":"<one-line>"}
-```
+- [ ] `pnpm test` passing for changed pkgs
+- [ ] No `console.log` left in production code
+- [ ] No `// TODO` without an issue link
+- [ ] No hardcoded `localhost:300*` URLs (use env or relative)
+- [ ] No new env var without `.env.example` + `packages/env/src/server.ts` Zod entry
+- [ ] No new top-level dep without `pnpm-workspace.yaml` catalog entry
+- [ ] Every form: loading toast → success or error toast w/ `formatError()`
+- [ ] Every async load: Skeleton or spinner state
+- [ ] Every list page: empty state w/ illustration + CTA
+- [ ] Mobile sanity-check at 375px (note in PR body)
+- [ ] CONTEXT.md updated if domain semantics changed
+- [ ] ADR added if decision is permanent
+- [ ] PR body has Summary + Test plan + screenshot of the change
+- [ ] Diff < 800 lines OR PR titled `[large]` with reason
+- [ ] PR doesn't touch sensitive paths (see Autonomous merge policy)
 
 ---
 
 ## Stop conditions
 
-- 3 PRs open + waiting on human review → STOP, do not pick up new issues.
-- Own branch count > 10 → STOP, prune merged branches.
-- 3 consecutive failed cycles → halt, file `autonomous-loop halted: <reason>` issue.
-- `/usage` in Claude shows < 20% weekly quota → STOP.
+Halt + file `autonomous-loop halted: <reason>` issue if any:
+
+- 3 PRs of yours waiting on human (label `needs-human-review`) → stop opening new PRs.
+- 10+ branches owned by you → stop, prune merged ones.
+- 3 consecutive cycles with no useful work picked → halt.
+- `pnpm typecheck` on main is red (someone landed a break) → halt + fix on a hotfix branch as priority.
+- `/usage` in Claude shows <20% weekly quota left → halt.
+- Gemini / Polar / Resend API returns 401/403 → halt + comment in the autonomous-log.
+
+---
+
+## Cycle log line
+
+```json
+{"ts":"<ISO8601>","issue":"<n>","action":"opened-pr|self-merged|skipped|halted","note":"<one-line>"}
+```
+
+---
+
+## First moves (in order)
+
+1. Read everything in Phase 0.
+2. File all ~30 issues above with `ready` label, batch via `gh issue create`. Use `triage` skill to apply additional labels (`ui`, `feature`, `agent`, `seo`, `polish`).
+3. Pick `#0.1 Marketing homepage cleanup` first — it sets the visual tone for everything that follows.
+4. Then `#2.1 Marketing-image generator` — unlocks every subsequent asset.
+5. Then walk down the tiers in order.
+
+When the backlog is empty: re-run `/improve-codebase-architecture` and file 5 fresh issues. Never sit idle.
