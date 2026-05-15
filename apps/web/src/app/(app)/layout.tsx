@@ -8,6 +8,7 @@ import {
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { AppSidebar } from "@/components/app/app-sidebar";
+import { NotificationBell } from "@/components/app/notification-bell";
 import { hasCompletedOnboarding } from "@/lib/onboarding";
 
 export default async function AppLayout({
@@ -31,6 +32,9 @@ export default async function AppLayout({
 					<SidebarTrigger className="-ml-1" />
 					<Separator orientation="vertical" className="h-4" />
 					<span className="text-muted-foreground text-sm">stack/saas</span>
+					<div className="ml-auto">
+						<NotificationBell />
+					</div>
 				</header>
 				<div className="p-6 sm:p-10">{children}</div>
 			</SidebarInset>
