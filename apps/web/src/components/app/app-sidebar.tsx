@@ -4,6 +4,7 @@ import { Avatar, AvatarFallback } from "@starter-saas/ui/components/avatar";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
+	DropdownMenuGroup,
 	DropdownMenuItem,
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
@@ -146,30 +147,32 @@ export function AppSidebar() {
 								</div>
 							</DropdownMenuTrigger>
 							<DropdownMenuContent side="top" align="end" className="w-56">
-								<DropdownMenuLabel>My account</DropdownMenuLabel>
-								<DropdownMenuSeparator />
-								<DropdownMenuItem
-									onClick={() => router.push("/dashboard/settings")}
-								>
-									<Settings className="mr-2 h-4 w-4" />
-									Settings
-								</DropdownMenuItem>
-								<DropdownMenuItem
-									onClick={() => router.push("/dashboard/billing")}
-								>
-									<CreditCard className="mr-2 h-4 w-4" />
-									Billing
-								</DropdownMenuItem>
-								<DropdownMenuSeparator />
-								<DropdownMenuItem
-									onClick={async () => {
-										await authClient.signOut();
-										window.location.href = "/sign-in";
-									}}
-								>
-									<LogOut className="mr-2 h-4 w-4" />
-									Sign out
-								</DropdownMenuItem>
+								<DropdownMenuGroup>
+									<DropdownMenuLabel>My account</DropdownMenuLabel>
+									<DropdownMenuSeparator />
+									<DropdownMenuItem
+										onClick={() => router.push("/dashboard/settings")}
+									>
+										<Settings className="mr-2 h-4 w-4" />
+										Settings
+									</DropdownMenuItem>
+									<DropdownMenuItem
+										onClick={() => router.push("/dashboard/billing")}
+									>
+										<CreditCard className="mr-2 h-4 w-4" />
+										Billing
+									</DropdownMenuItem>
+									<DropdownMenuSeparator />
+									<DropdownMenuItem
+										onClick={async () => {
+											await authClient.signOut();
+											window.location.href = "/sign-in";
+										}}
+									>
+										<LogOut className="mr-2 h-4 w-4" />
+										Sign out
+									</DropdownMenuItem>
+								</DropdownMenuGroup>
 							</DropdownMenuContent>
 						</DropdownMenu>
 					</SidebarMenuItem>
