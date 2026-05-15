@@ -28,14 +28,10 @@ export function PasskeySection() {
 
 	const refresh = async () => {
 		try {
-			// Better Auth's passkey plugin exposes listUserPasskeys on the client.
-			// The shape isn't strongly typed for arbitrary plugins so we coerce.
-			const res = await (
-				authClient as unknown as {
-					listPasskeys: () => Promise<{ data?: PasskeyRow[] | null }>;
-				}
-			).listPasskeys();
-			setPasskeys(res?.data ?? []);
+			// Better Auth's passkey plugin exposes listUserPasskeys on the
+			// `passkey` namespace of the client.
+			const res = await authClient.passkey.listUserPasskeys();
+			setPasskeys((res?.data ?? []) as PasskeyRow[]);
 		} catch {
 			setPasskeys([]);
 		}
@@ -71,11 +67,7 @@ export function PasskeySection() {
 
 	const remove = async (passkeyId: string) => {
 		try {
-			await (
-				authClient as unknown as {
-					deletePasskey: (args: { id: string }) => Promise<unknown>;
-				}
-			).deletePasskey({ id: passkeyId });
+			await authClient.passkey.deletePasskey({ id: passkeyId });
 			toast.success("Passkey removed");
 			await refresh();
 		} catch (err) {
