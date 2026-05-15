@@ -17,6 +17,7 @@ import {
 import {
 	BarChart3,
 	Building2,
+	Flag,
 	LayoutGrid,
 	LogOut,
 	ScrollText,
@@ -31,6 +32,7 @@ const items = [
 	{ href: "/orgs", label: "Organizations", icon: Building2 },
 	{ href: "/audit", label: "Audit log", icon: ScrollText },
 	{ href: "/analytics", label: "Analytics", icon: BarChart3 },
+	{ href: "/feature-flags", label: "Feature flags", icon: Flag },
 ];
 
 type Props = { user?: { name?: string | null; email?: string | null } };

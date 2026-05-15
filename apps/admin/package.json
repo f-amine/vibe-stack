@@ -15,6 +15,7 @@
 		"@starter-saas/auth": "workspace:*",
 		"@starter-saas/db": "workspace:*",
 		"@starter-saas/env": "workspace:*",
+		"@starter-saas/feature-flags": "workspace:*",
 		"@starter-saas/i18n": "workspace:*",
 		"@starter-saas/ui": "workspace:*",
 		"@tanstack/react-query": "catalog:",

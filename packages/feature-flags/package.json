@@ -1,0 +1,26 @@
+{
+	"name": "@starter-saas/feature-flags",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"exports": {
+		"./server": "./src/server.ts",
+		"./client": "./src/client.tsx",
+		"./admin": "./src/admin.ts"
+	},
+	"scripts": {
+		"check-types": "tsc --noEmit"
+	},
+	"dependencies": {
+		"@starter-saas/env": "workspace:*",
+		"posthog-js": "catalog:",
+		"posthog-node": "catalog:",
+		"react": "catalog:",
+		"server-only": "^0.0.1"
+	},
+	"devDependencies": {
+		"@starter-saas/config": "workspace:*",
+		"@types/react": "catalog:",
+		"typescript": "catalog:"
+	}
+}
