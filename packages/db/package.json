@@ -11,6 +11,7 @@
 	},
 	"scripts": {
 		"db:push": "drizzle-kit push",
+		"db:seed": "tsx scripts/seed.ts",
 		"db:generate": "drizzle-kit generate",
 		"db:studio": "drizzle-kit studio",
 		"db:migrate": "drizzle-kit migrate",
@@ -30,6 +31,7 @@
 		"@starter-saas/config": "workspace:*",
 		"@types/pg": "catalog:",
 		"drizzle-kit": "catalog:",
+		"tsx": "catalog:",
 		"typescript": "catalog:"
 	}
 }

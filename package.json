@@ -40,6 +40,7 @@
 		"db:generate": "turbo -F @starter-saas/db db:generate",
 		"db:migrate": "turbo -F @starter-saas/db db:migrate",
 		"db:studio": "turbo -F @starter-saas/db db:studio",
+		"db:seed": "pnpm --filter @starter-saas/db run db:seed",
 		"auth:generate": "pnpm --filter @starter-saas/auth run generate",
 		"email:dev": "pnpm --filter @starter-saas/email run preview",
 		"clean": "turbo run clean && rm -rf node_modules .turbo"
