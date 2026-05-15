@@ -186,40 +186,46 @@ export async function processPendingDeliveries(limit = 50): Promise<{
 
 		if (succeeded) {
 			delivered++;
-			await db
-				.update(webhookDelivery)
-				.set({
-					status: "delivered",
-					attempts,
-					responseCode: status,
-					responseBody: bodyText,
-					deliveredAt: new Date(),
-				})
-				.where(eq(webhookDelivery.id, row.id));
-			await db
-				.update(userWebhook)
-				.set({ lastDeliveryAt: new Date(), failureCount: 0 })
-				.where(eq(userWebhook.id, sub.id));
+			const deliveredAt = new Date();
+			// Both updates touch different rows; parallelize.
+			await Promise.all([
+				db
+					.update(webhookDelivery)
+					.set({
+						status: "delivered",
+						attempts,
+						responseCode: status,
+						responseBody: bodyText,
+						deliveredAt,
+					})
+					.where(eq(webhookDelivery.id, row.id)),
+				db
+					.update(userWebhook)
+					.set({ lastDeliveryAt: deliveredAt, failureCount: 0 })
+					.where(eq(userWebhook.id, sub.id)),
+			]);
 			continue;
 		}
 
 		failed++;
 		const giveUp = attempts >= MAX_ATTEMPTS;
 		const next = giveUp ? null : new Date(Date.now() + backoffMs(attempts));
-		await db
-			.update(webhookDelivery)
-			.set({
-				status: giveUp ? "failed" : "retry",
-				attempts,
-				responseCode: status || null,
-				responseBody: bodyText ?? null,
-				nextRetryAt: next,
-			})
-			.where(eq(webhookDelivery.id, row.id));
-		await db
-			.update(userWebhook)
-			.set({ failureCount: sub.failureCount + 1 })
-			.where(eq(userWebhook.id, sub.id));
+		await Promise.all([
+			db
+				.update(webhookDelivery)
+				.set({
+					status: giveUp ? "failed" : "retry",
+					attempts,
+					responseCode: status || null,
+					responseBody: bodyText ?? null,
+					nextRetryAt: next,
+				})
+				.where(eq(webhookDelivery.id, row.id)),
+			db
+				.update(userWebhook)
+				.set({ failureCount: sub.failureCount + 1 })
+				.where(eq(userWebhook.id, sub.id)),
+		]);
 	}
 
 	return { processed: pending.length, delivered, failed };
