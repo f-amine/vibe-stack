@@ -19,4 +19,19 @@ export const blog = defineDocs({
 	},
 });
 
+export const changelog = defineDocs({
+	dir: "content/changelog",
+	docs: {
+		schema: frontmatterSchema.extend({
+			date: z.string().date().optional(),
+			sinceSha: z.string().optional(),
+			headSha: z.string().optional(),
+			draft: z.boolean().optional(),
+			aiGenerated: z.boolean().optional(),
+			aiReviewedBy: z.string().optional(),
+			breakingCount: z.number().optional(),
+		}),
+	},
+});
+
 export default defineConfig({});

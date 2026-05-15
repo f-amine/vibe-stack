@@ -1,0 +1,36 @@
+---
+title: "Changelog · 2026-05-15"
+description: "First public changelog. Sets the bar for everything that follows."
+date: 2026-05-15
+sinceSha: ORIGIN
+draft: false
+aiGenerated: false
+aiReviewedBy: human
+breakingCount: 0
+---
+
+> First public changelog. Everything past this point is documented release-by-release.
+
+## Added
+
+- Marketing homepage cleanup — editorial hero, fake brand social-proof strip, sticky CTA, right-rail geometric illustration.
+- Reusable `EmptyState` component wired across web + admin lists.
+- R2 file uploads end-to-end — presign helpers, native drag-and-drop component, `/dashboard/files` demo route.
+- `/success` page rendered server-side from the Polar checkout id.
+- Auth refinement — password eye toggle, 60s resend cooldown on verify-email, animated aside.
+- `pnpm gen:image` — Gemini-powered marketing image generator with sharp clamp.
+- `pnpm db:seed` — idempotent seeder for admin + users + orgs + audit + active sub.
+- `pnpm gen:changelog` — Conventional-Commit grouped MDX writer.
+- Admin user actions — ban / unban / role / impersonate, with confirm modals and audit-log writes.
+- Organizations — create / invite / accept / switch, end-to-end on the dashboard.
+- OG image generator — `@vercel/og` edge route + `ogMetadata()` helper wired into every page.
+- Welcome email on first verified login, idempotent via audit log.
+- Onboarding wizard at `/onboarding` — first-login multi-step flow.
+
+## Fixed
+
+- CI unblocked — fumadocs pretypecheck script, `.env` materialization, master trigger branch.
+
+## Notes
+
+This release is intentionally feature-dense — it represents the cumulative output of the autonomous improvement loop bootstrapping the starter. Subsequent entries will be much smaller and per-week.
