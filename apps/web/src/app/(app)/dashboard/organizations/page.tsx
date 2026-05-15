@@ -4,13 +4,13 @@ import { Avatar, AvatarFallback } from "@starter-saas/ui/components/avatar";
 import { Button } from "@starter-saas/ui/components/button";
 import {
 	Card,
-	CardContent,
 	CardDescription,
 	CardHeader,
 	CardTitle,
 } from "@starter-saas/ui/components/card";
+import { EmptyState } from "@starter-saas/ui/components/empty-state";
 import { Skeleton } from "@starter-saas/ui/components/skeleton";
-import { Plus } from "lucide-react";
+import { Plus, UsersRound } from "lucide-react";
 import { useEffect, useState } from "react";
 import { PageHeader } from "@/components/app/page-header";
 import { authClient } from "@/lib/auth-client";
@@ -61,20 +61,24 @@ export default function OrgsPage() {
 						</Card>
 					))
 				) : orgs.length === 0 ? (
-					<Card className="md:col-span-2 lg:col-span-3">
-						<CardHeader>
-							<CardTitle>You're solo</CardTitle>
-							<CardDescription>
-								Create your first organization to invite teammates.
-							</CardDescription>
-						</CardHeader>
-						<CardContent>
-							<Button>
-								<Plus className="mr-1.5 h-4 w-4" />
-								Create organization
-							</Button>
-						</CardContent>
-					</Card>
+					<div className="md:col-span-2 lg:col-span-3">
+						<EmptyState
+							illustration="orbits"
+							title="You're flying solo"
+							description="Create your first organization to invite teammates, manage shared billing, and split work into clean workspaces."
+							action={
+								<Button>
+									<Plus className="mr-1.5 h-4 w-4" />
+									Create organization
+								</Button>
+							}
+							secondaryAction={
+								<Button variant="ghost" size="sm" className="gap-2">
+									<UsersRound className="h-4 w-4" /> Learn about orgs
+								</Button>
+							}
+						/>
+					</div>
 				) : (
 					orgs.map((o) => (
 						<Card key={o.id} className="cursor-pointer hover:bg-muted/30">

@@ -7,6 +7,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@starter-saas/ui/components/card";
+import { EmptyState } from "@starter-saas/ui/components/empty-state";
 import { desc } from "drizzle-orm";
 import { PageHeader } from "@/components/layout/page-header";
 
@@ -40,9 +41,12 @@ export default async function AuditPage() {
 				</CardHeader>
 				<CardContent className="p-0">
 					{rows.length === 0 ? (
-						<p className="py-16 text-center text-muted-foreground text-sm">
-							No audit events recorded yet.
-						</p>
+						<EmptyState
+							illustration="grid"
+							title="No audit events yet"
+							description="The audit log records every consequential action — bans, role changes, sign-ins, billing events. It'll start populating the moment your app writes its first row."
+							className="border-0 bg-transparent py-12"
+						/>
 					) : (
 						<ul className="divide-y">
 							{rows.map((r) => (
