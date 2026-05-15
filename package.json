@@ -20,6 +20,7 @@
 		"typecheck": "turbo run typecheck check-types",
 		"test": "turbo run test",
 		"test:e2e": "turbo run test:e2e",
+		"test:a11y": "playwright test --config=playwright.a11y.config.ts",
 		"check": "biome check --write .",
 		"check-types": "turbo check-types",
 		"format": "biome format --write .",
@@ -52,8 +53,10 @@
 		"zod": "catalog:"
 	},
 	"devDependencies": {
+		"@axe-core/playwright": "catalog:",
 		"@biomejs/biome": "catalog:",
 		"@google/genai": "catalog:",
+		"@playwright/test": "catalog:",
 		"@starter-saas/config": "workspace:*",
 		"@types/node": "catalog:",
 		"mri": "catalog:",
