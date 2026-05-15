@@ -5,8 +5,8 @@ import {
 	Alert,
 	AlertDescription,
 	AlertTitle,
-} from "@starter-saas/ui/components/alert";
-import { Button } from "@starter-saas/ui/components/button";
+} from "@vibestack/ui/components/alert";
+import { Button } from "@vibestack/ui/components/button";
 import {
 	Form,
 	FormControl,
@@ -14,7 +14,7 @@ import {
 	FormItem,
 	FormLabel,
 	FormMessage,
-} from "@starter-saas/ui/components/form";
+} from "@vibestack/ui/components/form";
 import { AlertCircle, Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -71,13 +71,17 @@ function Inner() {
 
 	if (!token) {
 		return (
-			<div className="grid gap-6">
-				<div>
-					<h1 className="font-semibold text-3xl tracking-tight">
-						Reset link expired
+			<div className="space-y-8">
+				<div className="space-y-3">
+					<span className="font-mono-label text-muted-foreground">
+						Account · recovery
+					</span>
+					<h1 className="font-display text-[2.25rem] leading-[1.05] tracking-[-0.02em] text-foreground">
+						Reset link expired.
 					</h1>
-					<p className="mt-2 text-muted-foreground text-sm">
-						This reset link is missing or expired.
+					<p className="max-w-sm text-muted-foreground text-sm leading-relaxed">
+						The link in your inbox is no longer valid. Request a fresh one
+						below.
 					</p>
 				</div>
 				<Alert>
@@ -96,13 +100,16 @@ function Inner() {
 	}
 
 	return (
-		<div className="grid gap-8">
-			<div>
-				<h1 className="font-semibold text-3xl tracking-tight">
-					Set a new password
+		<div className="space-y-10">
+			<div className="space-y-3">
+				<span className="font-mono-label text-muted-foreground">
+					Account · recovery
+				</span>
+				<h1 className="font-display text-[2.25rem] leading-[1.05] tracking-[-0.02em] text-foreground">
+					New password.
 				</h1>
-				<p className="mt-2 text-muted-foreground text-sm">
-					Pick something you'll remember.
+				<p className="max-w-sm text-muted-foreground text-sm leading-relaxed">
+					Pick something you'll remember. We'll sign you in fresh after.
 				</p>
 			</div>
 

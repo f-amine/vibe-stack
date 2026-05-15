@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { WEB_URLS } from "@/lib/app-urls";
 
-const DISMISS_KEY = "starter-saas:sticky-cta-dismissed";
+const DISMISS_KEY = "vibestack:sticky-cta-dismissed";
 
 export function StickyCTA() {
 	const [visible, setVisible] = useState(false);

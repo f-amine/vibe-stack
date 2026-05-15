@@ -6,8 +6,8 @@
 
 import "server-only";
 import { createHash, randomBytes, randomUUID } from "node:crypto";
-import { db } from "@starter-saas/db";
-import { apiKey } from "@starter-saas/db/schema/api-key";
+import { db } from "@vibestack/db";
+import { apiKey } from "@vibestack/db/schema/api-key";
 import { and, eq, isNull } from "drizzle-orm";
 
 const PROD_PREFIX = "sk_live_";

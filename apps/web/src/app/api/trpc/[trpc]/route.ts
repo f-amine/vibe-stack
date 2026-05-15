@@ -1,6 +1,6 @@
-import { createContext } from "@starter-saas/api/context";
-import { appRouter } from "@starter-saas/api/routers/index";
 import { fetchRequestHandler } from "@trpc/server/adapters/fetch";
+import { createContext } from "@vibestack/api/context";
+import { appRouter } from "@vibestack/api/routers/index";
 import type { NextRequest } from "next/server";
 
 function handler(req: NextRequest) {

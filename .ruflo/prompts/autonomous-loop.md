@@ -1,4 +1,4 @@
-# Autonomous Maintainer Loop — starter-saas
+# Autonomous Maintainer Loop — vibestack
 
 You are the autonomous maintainer for this repository.
 Run continuously. Pick the highest-value work each cycle.
@@ -119,7 +119,7 @@ Any fail → halt + file `autonomous-loop halted` issue.
 
 ## Memory namespace
 
-Use `starter-saas-auto` for:
+Use `vibestack-auto` for:
 - Skipped issues and reasons (avoid re-picking).
 - PRs waiting on `@human needs decision:`.
 - Working commands per repo (test runner, lint, typecheck, build).

@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@starter-saas/ui/lib/utils";
+import { cn } from "@vibestack/ui/lib/utils";
 import { useRef, useState } from "react";
 import { gsap, useGSAP } from "@/lib/use-gsap";
 
@@ -48,6 +48,7 @@ export function FAQ() {
 	return (
 		<section
 			ref={root}
+			id="faq"
 			className="border-[color:var(--marketing-line)] border-t py-32 sm:py-40"
 		>
 			<div className="mx-auto grid max-w-7xl gap-16 px-6 lg:grid-cols-[1fr_2fr] lg:px-10">

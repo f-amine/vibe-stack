@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@starter-saas/ui/lib/utils";
+import { cn } from "@vibestack/ui/lib/utils";
 import { useRef } from "react";
 import { WEB_URLS } from "@/lib/app-urls";
 import { gsap, useGSAP } from "@/lib/use-gsap";

@@ -121,30 +121,30 @@ export function Hero() {
 			<div className="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-[1.4fr_1fr] lg:items-center lg:px-10">
 				<div>
 					<p className="hero-eyebrow font-mono text-[color:var(--marketing-muted)] text-xs uppercase tracking-[0.3em]">
-						— A starter for serious operators
+						— The AI-first SaaS starter
 					</p>
 
 					<h1 className="hero-title mt-8 font-display text-[clamp(3rem,9vw,8rem)] leading-[0.92] tracking-[-0.04em]">
 						<span className="block overflow-hidden">
 							<span className="hero-title-line inline-block">
-								Ship the{" "}
-								<span className="text-[color:var(--marketing-accent)] italic">
-									interesting
-								</span>{" "}
-								part.
+								The SaaS starter
 							</span>
 						</span>
 						<span className="block overflow-hidden">
 							<span className="hero-title-line inline-block">
-								We wired the rest.
+								where{" "}
+								<span className="text-[color:var(--marketing-accent)] italic">
+									Claude
+								</span>{" "}
+								writes the rest.
 							</span>
 						</span>
 					</h1>
 
 					<p className="hero-sub mt-10 max-w-xl text-[color:var(--marketing-fg)]/70 text-lg sm:text-xl">
-						A pre-wired SaaS foundation — auth, billing, email, storage,
-						analytics, admin, AI workflow. So your launch is the feature, not
-						the plumbing.
+						Auth, billing, email, storage, analytics, admin, deploy — all
+						pre-wired. Every Claude Code skill you need vendored in the repo.
+						Bring the business logic. Skip the plumbing.
 					</p>
 
 					<div className="mt-12 flex flex-col gap-3 sm:flex-row">
@@ -152,7 +152,7 @@ export function Hero() {
 							href={WEB_URLS.signUp}
 							className="hero-cta group inline-flex items-center justify-center gap-2 rounded-full bg-[color:var(--marketing-accent)] px-7 py-3.5 font-medium text-[color:var(--marketing-bg)] text-base transition-transform hover:scale-[1.02]"
 						>
-							Start your project
+							Start your SaaS
 							<span
 								aria-hidden
 								className="transition-transform group-hover:translate-x-0.5"
@@ -161,14 +161,16 @@ export function Hero() {
 							</span>
 						</a>
 						<a
-							href="#features"
+							href="#how-it-works"
 							className="hero-cta inline-flex items-center justify-center gap-2 rounded-full border border-[color:var(--marketing-line)] px-7 py-3.5 text-[color:var(--marketing-fg)]/90 text-base transition-colors hover:bg-[color:var(--marketing-line)]/40"
 						>
-							See what's inside
+							See the workflow
 						</a>
 					</div>
 
 					<div className="hero-meta mt-16 flex flex-wrap items-center gap-x-8 gap-y-3 font-mono text-[color:var(--marketing-muted)] text-xs uppercase tracking-widest">
+						<span>Claude Code</span>
+						<span aria-hidden>·</span>
 						<span>Next 16 / React 19</span>
 						<span aria-hidden>·</span>
 						<span>Better Auth</span>
@@ -176,8 +178,6 @@ export function Hero() {
 						<span>Drizzle / Postgres</span>
 						<span aria-hidden>·</span>
 						<span>Polar.sh</span>
-						<span aria-hidden>·</span>
-						<span>Resend</span>
 					</div>
 				</div>
 				<div
@@ -245,7 +245,7 @@ export function Hero() {
 							fontSize="9"
 							letterSpacing="4"
 						>
-							STARTER · SAAS · 2026
+							VIBESTACK · 2026
 						</text>
 					</svg>
 				</div>

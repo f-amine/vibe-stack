@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@starter-saas/ui/components/button";
+import { Button } from "@vibestack/ui/components/button";
 import { useState } from "react";
 import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";

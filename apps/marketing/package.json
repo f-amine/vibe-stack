@@ -13,11 +13,11 @@
 	},
 	"dependencies": {
 		"@gsap/react": "^2.1.2",
-		"@starter-saas/analytics": "workspace:*",
-		"@starter-saas/api": "workspace:*",
-		"@starter-saas/env": "workspace:*",
-		"@starter-saas/i18n": "workspace:*",
-		"@starter-saas/ui": "workspace:*",
+		"@vibestack/analytics": "workspace:*",
+		"@vibestack/api": "workspace:*",
+		"@vibestack/env": "workspace:*",
+		"@vibestack/i18n": "workspace:*",
+		"@vibestack/ui": "workspace:*",
 		"@vercel/og": "catalog:",
 		"fumadocs-core": "catalog:",
 		"fumadocs-mdx": "catalog:",
@@ -33,7 +33,7 @@
 		"zod": "catalog:"
 	},
 	"devDependencies": {
-		"@starter-saas/config": "workspace:*",
+		"@vibestack/config": "workspace:*",
 		"@tailwindcss/postcss": "catalog:",
 		"@types/mdx": "^2.0.13",
 		"@types/node": "catalog:",

@@ -1,4 +1,4 @@
-import { env } from "@starter-saas/env/server";
+import { env } from "@vibestack/env/server";
 import { drizzle } from "drizzle-orm/node-postgres";
 
 import * as schema from "./schema";

@@ -1,4 +1,4 @@
-import { auth } from "@starter-saas/auth";
+import { auth } from "@vibestack/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 

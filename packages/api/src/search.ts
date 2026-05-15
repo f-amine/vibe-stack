@@ -5,8 +5,8 @@
 // member of).
 
 import "server-only";
-import { db } from "@starter-saas/db";
-import { member, organization, user } from "@starter-saas/db/schema/auth";
+import { db } from "@vibestack/db";
+import { member, organization, user } from "@vibestack/db/schema/auth";
 import { and, eq, ilike, inArray, or } from "drizzle-orm";
 
 export type SearchHit = {

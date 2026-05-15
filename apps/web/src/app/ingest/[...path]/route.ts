@@ -1,4 +1,4 @@
-import { proxyPostHog } from "@starter-saas/analytics/proxy";
+import { proxyPostHog } from "@vibestack/analytics/proxy";
 import type { NextRequest } from "next/server";
 
 export const runtime = "edge";

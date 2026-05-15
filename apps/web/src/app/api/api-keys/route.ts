@@ -1,5 +1,5 @@
-import { issueApiKey, listApiKeys } from "@starter-saas/api/api-keys";
-import { auth } from "@starter-saas/auth";
+import { issueApiKey, listApiKeys } from "@vibestack/api/api-keys";
+import { auth } from "@vibestack/auth";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { z } from "zod";

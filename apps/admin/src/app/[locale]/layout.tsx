@@ -1,11 +1,11 @@
-import { GoogleAnalytics } from "@starter-saas/analytics/ga";
-import { Badge } from "@starter-saas/ui/components/badge";
-import { Separator } from "@starter-saas/ui/components/separator";
+import { GoogleAnalytics } from "@vibestack/analytics/ga";
+import { Badge } from "@vibestack/ui/components/badge";
+import { Separator } from "@vibestack/ui/components/separator";
 import {
 	SidebarInset,
 	SidebarProvider,
 	SidebarTrigger,
-} from "@starter-saas/ui/components/sidebar";
+} from "@vibestack/ui/components/sidebar";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { ThemeProvider } from "next-themes";
@@ -16,7 +16,7 @@ import { requireAdmin } from "@/lib/require-admin";
 import "../globals.css";
 
 export const metadata = {
-	title: "Admin · stack/saas",
+	title: "Admin · vibestack",
 };
 
 type Props = {

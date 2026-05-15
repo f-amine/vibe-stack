@@ -2,8 +2,8 @@
 // `emailVerified = true`. Idempotency comes from an audit_log row — we never
 // store a separate "welcome_email_sent_at" column, and never re-send.
 
-import { createDb } from "@starter-saas/db";
-import { auditLog } from "@starter-saas/db/schema/audit";
+import { createDb } from "@vibestack/db";
+import { auditLog } from "@vibestack/db/schema/audit";
 import { and, eq } from "drizzle-orm";
 import { nanoid } from "nanoid";
 

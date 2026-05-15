@@ -1,18 +1,18 @@
 "use client";
 
-import { Badge } from "@starter-saas/ui/components/badge";
-import { Button } from "@starter-saas/ui/components/button";
+import { Badge } from "@vibestack/ui/components/badge";
+import { Button } from "@vibestack/ui/components/button";
 import {
 	Card,
 	CardContent,
 	CardDescription,
 	CardHeader,
 	CardTitle,
-} from "@starter-saas/ui/components/card";
-import { EmptyState } from "@starter-saas/ui/components/empty-state";
-import { Label } from "@starter-saas/ui/components/label";
-import { Skeleton } from "@starter-saas/ui/components/skeleton";
-import { Switch } from "@starter-saas/ui/components/switch";
+} from "@vibestack/ui/components/card";
+import { EmptyState } from "@vibestack/ui/components/empty-state";
+import { Label } from "@vibestack/ui/components/label";
+import { Skeleton } from "@vibestack/ui/components/skeleton";
+import { Switch } from "@vibestack/ui/components/switch";
 import {
 	KeyRound,
 	Laptop,

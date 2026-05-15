@@ -10,7 +10,7 @@ We have three apps (`web`, `marketing`, `admin`) and many cross-cutting concerns
 ## Decision
 
 ```
-starter-saas/
+vibestack/
 ├── apps/
 │   ├── web/          # authed product (3001)
 │   ├── marketing/    # landing + blog (MDX) + docs (Fumadocs) (3000)
@@ -42,12 +42,12 @@ starter-saas/
 
 ## Naming
 
-- Workspace packages: `@starter-saas/<kebab>` (renamed per cloned project).
+- Workspace packages: `@vibestack/<kebab>` (renamed per cloned project).
 - All packages export via `exports` map. No `main` field.
 
 ## Cross-package boundaries
 
-- `apps/*` can import from any `@starter-saas/*` package.
+- `apps/*` can import from any `@vibestack/*` package.
 - `packages/auth` may import `packages/db`, `packages/email`, `packages/env`.
 - `packages/api` may import `packages/auth`, `packages/db`, `packages/env`.
 - `packages/ui` is framework-agnostic React; MAY NOT import from `apps/*` or from `auth`/`db`.
@@ -64,4 +64,4 @@ starter-saas/
 
 - Some duplication in app `next.config.ts` (transpilePackages) — accepted.
 - Build cache via Turborepo amortises across apps.
-- Renaming the project requires updating package names (`@starter-saas/*` → `@<new>/*`) in 20+ places — provided rename script in `scripts/rename.sh` (TODO).
+- Renaming the project requires updating package names (`@vibestack/*` → `@<new>/*`) in 20+ places — provided rename script in `scripts/rename.sh` (TODO).

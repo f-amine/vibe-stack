@@ -5,7 +5,7 @@ import {
 	TabsContent,
 	TabsList,
 	TabsTrigger,
-} from "@starter-saas/ui/components/tabs";
+} from "@vibestack/ui/components/tabs";
 import {
 	CreditCard,
 	KeyRound,

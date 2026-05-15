@@ -1,13 +1,13 @@
 "use client";
 
-import { Badge } from "@starter-saas/ui/components/badge";
-import { Button } from "@starter-saas/ui/components/button";
+import { Badge } from "@vibestack/ui/components/badge";
+import { Button } from "@vibestack/ui/components/button";
 import {
 	Card,
 	CardContent,
 	CardHeader,
 	CardTitle,
-} from "@starter-saas/ui/components/card";
+} from "@vibestack/ui/components/card";
 import {
 	Dialog,
 	DialogContent,
@@ -15,11 +15,11 @@ import {
 	DialogFooter,
 	DialogHeader,
 	DialogTitle,
-} from "@starter-saas/ui/components/dialog";
-import { EmptyState } from "@starter-saas/ui/components/empty-state";
-import { Input } from "@starter-saas/ui/components/input";
-import { Label } from "@starter-saas/ui/components/label";
-import { Skeleton } from "@starter-saas/ui/components/skeleton";
+} from "@vibestack/ui/components/dialog";
+import { EmptyState } from "@vibestack/ui/components/empty-state";
+import { Input } from "@vibestack/ui/components/input";
+import { Label } from "@vibestack/ui/components/label";
+import { Skeleton } from "@vibestack/ui/components/skeleton";
 import { Copy, Key, Plus, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";

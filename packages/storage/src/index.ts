@@ -6,7 +6,7 @@ import {
 	S3Client,
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-import { env } from "@starter-saas/env/server";
+import { env } from "@vibestack/env/server";
 import { nanoid } from "nanoid";
 
 export const r2 = new S3Client({

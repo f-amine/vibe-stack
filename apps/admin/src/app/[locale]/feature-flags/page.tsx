@@ -1,13 +1,13 @@
-import { listFlags } from "@starter-saas/feature-flags/admin";
-import { Badge } from "@starter-saas/ui/components/badge";
+import { listFlags } from "@vibestack/feature-flags/admin";
+import { Badge } from "@vibestack/ui/components/badge";
 import {
 	Card,
 	CardContent,
 	CardDescription,
 	CardHeader,
 	CardTitle,
-} from "@starter-saas/ui/components/card";
-import { EmptyState } from "@starter-saas/ui/components/empty-state";
+} from "@vibestack/ui/components/card";
+import { EmptyState } from "@vibestack/ui/components/empty-state";
 import { AlertCircle, Flag } from "lucide-react";
 import { PageHeader } from "@/components/layout/page-header";
 import { requireAdmin } from "@/lib/require-admin";

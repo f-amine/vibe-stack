@@ -10,7 +10,7 @@ set -uo pipefail
 cd "$(dirname "$0")/.."
 
 PORTS=(5432 6379)
-PROJECT_NAME="starter-saas"
+PROJECT_NAME="vibestack"
 FORCE=0
 for arg in "$@"; do
   case "$arg" in

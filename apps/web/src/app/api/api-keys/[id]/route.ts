@@ -1,5 +1,5 @@
-import { revokeApiKey } from "@starter-saas/api/api-keys";
-import { auth } from "@starter-saas/auth";
+import { revokeApiKey } from "@vibestack/api/api-keys";
+import { auth } from "@vibestack/auth";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 

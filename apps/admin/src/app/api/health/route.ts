@@ -1,4 +1,4 @@
-import { db } from "@starter-saas/db";
+import { db } from "@vibestack/db";
 import { sql } from "drizzle-orm";
 import { NextResponse } from "next/server";
 

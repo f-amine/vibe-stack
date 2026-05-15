@@ -2,7 +2,7 @@
 
 import { Progress as ProgressPrimitive } from "@base-ui/react/progress";
 
-import { cn } from "@starter-saas/ui/lib/utils";
+import { cn } from "@vibestack/ui/lib/utils";
 
 function Progress({
 	className,

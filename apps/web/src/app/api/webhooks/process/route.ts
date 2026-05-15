@@ -2,8 +2,8 @@
 // via `Authorization: Bearer ${CRON_SECRET}` so a scheduler (Dokploy
 // cron, GitHub Actions, or Vercel cron) can hit it on a schedule.
 
-import { processPendingDeliveries } from "@starter-saas/api/webhooks";
-import { env } from "@starter-saas/env/server";
+import { processPendingDeliveries } from "@vibestack/api/webhooks";
+import { env } from "@vibestack/env/server";
 import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";

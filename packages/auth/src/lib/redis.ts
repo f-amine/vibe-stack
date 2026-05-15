@@ -12,7 +12,7 @@
 // without a server restart.
 
 import "server-only";
-import { env } from "@starter-saas/env/server";
+import { env } from "@vibestack/env/server";
 import Redis from "ioredis";
 
 let client: Redis | null = null;

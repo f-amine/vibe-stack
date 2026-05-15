@@ -1,5 +1,5 @@
 {
-	"name": "@starter-saas/i18n",
+	"name": "@vibestack/i18n",
 	"version": "0.0.0",
 	"private": true,
 	"type": "module",
@@ -11,7 +11,7 @@
 		"next-intl": "catalog:"
 	},
 	"devDependencies": {
-		"@starter-saas/config": "workspace:*",
+		"@vibestack/config": "workspace:*",
 		"typescript": "catalog:"
 	}
 }

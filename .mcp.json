@@ -12,6 +12,14 @@
 				"CLAUDE_FLOW_MEMORY_BACKEND": "hybrid"
 			},
 			"autoStart": false
+		},
+		"NotFair-GoogleAds": {
+			"type": "http",
+			"url": "https://notfair.co/api/mcp/google_ads"
+		},
+		"NotFair-MetaAds": {
+			"type": "http",
+			"url": "https://notfair.co/api/mcp/meta_ads"
 		}
 	}
 }

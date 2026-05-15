@@ -1,7 +1,7 @@
 "use client";
 
 import { Select as SelectPrimitive } from "@base-ui/react/select";
-import { cn } from "@starter-saas/ui/lib/utils";
+import { cn } from "@vibestack/ui/lib/utils";
 import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from "lucide-react";
 import type * as React from "react";
 

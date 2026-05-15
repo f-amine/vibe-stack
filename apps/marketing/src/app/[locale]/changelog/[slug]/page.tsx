@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ogMetadata } from "@/lib/og";
+import { TechArticleJsonLd } from "@/components/seo/json-ld";
+import { ogMetadata, siteBase } from "@/lib/og";
 import { changelogSource } from "@/lib/source";
 
 type Props = {
@@ -23,7 +24,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 		description,
 		...ogMetadata({
 			title: page.data.title,
-			subtitle: description ?? "From the stack/saas changelog.",
+			subtitle: description ?? "From the vibestack changelog.",
 			eyebrow: "Changelog",
 		}),
 	};
@@ -40,9 +41,17 @@ export default async function ChangelogEntryPage({ params }: Props) {
 		date?: string;
 		breakingCount?: number;
 		title: string;
+		description?: string;
 	};
+	const absoluteUrl = `${siteBase()}${page.url}`;
 	return (
 		<main className="prose prose-neutral dark:prose-invert mx-auto max-w-3xl px-6 py-16">
+			<TechArticleJsonLd
+				url={absoluteUrl}
+				title={data.title}
+				description={data.description}
+				dateModified={data.date}
+			/>
 			<div className="not-prose flex flex-wrap items-center gap-3">
 				<time
 					dateTime={data.date ?? ""}

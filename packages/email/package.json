@@ -1,5 +1,5 @@
 {
-	"name": "@starter-saas/email",
+	"name": "@vibestack/email",
 	"version": "0.0.0",
 	"private": true,
 	"type": "module",
@@ -14,13 +14,13 @@
 	},
 	"dependencies": {
 		"@react-email/components": "catalog:",
-		"@starter-saas/env": "workspace:*",
+		"@vibestack/env": "workspace:*",
 		"react": "catalog:",
 		"react-dom": "catalog:",
 		"resend": "catalog:"
 	},
 	"devDependencies": {
-		"@starter-saas/config": "workspace:*",
+		"@vibestack/config": "workspace:*",
 		"@types/react": "catalog:",
 		"react-email": "catalog:",
 		"typescript": "catalog:"

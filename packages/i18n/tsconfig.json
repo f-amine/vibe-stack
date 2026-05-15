@@ -1,8 +1,8 @@
 {
-	"extends": "@starter-saas/config/tsconfig.base.json",
+	"extends": "@vibestack/config/tsconfig.base.json",
 	"compilerOptions": {
 		"paths": {
-			"@starter-saas/i18n/*": ["./src/*"]
+			"@vibestack/i18n/*": ["./src/*"]
 		},
 		"resolveJsonModule": true
 	},

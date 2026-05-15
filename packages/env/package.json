@@ -1,5 +1,5 @@
 {
-	"name": "@starter-saas/env",
+	"name": "@vibestack/env",
 	"version": "0.0.0",
 	"private": true,
 	"type": "module",
@@ -14,7 +14,7 @@
 		"zod": "catalog:"
 	},
 	"devDependencies": {
-		"@starter-saas/config": "workspace:*",
+		"@vibestack/config": "workspace:*",
 		"@types/node": "catalog:",
 		"typescript": "catalog:"
 	}

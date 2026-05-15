@@ -23,7 +23,7 @@ ruflo hive-mind spawn \
   "$(cat .ruflo/prompts/autonomous-loop.md)" \
   --claude \
   --max-agents 6 \
-  --memory-namespace starter-saas-auto
+  --memory-namespace vibestack-auto
 # Ctrl+B then D to detach
 ```
 
@@ -45,5 +45,5 @@ watch -n 30 '
 
 ```bash
 tmux kill-session -t ruflo-auto                                     # nuclear
-ruflo hive-mind stop --namespace starter-saas-auto                 # graceful
+ruflo hive-mind stop --namespace vibestack-auto                 # graceful
 ```

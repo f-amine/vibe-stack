@@ -1,5 +1,5 @@
 {
-	"name": "@starter-saas/db",
+	"name": "@vibestack/db",
 	"type": "module",
 	"exports": {
 		".": {
@@ -21,14 +21,14 @@
 		"db:down": "docker compose -f ../../docker-compose.yml down"
 	},
 	"dependencies": {
-		"@starter-saas/env": "workspace:*",
+		"@vibestack/env": "workspace:*",
 		"dotenv": "catalog:",
 		"drizzle-orm": "catalog:",
 		"pg": "catalog:",
 		"zod": "catalog:"
 	},
 	"devDependencies": {
-		"@starter-saas/config": "workspace:*",
+		"@vibestack/config": "workspace:*",
 		"@types/pg": "catalog:",
 		"drizzle-kit": "catalog:",
 		"tsx": "catalog:",

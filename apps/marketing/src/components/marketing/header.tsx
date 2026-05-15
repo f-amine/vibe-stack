@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@starter-saas/ui/lib/utils";
+import { cn } from "@vibestack/ui/lib/utils";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { WEB_URLS } from "@/lib/app-urls";
@@ -38,10 +38,10 @@ export function MarketingHeader() {
 					aria-label="Home"
 				>
 					<span className="inline-block bg-[color:var(--marketing-fg)] px-2 py-0.5 font-medium text-[color:var(--marketing-bg)]">
-						stack
+						vibe
 					</span>
 					<span className="ml-1.5 text-[color:var(--marketing-fg)]/70">
-						/saas
+						/stack
 					</span>
 				</Link>
 

@@ -1,8 +1,5 @@
-import {
-	createSubscription,
-	listSubscriptions,
-} from "@starter-saas/api/webhooks";
-import { auth } from "@starter-saas/auth";
+import { createSubscription, listSubscriptions } from "@vibestack/api/webhooks";
+import { auth } from "@vibestack/auth";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { z } from "zod";

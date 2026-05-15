@@ -1,1 +1,178 @@
-@import "@starter-saas/ui/globals.css";
+@import "@vibestack/ui/globals.css";
+
+/*
+ * vibestack web app — token overlay.
+ * Maps shadcn semantic tokens to The Lit Reading Room palette so every
+ * shadcn primitive (button, card, input, sidebar) inherits the brand.
+ * Custom tokens prefixed with --vs- are for app-specific components.
+ * Canonical: DESIGN.md at the repo root.
+ */
+
+:root {
+	/* Brand primitives (light theme — secondary surface) */
+	--vs-ink: oklch(0.13 0.012 250);
+	--vs-ink-raised: oklch(0.165 0.012 250);
+	--vs-ink-line: oklch(0.22 0.012 250);
+	--vs-parchment: oklch(0.96 0.01 90);
+	--vs-parchment-mute: oklch(0.74 0.012 90);
+	--vs-graphite: oklch(0.55 0.012 250);
+	--vs-gold: oklch(0.84 0.13 88);
+	--vs-gold-deep: oklch(0.72 0.14 80);
+	--vs-signal: oklch(0.74 0.18 22);
+	--vs-affirm: oklch(0.78 0.14 155);
+
+	/* Fonts */
+	--vs-display: var(--font-display), "Fraunces", ui-serif, Georgia, serif;
+	--vs-body: var(--font-geist-sans), "Geist", ui-sans-serif, system-ui,
+		sans-serif;
+	--vs-mono: var(--font-mono), "JetBrains Mono", ui-monospace, monospace;
+
+	/* Light theme — inverted lit-reading-room: parchment canvas, ink type. */
+	--background: var(--vs-parchment);
+	--foreground: var(--vs-ink);
+	--card: oklch(0.99 0.005 90);
+	--card-foreground: var(--vs-ink);
+	--popover: oklch(0.99 0.005 90);
+	--popover-foreground: var(--vs-ink);
+	--primary: var(--vs-gold-deep);
+	--primary-foreground: var(--vs-ink);
+	--secondary: oklch(0.92 0.008 90);
+	--secondary-foreground: var(--vs-ink);
+	--muted: oklch(0.92 0.008 90);
+	--muted-foreground: oklch(0.46 0.012 250);
+	--accent: oklch(0.92 0.008 90);
+	--accent-foreground: var(--vs-ink);
+	--destructive: var(--vs-signal);
+	--border: oklch(0.86 0.008 90);
+	--input: oklch(0.86 0.008 90);
+	--ring: var(--vs-gold);
+
+	--sidebar: oklch(0.93 0.008 90);
+	--sidebar-foreground: oklch(0.32 0.012 250);
+	--sidebar-primary: var(--vs-gold-deep);
+	--sidebar-primary-foreground: var(--vs-ink);
+	--sidebar-accent: oklch(0.92 0.008 90);
+	--sidebar-accent-foreground: var(--vs-ink);
+	--sidebar-border: oklch(0.86 0.008 90);
+	--sidebar-ring: var(--vs-gold);
+
+	--chart-1: var(--vs-gold);
+	--chart-2: oklch(0.6 0.14 220);
+	--chart-3: oklch(0.65 0.15 320);
+	--chart-4: oklch(0.7 0.13 155);
+	--chart-5: oklch(0.62 0.16 22);
+
+	--radius: 0.5rem;
+}
+
+.dark {
+	/* Dark theme — the default. The Lit Reading Room. */
+	--background: var(--vs-ink);
+	--foreground: var(--vs-parchment);
+	--card: var(--vs-ink-raised);
+	--card-foreground: var(--vs-parchment);
+	--popover: var(--vs-ink-raised);
+	--popover-foreground: var(--vs-parchment);
+	--primary: var(--vs-gold);
+	--primary-foreground: var(--vs-ink);
+	--secondary: var(--vs-ink-line);
+	--secondary-foreground: var(--vs-parchment);
+	--muted: var(--vs-ink-line);
+	--muted-foreground: var(--vs-parchment-mute);
+	--accent: var(--vs-ink-line);
+	--accent-foreground: var(--vs-parchment);
+	--destructive: var(--vs-signal);
+	--border: var(--vs-ink-line);
+	--input: var(--vs-ink-line);
+	--ring: var(--vs-gold);
+
+	--sidebar: var(--vs-ink-raised);
+	--sidebar-foreground: var(--vs-parchment-mute);
+	--sidebar-primary: var(--vs-gold);
+	--sidebar-primary-foreground: var(--vs-ink);
+	--sidebar-accent: var(--vs-ink-line);
+	--sidebar-accent-foreground: var(--vs-parchment);
+	--sidebar-border: var(--vs-ink-line);
+	--sidebar-ring: var(--vs-gold);
+
+	--chart-1: var(--vs-gold);
+	--chart-2: oklch(0.7 0.16 220);
+	--chart-3: oklch(0.72 0.16 320);
+	--chart-4: oklch(0.78 0.14 155);
+	--chart-5: oklch(0.74 0.18 22);
+}
+
+@theme inline {
+	--font-display: var(--vs-display);
+	--font-mono: var(--vs-mono);
+	--color-vs-gold: var(--vs-gold);
+	--color-vs-gold-deep: var(--vs-gold-deep);
+	--color-vs-ink: var(--vs-ink);
+	--color-vs-ink-raised: var(--vs-ink-raised);
+	--color-vs-ink-line: var(--vs-ink-line);
+	--color-vs-parchment: var(--vs-parchment);
+	--color-vs-parchment-mute: var(--vs-parchment-mute);
+	--color-vs-graphite: var(--vs-graphite);
+	--color-vs-signal: var(--vs-signal);
+	--color-vs-affirm: var(--vs-affirm);
+}
+
+/* Utility — the editorial display face. Use on page titles and big numerals. */
+.font-display {
+	font-family: var(--vs-display);
+	font-feature-settings: "ss01", "ss02";
+	letter-spacing: -0.018em;
+}
+
+/* The mono label used for caps tracking. */
+.font-mono-label {
+	font-family: var(--vs-mono);
+	font-weight: 500;
+	letter-spacing: 0.18em;
+	text-transform: uppercase;
+	font-size: 0.6875rem;
+}
+
+/* The single horizontal rule used as an empty-state flourish. */
+.gold-rule {
+	display: block;
+	height: 1px;
+	width: 64px;
+	background: var(--vs-gold);
+}
+
+/* Focus ring used outside shadcn primitives. */
+.vs-focus-ring:focus-visible {
+	outline: none;
+	box-shadow:
+		0 0 0 2px var(--vs-ink),
+		0 0 0 4px var(--vs-gold);
+}
+
+/* Entry fade for auth + onboarding hero. Reduced-motion: opacity only. */
+@keyframes vs-fade-up {
+	from {
+		opacity: 0;
+		transform: translateY(12px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+.vs-fade-up {
+	animation: vs-fade-up 700ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+	.vs-fade-up {
+		animation: none;
+		opacity: 1;
+		transform: none;
+	}
+}
+
+@layer base {
+	body {
+		font-family: var(--vs-body);
+	}
+}

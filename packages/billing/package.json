@@ -1,5 +1,5 @@
 {
-	"name": "@starter-saas/billing",
+	"name": "@vibestack/billing",
 	"version": "0.0.0",
 	"private": true,
 	"type": "module",
@@ -11,11 +11,11 @@
 	},
 	"dependencies": {
 		"@polar-sh/sdk": "catalog:",
-		"@starter-saas/env": "workspace:*",
+		"@vibestack/env": "workspace:*",
 		"zod": "catalog:"
 	},
 	"devDependencies": {
-		"@starter-saas/config": "workspace:*",
+		"@vibestack/config": "workspace:*",
 		"typescript": "catalog:"
 	}
 }

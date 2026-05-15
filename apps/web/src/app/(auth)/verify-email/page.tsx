@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@starter-saas/ui/components/button";
+import { Button } from "@vibestack/ui/components/button";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -64,33 +64,24 @@ function Inner() {
 	};
 
 	return (
-		<div className="grid gap-6 text-center">
-			<div className="mx-auto inline-flex h-14 w-14 items-center justify-center rounded-full bg-muted">
-				<svg
-					className="h-6 w-6"
-					viewBox="0 0 24 24"
-					fill="none"
-					stroke="currentColor"
-					strokeWidth="1.5"
-					aria-hidden="true"
-				>
-					<title>Email</title>
-					<rect x="3" y="5" width="18" height="14" rx="2" />
-					<path d="M3 7l9 6 9-6" />
-				</svg>
-			</div>
-			<div>
-				<h1 className="font-semibold text-3xl tracking-tight">
-					Check your email
+		<div className="space-y-10">
+			<div className="space-y-3">
+				<span className="font-mono-label text-muted-foreground">
+					Almost there · ch. 02
+				</span>
+				<span aria-hidden className="gold-rule" />
+				<h1 className="font-display text-[2.25rem] leading-[1.05] tracking-[-0.02em] text-foreground">
+					Check your email.
 				</h1>
-				<p className="mt-2 text-muted-foreground text-sm">
+				<p className="max-w-sm text-muted-foreground text-sm leading-relaxed">
 					{email ? (
 						<>
-							We sent a verification link to <strong>{email}</strong>. Click it
-							to finish creating your account.
+							We sent a verification link to{" "}
+							<strong className="text-foreground">{email}</strong>. Click it
+							once and we'll finish setting up your account.
 						</>
 					) : (
-						"We sent you a verification link."
+						"We sent a verification link. Click it to finish creating your account."
 					)}
 				</p>
 			</div>

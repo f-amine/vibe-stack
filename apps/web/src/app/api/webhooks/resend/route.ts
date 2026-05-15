@@ -1,8 +1,8 @@
 import { createHmac, randomUUID, timingSafeEqual } from "node:crypto";
-import { db } from "@starter-saas/db";
-import { auditLog } from "@starter-saas/db/schema/audit";
-import { user as userTable } from "@starter-saas/db/schema/auth";
-import { env } from "@starter-saas/env/server";
+import { db } from "@vibestack/db";
+import { auditLog } from "@vibestack/db/schema/audit";
+import { user as userTable } from "@vibestack/db/schema/auth";
+import { env } from "@vibestack/env/server";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 

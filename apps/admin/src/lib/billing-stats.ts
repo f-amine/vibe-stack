@@ -4,8 +4,8 @@
 // agree once the webhook pipeline (#27) is fully wired.
 
 import "server-only";
-import { db } from "@starter-saas/db";
-import { subscription } from "@starter-saas/db/schema/billing";
+import { db } from "@vibestack/db";
+import { subscription } from "@vibestack/db/schema/billing";
 import { and, eq, gte, isNotNull, lte, sql } from "drizzle-orm";
 
 export type MrrPoint = {

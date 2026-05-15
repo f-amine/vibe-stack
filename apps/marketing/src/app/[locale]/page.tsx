@@ -1,7 +1,31 @@
+import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { MarketingFooter } from "@/components/marketing/footer";
 import { MarketingHeader } from "@/components/marketing/header";
 import { Hero } from "@/components/marketing/sections/hero";
+import {
+	SoftwareApplicationJsonLd,
+	WebsiteJsonLd,
+} from "@/components/seo/json-ld";
+import { ogMetadata, siteBase } from "@/lib/og";
+
+const HOME_TITLE = "vibestack — The SaaS starter where Claude writes the rest.";
+const HOME_DESCRIPTION =
+	"Opinionated, AI-first SaaS starter. Stack pre-wired, Claude Code skills vendored in the repo. For devs and vibe-coders. Bring the business logic, skip the plumbing.";
+
+export const metadata: Metadata = {
+	title: HOME_TITLE,
+	description: HOME_DESCRIPTION,
+	alternates: {
+		canonical: "/",
+	},
+	...ogMetadata({
+		title: "Claude writes the rest.",
+		subtitle:
+			"Auth, billing, email, storage, deploy, pre-wired. Skills vendored.",
+		eyebrow: "vibestack",
+	}),
+};
 
 // Hero stays static — above the fold, anchors LCP. Below-fold sections
 // each pull GSAP + ScrollTrigger (~41kb gz) and don't paint until the
@@ -44,10 +68,17 @@ const StickyCTA = dynamic(() =>
 );
 
 export default function HomePage() {
+	const siteUrl = siteBase();
 	return (
 		<div className="marketing grain min-h-dvh">
 			<MarketingHeader />
 			<main>
+				<WebsiteJsonLd
+					siteUrl={siteUrl}
+					name="vibestack"
+					description="Opinionated, AI-first SaaS starter. Stack pre-wired, Claude Code skills vendored in the repo. For devs and vibe-coders."
+				/>
+				<SoftwareApplicationJsonLd siteUrl={siteUrl} />
 				<Hero />
 				<SocialProof />
 				<Features />

@@ -2,9 +2,9 @@
 // auth middleware powered by `verifyApiKey()`. Real public-API routes should
 // share `verifyApiKey()` rather than re-implementing the lookup.
 
-import { bearerToken, verifyApiKey } from "@starter-saas/api/api-keys";
-import { db } from "@starter-saas/db";
-import { user } from "@starter-saas/db/schema/auth";
+import { bearerToken, verifyApiKey } from "@vibestack/api/api-keys";
+import { db } from "@vibestack/db";
+import { user } from "@vibestack/db/schema/auth";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 

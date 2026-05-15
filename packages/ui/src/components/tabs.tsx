@@ -1,7 +1,7 @@
 "use client";
 
 import { Tabs as TabsPrimitive } from "@base-ui/react/tabs";
-import { cn } from "@starter-saas/ui/lib/utils";
+import { cn } from "@vibestack/ui/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 
 function Tabs({

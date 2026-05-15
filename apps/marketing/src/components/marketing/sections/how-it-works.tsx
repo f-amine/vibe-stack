@@ -60,6 +60,7 @@ export function HowItWorks() {
 	return (
 		<section
 			ref={root}
+			id="how-it-works"
 			className="relative border-[color:var(--marketing-line)] border-t py-32 sm:py-40"
 		>
 			<div className="mx-auto max-w-7xl px-6 lg:px-10">

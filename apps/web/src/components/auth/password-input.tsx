@@ -1,6 +1,6 @@
 "use client";
 
-import { Input } from "@starter-saas/ui/components/input";
+import { Input } from "@vibestack/ui/components/input";
 import { Eye, EyeOff } from "lucide-react";
 import * as React from "react";
 

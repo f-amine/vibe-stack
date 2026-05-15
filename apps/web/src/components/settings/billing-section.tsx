@@ -5,14 +5,14 @@ import {
 	formatPrice,
 	PLANS,
 	type PlanId,
-} from "@starter-saas/billing/plans";
+} from "@vibestack/billing/plans";
 import {
 	Alert,
 	AlertDescription,
 	AlertTitle,
-} from "@starter-saas/ui/components/alert";
-import { Badge } from "@starter-saas/ui/components/badge";
-import { Button } from "@starter-saas/ui/components/button";
+} from "@vibestack/ui/components/alert";
+import { Badge } from "@vibestack/ui/components/badge";
+import { Button } from "@vibestack/ui/components/button";
 import {
 	Card,
 	CardContent,
@@ -20,9 +20,9 @@ import {
 	CardFooter,
 	CardHeader,
 	CardTitle,
-} from "@starter-saas/ui/components/card";
-import { Skeleton } from "@starter-saas/ui/components/skeleton";
-import { cn } from "@starter-saas/ui/lib/utils";
+} from "@vibestack/ui/components/card";
+import { Skeleton } from "@vibestack/ui/components/skeleton";
+import { cn } from "@vibestack/ui/lib/utils";
 import { AlertCircle, Loader2, Sparkles } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";

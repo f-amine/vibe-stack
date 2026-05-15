@@ -1,5 +1,5 @@
 {
-	"name": "@starter-saas/api",
+	"name": "@vibestack/api",
 	"type": "module",
 	"exports": {
 		".": {
@@ -12,10 +12,10 @@
 	"scripts": {},
 	"dependencies": {
 		"@aws-sdk/client-s3": "catalog:",
-		"@starter-saas/auth": "workspace:*",
-		"@starter-saas/db": "workspace:*",
-		"@starter-saas/env": "workspace:*",
-		"@starter-saas/storage": "workspace:*",
+		"@vibestack/auth": "workspace:*",
+		"@vibestack/db": "workspace:*",
+		"@vibestack/env": "workspace:*",
+		"@vibestack/storage": "workspace:*",
 		"@trpc/client": "catalog:",
 		"@trpc/server": "catalog:",
 		"dotenv": "catalog:",
@@ -24,7 +24,7 @@
 		"zod": "catalog:"
 	},
 	"devDependencies": {
-		"@starter-saas/config": "workspace:*",
+		"@vibestack/config": "workspace:*",
 		"typescript": "catalog:"
 	}
 }

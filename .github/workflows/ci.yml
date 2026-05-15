@@ -55,7 +55,7 @@ jobs:
           node-version: 22
           cache: pnpm
       - name: Materialize CI .env
-        # `@starter-saas/env` calls `dotenv/config` on import, and Next 16 build
+        # `@vibestack/env` calls `dotenv/config` on import, and Next 16 build
         # workers don't always inherit the job-level `env:` block. Write the
         # repo-root .env from those vars and symlink it into each app so server
         # builds see the same vars as local dev.
@@ -81,7 +81,7 @@ jobs:
           EOF
       - run: pnpm install --frozen-lockfile
       - run: pnpm run setup
-      - run: pnpm db:push --filter @starter-saas/db
+      - run: pnpm db:push --filter @vibestack/db
         continue-on-error: true
       - run: pnpm check
       - run: pnpm typecheck

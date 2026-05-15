@@ -1,6 +1,6 @@
 // Server-only helpers that join Plan definitions w/ env-supplied Polar product IDs.
 import "server-only";
-import { env } from "@starter-saas/env/server";
+import { env } from "@vibestack/env/server";
 import { PLANS, type PlanDef, type PlanId } from "./plans";
 
 const PRODUCT_ID_BY_PLAN: Partial<Record<PlanId, string | undefined>> = {

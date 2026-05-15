@@ -4,15 +4,15 @@
 
 import "server-only";
 import { randomBytes, randomUUID } from "node:crypto";
-import { db } from "@starter-saas/db";
+import { db } from "@vibestack/db";
 import {
 	affiliate,
 	affiliateClick,
 	affiliatePayout,
 	affiliateSignup,
-} from "@starter-saas/db/schema/affiliate";
-import { auditLog } from "@starter-saas/db/schema/audit";
-import { env } from "@starter-saas/env/server";
+} from "@vibestack/db/schema/affiliate";
+import { auditLog } from "@vibestack/db/schema/audit";
+import { env } from "@vibestack/env/server";
 import { and, count, desc, eq, inArray } from "drizzle-orm";
 
 export const AFFILIATE_COOKIE_NAME = "aff_ref";

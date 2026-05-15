@@ -1,5 +1,5 @@
-import { getPreferences, setPreferences } from "@starter-saas/api/preferences";
-import { auth } from "@starter-saas/auth";
+import { getPreferences, setPreferences } from "@vibestack/api/preferences";
+import { auth } from "@vibestack/auth";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { z } from "zod";

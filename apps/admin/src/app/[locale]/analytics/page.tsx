@@ -4,7 +4,7 @@ import {
 	CardDescription,
 	CardHeader,
 	CardTitle,
-} from "@starter-saas/ui/components/card";
+} from "@vibestack/ui/components/card";
 import { GrowthArea } from "@/components/charts/area-chart";
 import { CountBar } from "@/components/charts/bar-chart";
 import { PageHeader } from "@/components/layout/page-header";

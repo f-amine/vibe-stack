@@ -170,7 +170,7 @@ importers:
 
   .:
     dependencies:
-      '@starter-saas/env':
+      '@vibestack/env':
         specifier: workspace:*
         version: link:packages/env
       dotenv:
@@ -192,12 +192,12 @@ importers:
       '@playwright/test':
         specifier: 'catalog:'
         version: 1.60.0
-      '@starter-saas/config':
-        specifier: workspace:*
-        version: link:packages/config
       '@types/node':
         specifier: 'catalog:'
         version: 22.19.19
+      '@vibestack/config':
+        specifier: workspace:*
+        version: link:packages/config
       mri:
         specifier: 'catalog:'
         version: 1.2.0
@@ -219,30 +219,6 @@ importers:
       '@hookform/resolvers':
         specifier: ^5.2.2
         version: 5.2.2(react-hook-form@7.75.0(react@19.2.6))
-      '@starter-saas/analytics':
-        specifier: workspace:*
-        version: link:../../packages/analytics
-      '@starter-saas/api':
-        specifier: workspace:*
-        version: link:../../packages/api
-      '@starter-saas/auth':
-        specifier: workspace:*
-        version: link:../../packages/auth
-      '@starter-saas/db':
-        specifier: workspace:*
-        version: link:../../packages/db
-      '@starter-saas/env':
-        specifier: workspace:*
-        version: link:../../packages/env
-      '@starter-saas/feature-flags':
-        specifier: workspace:*
-        version: link:../../packages/feature-flags
-      '@starter-saas/i18n':
-        specifier: workspace:*
-        version: link:../../packages/i18n
-      '@starter-saas/ui':
-        specifier: workspace:*
-        version: link:../../packages/ui
       '@tanstack/react-query':
         specifier: 'catalog:'
         version: 5.100.10(react@19.2.6)
@@ -258,6 +234,30 @@ importers:
       '@trpc/tanstack-react-query':
         specifier: 'catalog:'
         version: 11.17.0(@tanstack/react-query@5.100.10(react@19.2.6))(@trpc/client@11.17.0(@trpc/server@11.17.0(typescript@6.0.3))(typescript@6.0.3))(@trpc/server@11.17.0(typescript@6.0.3))(react@19.2.6)(typescript@6.0.3)
+      '@vibestack/analytics':
+        specifier: workspace:*
+        version: link:../../packages/analytics
+      '@vibestack/api':
+        specifier: workspace:*
+        version: link:../../packages/api
+      '@vibestack/auth':
+        specifier: workspace:*
+        version: link:../../packages/auth
+      '@vibestack/db':
+        specifier: workspace:*
+        version: link:../../packages/db
+      '@vibestack/env':
+        specifier: workspace:*
+        version: link:../../packages/env
+      '@vibestack/feature-flags':
+        specifier: workspace:*
+        version: link:../../packages/feature-flags
+      '@vibestack/i18n':
+        specifier: workspace:*
+        version: link:../../packages/i18n
+      '@vibestack/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       better-auth:
         specifier: 'catalog:'
         version: 1.6.11(@opentelemetry/api@1.9.1)(@prisma/client@5.22.0)(better-sqlite3@12.10.0)(drizzle-kit@0.31.10)(drizzle-orm@0.45.2(@opentelemetry/api@1.9.1)(@prisma/client@5.22.0)(@types/pg@8.20.0)(better-sqlite3@12.10.0)(kysely@0.28.17)(pg@8.20.0))(next@16.2.6(@babel/core@7.29.0)(@opentelemetry/api@1.9.1)(@playwright/test@1.60.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(pg@8.20.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
@@ -298,9 +298,6 @@ importers:
         specifier: 'catalog:'
         version: 4.4.3
     devDependencies:
-      '@starter-saas/config':
-        specifier: workspace:*
-        version: link:../../packages/config
       '@tailwindcss/postcss':
         specifier: 'catalog:'
         version: 4.3.0
@@ -313,6 +310,9 @@ importers:
       '@types/react-dom':
         specifier: 'catalog:'
         version: 19.2.3(@types/react@19.2.14)
+      '@vibestack/config':
+        specifier: workspace:*
+        version: link:../../packages/config
       tailwindcss:
         specifier: 'catalog:'
         version: 4.3.0
@@ -325,24 +325,24 @@ importers:
       '@gsap/react':
         specifier: ^2.1.2
         version: 2.1.2(gsap@3.15.0)(react@19.2.6)
-      '@starter-saas/analytics':
-        specifier: workspace:*
-        version: link:../../packages/analytics
-      '@starter-saas/api':
-        specifier: workspace:*
-        version: link:../../packages/api
-      '@starter-saas/env':
-        specifier: workspace:*
-        version: link:../../packages/env
-      '@starter-saas/i18n':
-        specifier: workspace:*
-        version: link:../../packages/i18n
-      '@starter-saas/ui':
-        specifier: workspace:*
-        version: link:../../packages/ui
       '@vercel/og':
         specifier: 'catalog:'
         version: 0.11.1
+      '@vibestack/analytics':
+        specifier: workspace:*
+        version: link:../../packages/analytics
+      '@vibestack/api':
+        specifier: workspace:*
+        version: link:../../packages/api
+      '@vibestack/env':
+        specifier: workspace:*
+        version: link:../../packages/env
+      '@vibestack/i18n':
+        specifier: workspace:*
+        version: link:../../packages/i18n
+      '@vibestack/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       fumadocs-core:
         specifier: 'catalog:'
         version: 16.8.11(@mdx-js/mdx@3.1.1)(@types/estree-jsx@1.0.5)(@types/hast@3.0.4)(@types/mdast@4.0.4)(@types/react@19.2.14)(lucide-react@1.16.0(react@19.2.6))(next@16.2.6(@opentelemetry/api@1.9.1)(@playwright/test@1.60.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)(zod@4.4.3)
@@ -380,9 +380,6 @@ importers:
         specifier: 'catalog:'
         version: 4.4.3
     devDependencies:
-      '@starter-saas/config':
-        specifier: workspace:*
-        version: link:../../packages/config
       '@tailwindcss/postcss':
         specifier: 'catalog:'
         version: 4.3.0
@@ -398,6 +395,9 @@ importers:
       '@types/react-dom':
         specifier: 'catalog:'
         version: 19.2.3(@types/react@19.2.14)
+      '@vibestack/config':
+        specifier: workspace:*
+        version: link:../../packages/config
       tailwindcss:
         specifier: 'catalog:'
         version: 4.3.0
@@ -416,30 +416,6 @@ importers:
       '@polar-sh/better-auth':
         specifier: 'catalog:'
         version: 1.8.4(@polar-sh/sdk@0.47.1)(@stripe/react-stripe-js@4.0.2(@stripe/stripe-js@7.9.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(@stripe/stripe-js@7.9.0)(better-auth@1.6.11(@opentelemetry/api@1.9.1)(@prisma/client@5.22.0)(better-sqlite3@12.10.0)(drizzle-kit@0.31.10)(drizzle-orm@0.45.2(@opentelemetry/api@1.9.1)(@prisma/client@5.22.0)(@types/pg@8.20.0)(better-sqlite3@12.10.0)(kysely@0.28.17)(pg@8.20.0))(next@16.2.6(@babel/core@7.29.0)(@opentelemetry/api@1.9.1)(@playwright/test@1.60.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(pg@8.20.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react@19.2.6)(zod@4.4.3)
-      '@starter-saas/analytics':
-        specifier: workspace:*
-        version: link:../../packages/analytics
-      '@starter-saas/api':
-        specifier: workspace:*
-        version: link:../../packages/api
-      '@starter-saas/auth':
-        specifier: workspace:*
-        version: link:../../packages/auth
-      '@starter-saas/billing':
-        specifier: workspace:*
-        version: link:../../packages/billing
-      '@starter-saas/db':
-        specifier: workspace:*
-        version: link:../../packages/db
-      '@starter-saas/env':
-        specifier: workspace:*
-        version: link:../../packages/env
-      '@starter-saas/storage':
-        specifier: workspace:*
-        version: link:../../packages/storage
-      '@starter-saas/ui':
-        specifier: workspace:*
-        version: link:../../packages/ui
       '@tanstack/react-form':
         specifier: ^1.28.0
         version: 1.32.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
@@ -455,6 +431,30 @@ importers:
       '@trpc/tanstack-react-query':
         specifier: 'catalog:'
         version: 11.17.0(@tanstack/react-query@5.100.10(react@19.2.6))(@trpc/client@11.17.0(@trpc/server@11.17.0(typescript@6.0.3))(typescript@6.0.3))(@trpc/server@11.17.0(typescript@6.0.3))(react@19.2.6)(typescript@6.0.3)
+      '@vibestack/analytics':
+        specifier: workspace:*
+        version: link:../../packages/analytics
+      '@vibestack/api':
+        specifier: workspace:*
+        version: link:../../packages/api
+      '@vibestack/auth':
+        specifier: workspace:*
+        version: link:../../packages/auth
+      '@vibestack/billing':
+        specifier: workspace:*
+        version: link:../../packages/billing
+      '@vibestack/db':
+        specifier: workspace:*
+        version: link:../../packages/db
+      '@vibestack/env':
+        specifier: workspace:*
+        version: link:../../packages/env
+      '@vibestack/storage':
+        specifier: workspace:*
+        version: link:../../packages/storage
+      '@vibestack/ui':
+        specifier: workspace:*
+        version: link:../../packages/ui
       babel-plugin-react-compiler:
         specifier: ^1.0.0
         version: 1.0.0
@@ -492,9 +492,6 @@ importers:
         specifier: 'catalog:'
         version: 4.4.3
     devDependencies:
-      '@starter-saas/config':
-        specifier: workspace:*
-        version: link:../../packages/config
       '@tailwindcss/postcss':
         specifier: 'catalog:'
         version: 4.3.0
@@ -510,6 +507,9 @@ importers:
       '@types/react-dom':
         specifier: 'catalog:'
         version: 19.2.3(@types/react@19.2.14)
+      '@vibestack/config':
+        specifier: workspace:*
+        version: link:../../packages/config
       tailwindcss:
         specifier: 'catalog:'
         version: 4.3.0
@@ -522,7 +522,7 @@ importers:
       '@sentry/nextjs':
         specifier: 'catalog:'
         version: 10.53.1(@opentelemetry/core@2.7.1(@opentelemetry/api@1.9.1))(@opentelemetry/sdk-trace-base@2.7.1(@opentelemetry/api@1.9.1))(next@16.2.6(@opentelemetry/api@1.9.1)(@playwright/test@1.60.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react@19.2.6)(webpack@5.106.2)
-      '@starter-saas/env':
+      '@vibestack/env':
         specifier: workspace:*
         version: link:../env
       next:
@@ -538,12 +538,12 @@ importers:
         specifier: 19.2.6
         version: 19.2.6
     devDependencies:
-      '@starter-saas/config':
-        specifier: workspace:*
-        version: link:../config
       '@types/react':
         specifier: 'catalog:'
         version: 19.2.14
+      '@vibestack/config':
+        specifier: workspace:*
+        version: link:../config
       typescript:
         specifier: 'catalog:'
         version: 6.0.3
@@ -553,24 +553,24 @@ importers:
       '@aws-sdk/client-s3':
         specifier: 'catalog:'
         version: 3.1046.0
-      '@starter-saas/auth':
-        specifier: workspace:*
-        version: link:../auth
-      '@starter-saas/db':
-        specifier: workspace:*
-        version: link:../db
-      '@starter-saas/env':
-        specifier: workspace:*
-        version: link:../env
-      '@starter-saas/storage':
-        specifier: workspace:*
-        version: link:../storage
       '@trpc/client':
         specifier: 'catalog:'
         version: 11.17.0(@trpc/server@11.17.0(typescript@6.0.3))(typescript@6.0.3)
       '@trpc/server':
         specifier: 'catalog:'
         version: 11.17.0(typescript@6.0.3)
+      '@vibestack/auth':
+        specifier: workspace:*
+        version: link:../auth
+      '@vibestack/db':
+        specifier: workspace:*
+        version: link:../db
+      '@vibestack/env':
+        specifier: workspace:*
+        version: link:../env
+      '@vibestack/storage':
+        specifier: workspace:*
+        version: link:../storage
       dotenv:
         specifier: 'catalog:'
         version: 17.4.2
@@ -584,7 +584,7 @@ importers:
         specifier: 'catalog:'
         version: 4.4.3
     devDependencies:
-      '@starter-saas/config':
+      '@vibestack/config':
         specifier: workspace:*
         version: link:../config
       typescript:
@@ -602,16 +602,16 @@ importers:
       '@polar-sh/sdk':
         specifier: 'catalog:'
         version: 0.47.1
-      '@starter-saas/billing':
+      '@vibestack/billing':
         specifier: workspace:*
         version: link:../billing
-      '@starter-saas/db':
+      '@vibestack/db':
         specifier: workspace:*
         version: link:../db
-      '@starter-saas/email':
+      '@vibestack/email':
         specifier: workspace:*
         version: link:../email
-      '@starter-saas/env':
+      '@vibestack/env':
         specifier: workspace:*
         version: link:../env
       better-auth:
@@ -636,7 +636,7 @@ importers:
       '@better-auth/cli':
         specifier: ^1.4.21
         version: 1.4.21(@better-fetch/fetch@1.1.21)(@opentelemetry/api@1.9.1)(better-call@1.3.5(zod@4.4.3))(drizzle-kit@0.31.10)(jose@6.2.3)(kysely@0.28.17)(nanostores@1.3.0)(next@16.2.6(@babel/core@7.29.0)(@opentelemetry/api@1.9.1)(@playwright/test@1.60.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
-      '@starter-saas/config':
+      '@vibestack/config':
         specifier: workspace:*
         version: link:../config
       typescript:
@@ -648,14 +648,14 @@ importers:
       '@polar-sh/sdk':
         specifier: 'catalog:'
         version: 0.47.1
-      '@starter-saas/env':
+      '@vibestack/env':
         specifier: workspace:*
         version: link:../env
       zod:
         specifier: 'catalog:'
         version: 4.4.3
     devDependencies:
-      '@starter-saas/config':
+      '@vibestack/config':
         specifier: workspace:*
         version: link:../config
       typescript:
@@ -666,7 +666,7 @@ importers:
 
   packages/db:
     dependencies:
-      '@starter-saas/env':
+      '@vibestack/env':
         specifier: workspace:*
         version: link:../env
       dotenv:
@@ -682,12 +682,12 @@ importers:
         specifier: 'catalog:'
         version: 4.4.3
     devDependencies:
-      '@starter-saas/config':
-        specifier: workspace:*
-        version: link:../config
       '@types/pg':
         specifier: 'catalog:'
         version: 8.20.0
+      '@vibestack/config':
+        specifier: workspace:*
+        version: link:../config
       drizzle-kit:
         specifier: 'catalog:'
         version: 0.31.10
@@ -703,7 +703,7 @@ importers:
       '@react-email/components':
         specifier: 'catalog:'
         version: 1.0.12(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
-      '@starter-saas/env':
+      '@vibestack/env':
         specifier: workspace:*
         version: link:../env
       react:
@@ -716,12 +716,12 @@ importers:
         specifier: 'catalog:'
         version: 6.12.3(@react-email/render@2.0.8(react-dom@19.2.6(react@19.2.6))(react@19.2.6))
     devDependencies:
-      '@starter-saas/config':
-        specifier: workspace:*
-        version: link:../config
       '@types/react':
         specifier: 'catalog:'
         version: 19.2.14
+      '@vibestack/config':
+        specifier: workspace:*
+        version: link:../config
       react-email:
         specifier: 'catalog:'
         version: 6.1.4(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
@@ -744,19 +744,19 @@ importers:
         specifier: 'catalog:'
         version: 4.4.3
     devDependencies:
-      '@starter-saas/config':
-        specifier: workspace:*
-        version: link:../config
       '@types/node':
         specifier: 'catalog:'
         version: 22.19.19
+      '@vibestack/config':
+        specifier: workspace:*
+        version: link:../config
       typescript:
         specifier: 'catalog:'
         version: 6.0.3
 
   packages/feature-flags:
     dependencies:
-      '@starter-saas/env':
+      '@vibestack/env':
         specifier: workspace:*
         version: link:../env
       posthog-js:
@@ -772,12 +772,12 @@ importers:
         specifier: ^0.0.1
         version: 0.0.1
     devDependencies:
-      '@starter-saas/config':
-        specifier: workspace:*
-        version: link:../config
       '@types/react':
         specifier: 'catalog:'
         version: 19.2.14
+      '@vibestack/config':
+        specifier: workspace:*
+        version: link:../config
       typescript:
         specifier: 'catalog:'
         version: 6.0.3
@@ -788,7 +788,7 @@ importers:
         specifier: 'catalog:'
         version: 4.12.0(next@16.2.6(@opentelemetry/api@1.9.1)(@playwright/test@1.60.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.6(react@19.2.6))(react@19.2.6))(react@19.2.6)(typescript@6.0.3)
     devDependencies:
-      '@starter-saas/config':
+      '@vibestack/config':
         specifier: workspace:*
         version: link:../config
       typescript:
@@ -803,7 +803,7 @@ importers:
       '@aws-sdk/s3-request-presigner':
         specifier: 'catalog:'
         version: 3.1046.0
-      '@starter-saas/env':
+      '@vibestack/env':
         specifier: workspace:*
         version: link:../env
       nanoid:
@@ -813,7 +813,7 @@ importers:
         specifier: 'catalog:'
         version: 4.4.3
     devDependencies:
-      '@starter-saas/config':
+      '@vibestack/config':
         specifier: workspace:*
         version: link:../config
       typescript:
@@ -843,6 +843,9 @@ importers:
       lucide-react:
         specifier: 'catalog:'
         version: 1.16.0(react@19.2.6)
+      motion:
+        specifier: ^12.23.12
+        version: 12.38.0(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
       next-themes:
         specifier: 'catalog:'
         version: 0.4.6(react-dom@19.2.6(react@19.2.6))(react@19.2.6)
@@ -868,15 +871,15 @@ importers:
         specifier: 'catalog:'
         version: 1.4.0
     devDependencies:
-      '@starter-saas/config':
-        specifier: workspace:*
-        version: link:../config
       '@types/react':
         specifier: 'catalog:'
         version: 19.2.14
       '@types/react-dom':
         specifier: 'catalog:'
         version: 19.2.3(@types/react@19.2.14)
+      '@vibestack/config':
+        specifier: workspace:*
+        version: link:../config
       tailwindcss:
         specifier: 'catalog:'
         version: 4.3.0

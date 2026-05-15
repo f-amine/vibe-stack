@@ -1,5 +1,5 @@
 import "server-only";
-import { env } from "@starter-saas/env/server";
+import { env } from "@vibestack/env/server";
 
 // PostHog REST admin API — read + update flag definitions. Only used by the
 // admin app; never exposed to clients. Returns null when configuration is
