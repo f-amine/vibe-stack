@@ -67,7 +67,7 @@ export function UserActionsMenu({ row, currentUserId }: Props) {
 		try {
 			const result = await fn();
 			if (!result.ok) {
-				toast.error(label + " failed", {
+				toast.error(`${label} failed`, {
 					id: toastId,
 					description: result.error ?? "?",
 				});
