@@ -11,12 +11,15 @@
 	},
 	"scripts": {},
 	"dependencies": {
+		"@aws-sdk/client-s3": "catalog:",
 		"@starter-saas/auth": "workspace:*",
 		"@starter-saas/db": "workspace:*",
 		"@starter-saas/env": "workspace:*",
+		"@starter-saas/storage": "workspace:*",
 		"@trpc/client": "catalog:",
 		"@trpc/server": "catalog:",
 		"dotenv": "catalog:",
+		"drizzle-orm": "catalog:",
 		"next": "catalog:",
 		"zod": "catalog:"
 	},
