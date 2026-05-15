@@ -8,6 +8,7 @@ import {
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { AppSidebar } from "@/components/app/app-sidebar";
+import { CommandPalette } from "@/components/app/command-palette";
 import { NotificationBell } from "@/components/app/notification-bell";
 import { hasCompletedOnboarding } from "@/lib/onboarding";
 
@@ -32,11 +33,15 @@ export default async function AppLayout({
 					<SidebarTrigger className="-ml-1" />
 					<Separator orientation="vertical" className="h-4" />
 					<span className="text-muted-foreground text-sm">stack/saas</span>
-					<div className="ml-auto">
+					<div className="ml-auto flex items-center gap-2">
+						<span className="hidden rounded-md border bg-muted px-2 py-0.5 font-mono text-muted-foreground text-xs sm:inline">
+							⌘K to search
+						</span>
 						<NotificationBell />
 					</div>
 				</header>
 				<div className="p-6 sm:p-10">{children}</div>
+				<CommandPalette />
 			</SidebarInset>
 		</SidebarProvider>
 	);
