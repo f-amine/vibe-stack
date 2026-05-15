@@ -324,6 +324,9 @@ importers:
       '@starter-saas/analytics':
         specifier: workspace:*
         version: link:../../packages/analytics
+      '@starter-saas/api':
+        specifier: workspace:*
+        version: link:../../packages/api
       '@starter-saas/env':
         specifier: workspace:*
         version: link:../../packages/env
