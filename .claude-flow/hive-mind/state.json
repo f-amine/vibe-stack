@@ -1,18 +1,18 @@
 {
-  "initialized": true,
-  "topology": "hierarchical-mesh",
-  "workers": [],
-  "consensus": {
-    "pending": [],
-    "history": []
-  },
-  "sharedMemory": {},
-  "createdAt": "2026-05-15T09:50:27.463Z",
-  "updatedAt": "2026-05-15T09:50:27.464Z",
-  "consensusStrategy": "byzantine",
-  "queen": {
-    "agentId": "queen-1778838627463",
-    "electedAt": "2026-05-15T09:50:27.463Z",
-    "term": 1
-  }
+	"initialized": true,
+	"topology": "hierarchical-mesh",
+	"workers": ["hive-worker-1778839528644-3vzt"],
+	"consensus": {
+		"pending": [],
+		"history": []
+	},
+	"sharedMemory": {},
+	"createdAt": "2026-05-15T09:50:27.463Z",
+	"updatedAt": "2026-05-15T10:05:28.644Z",
+	"consensusStrategy": "byzantine",
+	"queen": {
+		"agentId": "queen-1778838627463",
+		"electedAt": "2026-05-15T09:50:27.463Z",
+		"term": 1
+	}
 }
