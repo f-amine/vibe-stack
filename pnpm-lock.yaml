@@ -212,6 +212,9 @@ importers:
       '@starter-saas/env':
         specifier: workspace:*
         version: link:../../packages/env
+      '@starter-saas/feature-flags':
+        specifier: workspace:*
+        version: link:../../packages/feature-flags
       '@starter-saas/i18n':
         specifier: workspace:*
         version: link:../../packages/i18n
@@ -695,6 +698,34 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 22.19.19
+      typescript:
+        specifier: 'catalog:'
+        version: 6.0.3
+
+  packages/feature-flags:
+    dependencies:
+      '@starter-saas/env':
+        specifier: workspace:*
+        version: link:../env
+      posthog-js:
+        specifier: 'catalog:'
+        version: 1.373.4
+      posthog-node:
+        specifier: 'catalog:'
+        version: 5.34.1
+      react:
+        specifier: 19.2.6
+        version: 19.2.6
+      server-only:
+        specifier: ^0.0.1
+        version: 0.0.1
+    devDependencies:
+      '@starter-saas/config':
+        specifier: workspace:*
+        version: link:../config
+      '@types/react':
+        specifier: 'catalog:'
+        version: 19.2.14
       typescript:
         specifier: 'catalog:'
         version: 6.0.3
@@ -6101,6 +6132,9 @@ packages:
   serve-static@2.2.1:
     resolution: {integrity: sha512-xRXBn0pPqQTVQiC8wyQrKs2MOlX24zQ0POGaj0kultvoOCstBQM5yvOhAVSUwOMjQtTvsPWoNCHfPGwaaQJhTw==}
     engines: {node: '>= 18'}
+
+  server-only@0.0.1:
+    resolution: {integrity: sha512-qepMx2JxAa5jjfzxG79yPPq+8BuFToHd1hm7kI+Z4zAq1ftQiP7HcxMhDDItrbtwVeLg/cY2JnKnrcFkmiswNA==}
 
   set-cookie-parser@2.7.2:
     resolution: {integrity: sha512-oeM1lpU/UvhTxw+g3cIfxXHyJRc/uidd3yK1P242gzHds0udQBYzs3y8j4gCCW+ZJ7ad0yctld8RYO+bdurlvw==}
@@ -12036,6 +12070,8 @@ snapshots:
       send: 1.2.1
     transitivePeerDependencies:
       - supports-color
+
+  server-only@0.0.1: {}
 
   set-cookie-parser@2.7.2: {}
 
