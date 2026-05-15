@@ -21,7 +21,9 @@ export const resend = new Proxy({} as Resend, {
 	get(_target, prop) {
 		const r = getResend();
 		const value = (r as unknown as Record<string | symbol, unknown>)[prop];
-		return typeof value === "function" ? (value as () => unknown).bind(r) : value;
+		return typeof value === "function"
+			? (value as () => unknown).bind(r)
+			: value;
 	},
 });
 

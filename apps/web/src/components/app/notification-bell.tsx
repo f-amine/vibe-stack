@@ -5,6 +5,7 @@ import { Button } from "@starter-saas/ui/components/button";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
+	DropdownMenuGroup,
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
@@ -102,21 +103,23 @@ export function NotificationBell() {
 				}
 			/>
 			<DropdownMenuContent align="end" className="w-80">
-				<div className="flex items-center justify-between gap-2 px-1">
-					<DropdownMenuLabel className="font-semibold">
-						Notifications
-					</DropdownMenuLabel>
-					{unread > 0 ? (
-						<Button
-							variant="ghost"
-							size="sm"
-							className="h-7 gap-1 text-xs"
-							onClick={markAllRead}
-						>
-							<CheckCheck className="h-3 w-3" /> Mark all read
-						</Button>
-					) : null}
-				</div>
+				<DropdownMenuGroup>
+					<div className="flex items-center justify-between gap-2 px-1">
+						<DropdownMenuLabel className="font-semibold">
+							Notifications
+						</DropdownMenuLabel>
+						{unread > 0 ? (
+							<Button
+								variant="ghost"
+								size="sm"
+								className="h-7 gap-1 text-xs"
+								onClick={markAllRead}
+							>
+								<CheckCheck className="h-3 w-3" /> Mark all read
+							</Button>
+						) : null}
+					</div>
+				</DropdownMenuGroup>
 				<DropdownMenuSeparator />
 
 				{rows === null ? (

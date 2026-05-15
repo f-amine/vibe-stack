@@ -185,13 +185,22 @@ export async function listUserObjects(
 	opts: { limit?: number } = {},
 ): Promise<UserObject[]> {
 	const prefix = `${userPrefix(ownerId)}/`;
-	const result = await r2.send(
-		new ListObjectsV2Command({
-			Bucket: R2_BUCKET,
-			Prefix: prefix,
-			MaxKeys: opts.limit ?? 200,
-		}),
-	);
+	const result = await r2
+		.send(
+			new ListObjectsV2Command({
+				Bucket: R2_BUCKET,
+				Prefix: prefix,
+				MaxKeys: opts.limit ?? 200,
+			}),
+		)
+		.catch((err: { Code?: string } | undefined) => {
+			// Cloudflare R2 returns NoSuchKey (404) for empty buckets/prefixes
+			// where S3 returns an empty Contents array — treat as "no files".
+			if (err?.Code === "NoSuchKey") {
+				return { Contents: [] };
+			}
+			throw err;
+		});
 	const contents = result.Contents ?? [];
 	return contents
 		.map((o) => ({

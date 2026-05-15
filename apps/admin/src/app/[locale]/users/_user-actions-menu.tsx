@@ -12,6 +12,7 @@ import {
 import {
 	DropdownMenu,
 	DropdownMenuContent,
+	DropdownMenuGroup,
 	DropdownMenuItem,
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
@@ -114,44 +115,49 @@ export function UserActionsMenu({ row, currentUserId }: Props) {
 					}
 				/>
 				<DropdownMenuContent align="end" className="w-56">
-					<DropdownMenuLabel className="truncate">
-						{row.name ?? row.email}
-					</DropdownMenuLabel>
-					<DropdownMenuSeparator />
-					{isAdmin ? (
-						<DropdownMenuItem onClick={onDemote} disabled={pending || isSelf}>
-							<ShieldOff className="mr-2 h-4 w-4" />
-							Demote to user
-						</DropdownMenuItem>
-					) : (
-						<DropdownMenuItem onClick={onPromote} disabled={pending}>
-							<ShieldUser className="mr-2 h-4 w-4" />
-							Promote to admin
-						</DropdownMenuItem>
-					)}
-					<DropdownMenuItem
-						onClick={onImpersonate}
-						disabled={pending || isSelf}
-					>
-						<UserCog className="mr-2 h-4 w-4" />
-						Impersonate
-					</DropdownMenuItem>
-					<DropdownMenuSeparator />
-					{row.banned ? (
-						<DropdownMenuItem onClick={onUnban} disabled={pending}>
-							<CheckCircle2 className="mr-2 h-4 w-4" />
-							Unban
-						</DropdownMenuItem>
-					) : (
+					<DropdownMenuGroup>
+						<DropdownMenuLabel className="truncate">
+							{row.name ?? row.email}
+						</DropdownMenuLabel>
+						<DropdownMenuSeparator />
+						{isAdmin ? (
+							<DropdownMenuItem
+								onClick={onDemote}
+								disabled={pending || isSelf}
+							>
+								<ShieldOff className="mr-2 h-4 w-4" />
+								Demote to user
+							</DropdownMenuItem>
+						) : (
+							<DropdownMenuItem onClick={onPromote} disabled={pending}>
+								<ShieldUser className="mr-2 h-4 w-4" />
+								Promote to admin
+							</DropdownMenuItem>
+						)}
 						<DropdownMenuItem
-							onClick={() => setBanOpen(true)}
+							onClick={onImpersonate}
 							disabled={pending || isSelf}
-							className="text-destructive focus:text-destructive"
 						>
-							<Ban className="mr-2 h-4 w-4" />
-							Ban…
+							<UserCog className="mr-2 h-4 w-4" />
+							Impersonate
 						</DropdownMenuItem>
-					)}
+						<DropdownMenuSeparator />
+						{row.banned ? (
+							<DropdownMenuItem onClick={onUnban} disabled={pending}>
+								<CheckCircle2 className="mr-2 h-4 w-4" />
+								Unban
+							</DropdownMenuItem>
+						) : (
+							<DropdownMenuItem
+								onClick={() => setBanOpen(true)}
+								disabled={pending || isSelf}
+								className="text-destructive focus:text-destructive"
+							>
+								<Ban className="mr-2 h-4 w-4" />
+								Ban…
+							</DropdownMenuItem>
+						)}
+					</DropdownMenuGroup>
 				</DropdownMenuContent>
 			</DropdownMenu>
 
