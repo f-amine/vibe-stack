@@ -17,6 +17,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import { PasswordInput } from "@/components/auth/password-input";
 import { authClient } from "@/lib/auth-client";
 import { formatError } from "@/lib/format-error";
 
@@ -112,8 +113,7 @@ export function SignUpForm() {
 						<FormItem>
 							<FormLabel>Password</FormLabel>
 							<FormControl>
-								<Input
-									type="password"
+								<PasswordInput
 									autoComplete="new-password"
 									placeholder="••••••••"
 									disabled={submitting}

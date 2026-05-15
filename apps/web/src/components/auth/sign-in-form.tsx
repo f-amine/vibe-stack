@@ -16,6 +16,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
+import { PasswordInput } from "@/components/auth/password-input";
 import { authClient } from "@/lib/auth-client";
 
 const schema = z.object({
@@ -107,8 +108,7 @@ export function SignInForm() {
 								</a>
 							</div>
 							<FormControl>
-								<Input
-									type="password"
+								<PasswordInput
 									autoComplete="current-password"
 									placeholder="••••••••"
 									{...field}
