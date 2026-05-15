@@ -11,6 +11,7 @@ import {
 	FormMessage,
 } from "@starter-saas/ui/components/form";
 import { Input } from "@starter-saas/ui/components/input";
+import { KeyRound } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -72,6 +73,23 @@ export function SignInForm() {
 		else toast.success("Check your inbox for a sign-in link");
 	};
 
+	const onPasskey = async () => {
+		// `signIn.passkey()` triggers the WebAuthn browser prompt. If the user
+		// has no registered passkey for this origin, the browser handles the
+		// "no credentials" UI; we surface server-side errors via toast.
+		const result = await authClient.signIn.passkey();
+		if (result?.error) {
+			toast.error("Couldn't sign in with passkey", {
+				description: result.error.message ?? "Try email + password instead",
+			});
+			return;
+		}
+		toast.success("Welcome back");
+		// biome-ignore lint/suspicious/noExplicitAny: dynamic redirect target
+		router.push(next as any);
+		router.refresh();
+	};
+
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4">
@@ -121,6 +139,11 @@ export function SignInForm() {
 
 				<Button type="submit" size="lg" disabled={submitting}>
 					{submitting ? "Signing in…" : "Sign in"}
+				</Button>
+
+				<Button type="button" variant="outline" size="lg" onClick={onPasskey}>
+					<KeyRound className="mr-2 h-4 w-4" />
+					Sign in with passkey
 				</Button>
 
 				<Button

@@ -1,3 +1,4 @@
+import { passkeyClient } from "@better-auth/passkey/client";
 import { polarClient } from "@polar-sh/better-auth";
 import {
 	adminClient,
@@ -14,6 +15,7 @@ export const authClient = createAuthClient({
 		adminClient(),
 		organizationClient(),
 		polarClient(),
+		passkeyClient(),
 	],
 });
 

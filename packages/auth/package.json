@@ -16,6 +16,7 @@
 		"generate": "npx -y @better-auth/cli@latest generate --output ../db/src/schema/auth.ts --config ./src/index.ts -y"
 	},
 	"dependencies": {
+		"@better-auth/passkey": "catalog:",
 		"@polar-sh/better-auth": "catalog:",
 		"@polar-sh/sdk": "catalog:",
 		"@starter-saas/billing": "workspace:*",

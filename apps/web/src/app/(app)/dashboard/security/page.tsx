@@ -24,6 +24,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { GdprSection } from "@/components/app/gdpr-section";
 import { PageHeader } from "@/components/app/page-header";
+import { PasskeySection } from "@/components/app/passkey-section";
 import { authClient } from "@/lib/auth-client";
 
 type SessionRow = {
@@ -104,6 +105,8 @@ export default function SecurityPage() {
 						/>
 					</CardContent>
 				</Card>
+
+				<PasskeySection />
 
 				<Card>
 					<CardHeader>
