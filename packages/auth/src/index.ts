@@ -12,6 +12,7 @@ import { admin, magicLink, organization, twoFactor } from "better-auth/plugins";
 // import { passkey } from "better-auth/plugins/passkey";
 
 import { ac, admin as adminRole, member, owner } from "./lib/permissions";
+import { createRedisSecondaryStorage } from "./lib/redis";
 import {
 	sendMagicLink,
 	sendOrgInvite,
@@ -22,12 +23,18 @@ import { maybeSendWelcomeOnVerify } from "./lib/welcome";
 
 export function createAuth() {
 	const db = createDb();
+	const secondaryStorage = createRedisSecondaryStorage();
 
 	return betterAuth({
 		database: drizzleAdapter(db, {
 			provider: "pg",
 			schema,
 		}),
+		// When REDIS_URL is set, Better Auth uses Redis for sessions
+		// (optional) and rate-limit counters (see `rateLimit.storage` below).
+		// When unset, falls back to the in-memory store — fine for dev,
+		// not safe across multiple replicas in prod.
+		...(secondaryStorage ? { secondaryStorage } : {}),
 		appName: "starter-saas",
 		trustedOrigins: [env.CORS_ORIGIN, env.APP_URL],
 		secret: env.BETTER_AUTH_SECRET,
@@ -80,6 +87,10 @@ export function createAuth() {
 			enabled: true,
 			window: 60,
 			max: 100,
+			// Route counters through Redis when configured so the limit is
+			// shared across replicas + survives restarts. Without Redis the
+			// in-memory default still applies per-process.
+			...(secondaryStorage ? { storage: "secondary-storage" as const } : {}),
 		},
 
 		plugins: [
