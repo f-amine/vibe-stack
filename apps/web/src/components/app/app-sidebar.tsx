@@ -24,6 +24,7 @@ import {
 import {
 	CreditCard,
 	FolderOpen,
+	KeyRound,
 	LayoutDashboard,
 	LogOut,
 	Palette,
@@ -51,6 +52,7 @@ const groups = [
 			{ href: "/dashboard/billing", label: "Billing", icon: CreditCard },
 			{ href: "/dashboard/appearance", label: "Appearance", icon: Palette },
 			{ href: "/dashboard/security", label: "Security", icon: Shield },
+			{ href: "/dashboard/api-keys", label: "API keys", icon: KeyRound },
 		],
 	},
 ] as const;
