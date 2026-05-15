@@ -43,6 +43,7 @@ catalog:
   fumadocs-core: ^16.8.11
   fumadocs-mdx: ^15.0.4
   fumadocs-ui: ^16.8.11
+  "@vercel/og": ^0.11.1
   "@biomejs/biome": ^2.4.15
   turbo: ^2.9.12
   "@types/node": ^22.10.10

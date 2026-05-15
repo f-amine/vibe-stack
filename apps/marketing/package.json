@@ -17,6 +17,7 @@
 		"@starter-saas/env": "workspace:*",
 		"@starter-saas/i18n": "workspace:*",
 		"@starter-saas/ui": "workspace:*",
+		"@vercel/og": "catalog:",
 		"fumadocs-core": "catalog:",
 		"fumadocs-mdx": "catalog:",
 		"fumadocs-ui": "catalog:",
