@@ -13,7 +13,7 @@ import {
 } from "@starter-saas/db/schema/affiliate";
 import { auditLog } from "@starter-saas/db/schema/audit";
 import { env } from "@starter-saas/env/server";
-import { and, count, desc, eq } from "drizzle-orm";
+import { and, count, desc, eq, inArray } from "drizzle-orm";
 
 export const AFFILIATE_COOKIE_NAME = "aff_ref";
 export const DEFAULT_PAYOUT_MIN_CENTS = 2500;
@@ -253,38 +253,26 @@ export async function topReferrers(limit = 100) {
 	if (rows.length === 0) {
 		return [];
 	}
+	const ids = rows.map((r) => r.affiliateId);
 	const affRows = await db
-		.select()
+		.select({
+			id: affiliate.id,
+			userId: affiliate.userId,
+			code: affiliate.code,
+		})
 		.from(affiliate)
-		.where(
-			and(
-				...rows
-					.slice(0, 1) // satisfy and() arity
-					.map((r) => eq(affiliate.id, r.affiliateId)),
-			),
-		);
-	// One-by-one lookup avoids `inArray` collisions with `text` arrays.
-	const enriched: Array<{
-		affiliateId: string;
-		userId: string;
-		code: string;
-		signups: number;
-	}> = [];
-	for (const row of rows) {
-		const [aff] = await db
-			.select()
-			.from(affiliate)
-			.where(eq(affiliate.id, row.affiliateId))
-			.limit(1);
-		if (aff) {
-			enriched.push({
+		.where(inArray(affiliate.id, ids));
+	const byId = new Map(affRows.map((a) => [a.id, a]));
+	return rows.flatMap((row) => {
+		const aff = byId.get(row.affiliateId);
+		if (!aff) return [];
+		return [
+			{
 				affiliateId: aff.id,
 				userId: aff.userId,
 				code: aff.code,
 				signups: Number(row.signups),
-			});
-		}
-	}
-	void affRows;
-	return enriched;
+			},
+		];
+	});
 }

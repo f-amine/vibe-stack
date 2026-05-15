@@ -154,28 +154,33 @@ export async function purgeExpiredDeletions(): Promise<{ purged: number }> {
 		.select()
 		.from(accountDeletion)
 		.where(lt(accountDeletion.scheduledAt, now));
-	let purged = 0;
-	for (const row of rows) {
-		if (row.canceledAt || row.purgedAt) {
-			continue;
-		}
-		await db.delete(userTable).where(eq(userTable.id, row.userId));
-		await db
-			.update(accountDeletion)
-			.set({ purgedAt: new Date() })
-			.where(eq(accountDeletion.id, row.id));
-		await db
-			.insert(auditLog)
-			.values({
-				id: randomUUID(),
-				actorUserId: null,
-				action: "gdpr.deletion.purged",
-				targetType: "user",
-				targetId: row.userId,
-				metadata: { scheduledAt: row.scheduledAt.toISOString() },
-			})
-			.onConflictDoNothing();
-		purged++;
-	}
-	return { purged };
+	const due = rows.filter((row) => !row.canceledAt && !row.purgedAt);
+	const purgedAt = new Date();
+	const results = await Promise.allSettled(
+		due.map(async (row) => {
+			// Mark + audit before delete so the audit row references the user
+			// id while the user still exists; the FK cascade on accountDeletion
+			// also wipes our marked row after the user delete commits, which is
+			// fine — pendingDeletion checks for the row's absence too.
+			await Promise.all([
+				db
+					.update(accountDeletion)
+					.set({ purgedAt })
+					.where(eq(accountDeletion.id, row.id)),
+				db
+					.insert(auditLog)
+					.values({
+						id: randomUUID(),
+						actorUserId: null,
+						action: "gdpr.deletion.purged",
+						targetType: "user",
+						targetId: row.userId,
+						metadata: { scheduledAt: row.scheduledAt.toISOString() },
+					})
+					.onConflictDoNothing(),
+			]);
+			await db.delete(userTable).where(eq(userTable.id, row.userId));
+		}),
+	);
+	return { purged: results.filter((r) => r.status === "fulfilled").length };
 }

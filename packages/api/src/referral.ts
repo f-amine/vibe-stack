@@ -79,33 +79,36 @@ export async function recordAcceptance(input: {
 				eq(referral.status, "pending"),
 			),
 		);
-	let matched = 0;
-	for (const row of rows) {
-		await db
-			.update(referral)
-			.set({
-				status: "accepted",
-				referredUserId: input.newUserId,
-				acceptedAt: new Date(),
-			})
-			.where(eq(referral.id, row.id));
-		await db
-			.insert(auditLog)
-			.values({
-				id: randomUUID(),
-				actorUserId: input.newUserId,
-				action: "referral.accepted",
-				targetType: "referral",
-				targetId: row.id,
-				metadata: {
-					referrerUserId: row.referrerUserId,
-					rewardCents: row.rewardCents,
-				},
-			})
-			.onConflictDoNothing();
-		matched++;
-	}
-	return { matched };
+	const acceptedAt = new Date();
+	const results = await Promise.allSettled(
+		rows.map((row) =>
+			Promise.all([
+				db
+					.update(referral)
+					.set({
+						status: "accepted",
+						referredUserId: input.newUserId,
+						acceptedAt,
+					})
+					.where(eq(referral.id, row.id)),
+				db
+					.insert(auditLog)
+					.values({
+						id: randomUUID(),
+						actorUserId: input.newUserId,
+						action: "referral.accepted",
+						targetType: "referral",
+						targetId: row.id,
+						metadata: {
+							referrerUserId: row.referrerUserId,
+							rewardCents: row.rewardCents,
+						},
+					})
+					.onConflictDoNothing(),
+			]),
+		),
+	);
+	return { matched: results.filter((r) => r.status === "fulfilled").length };
 }
 
 export async function pendingReward(userId: string): Promise<number> {
