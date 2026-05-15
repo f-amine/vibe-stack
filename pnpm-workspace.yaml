@@ -46,3 +46,7 @@ catalog:
   "@biomejs/biome": ^2.4.15
   turbo: ^2.9.12
   "@types/node": ^22.10.10
+  "@google/genai": ^2.3.0
+  sharp: ^0.34.5
+  mri: ^1.2.0
+  tsx: ^4.22.0
