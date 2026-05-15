@@ -4,11 +4,11 @@
 
 import "server-only";
 import { randomUUID } from "node:crypto";
-import { db } from "@starter-saas/db";
-import { auditLog } from "@starter-saas/db/schema/audit";
-import { user as userTable } from "@starter-saas/db/schema/auth";
-import { referral } from "@starter-saas/db/schema/referral";
-import { env } from "@starter-saas/env/server";
+import { db } from "@vibestack/db";
+import { auditLog } from "@vibestack/db/schema/audit";
+import { user as userTable } from "@vibestack/db/schema/auth";
+import { referral } from "@vibestack/db/schema/referral";
+import { env } from "@vibestack/env/server";
 import { and, count, eq, gte } from "drizzle-orm";
 
 const ONE_MONTH_MS = 30 * 24 * 60 * 60 * 1000;

@@ -20,7 +20,7 @@ export const env = createEnv({
 		NEXT_PUBLIC_SENTRY_DSN: z.string().optional(),
 
 		// Branding
-		NEXT_PUBLIC_BRAND_NAME: z.string().default("stack/saas"),
+		NEXT_PUBLIC_BRAND_NAME: z.string().default("vibestack"),
 		NEXT_PUBLIC_SUPPORT_EMAIL: z.string().optional(),
 	},
 	runtimeEnv: {

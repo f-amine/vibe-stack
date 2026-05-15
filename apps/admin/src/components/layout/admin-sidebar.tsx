@@ -1,7 +1,7 @@
 "use client";
 
-import { Avatar, AvatarFallback } from "@starter-saas/ui/components/avatar";
-import { Badge } from "@starter-saas/ui/components/badge";
+import { Avatar, AvatarFallback } from "@vibestack/ui/components/avatar";
+import { Badge } from "@vibestack/ui/components/badge";
 import {
 	Sidebar,
 	SidebarContent,
@@ -13,7 +13,7 @@ import {
 	SidebarMenu,
 	SidebarMenuButton,
 	SidebarMenuItem,
-} from "@starter-saas/ui/components/sidebar";
+} from "@vibestack/ui/components/sidebar";
 import {
 	BarChart3,
 	Building2,
@@ -61,7 +61,7 @@ export function AdminSidebar({ user }: Props) {
 						A
 					</span>
 					<span className="group-data-[collapsible=icon]:hidden">
-						Admin · stack/saas
+						Admin · vibestack
 					</span>
 					<Badge
 						variant="secondary"

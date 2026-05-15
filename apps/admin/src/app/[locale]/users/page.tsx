@@ -1,16 +1,16 @@
-import { db } from "@starter-saas/db";
-import { user } from "@starter-saas/db/schema/auth";
-import { Avatar, AvatarFallback } from "@starter-saas/ui/components/avatar";
-import { Badge } from "@starter-saas/ui/components/badge";
-import { Button } from "@starter-saas/ui/components/button";
+import { db } from "@vibestack/db";
+import { user } from "@vibestack/db/schema/auth";
+import { Avatar, AvatarFallback } from "@vibestack/ui/components/avatar";
+import { Badge } from "@vibestack/ui/components/badge";
+import { Button } from "@vibestack/ui/components/button";
 import {
 	Card,
 	CardContent,
 	CardHeader,
 	CardTitle,
-} from "@starter-saas/ui/components/card";
-import { EmptyState } from "@starter-saas/ui/components/empty-state";
-import { Input } from "@starter-saas/ui/components/input";
+} from "@vibestack/ui/components/card";
+import { EmptyState } from "@vibestack/ui/components/empty-state";
+import { Input } from "@vibestack/ui/components/input";
 import {
 	Table,
 	TableBody,
@@ -18,7 +18,7 @@ import {
 	TableHead,
 	TableHeader,
 	TableRow,
-} from "@starter-saas/ui/components/table";
+} from "@vibestack/ui/components/table";
 import { desc } from "drizzle-orm";
 import { Search } from "lucide-react";
 import { PageHeader } from "@/components/layout/page-header";

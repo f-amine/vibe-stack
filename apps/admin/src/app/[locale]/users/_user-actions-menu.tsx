@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@starter-saas/ui/components/button";
+import { Button } from "@vibestack/ui/components/button";
 import {
 	Dialog,
 	DialogContent,
@@ -8,7 +8,7 @@ import {
 	DialogFooter,
 	DialogHeader,
 	DialogTitle,
-} from "@starter-saas/ui/components/dialog";
+} from "@vibestack/ui/components/dialog";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -17,9 +17,9 @@ import {
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from "@starter-saas/ui/components/dropdown-menu";
-import { Input } from "@starter-saas/ui/components/input";
-import { Label } from "@starter-saas/ui/components/label";
+} from "@vibestack/ui/components/dropdown-menu";
+import { Input } from "@vibestack/ui/components/input";
+import { Label } from "@vibestack/ui/components/label";
 import {
 	Ban,
 	CheckCircle2,

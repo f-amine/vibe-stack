@@ -33,7 +33,7 @@ Backlog item #36 tracks re-enabling it cleanly.
 
 ## RP configuration
 
-- `rpName`: `"starter-saas"` (cloned projects can rename this in
+- `rpName`: `"vibestack"` (cloned projects can rename this in
   `packages/auth/src/index.ts`).
 - `rpID`: derived from `env.APP_URL` host at runtime.
 - `origin`: `env.APP_URL`.

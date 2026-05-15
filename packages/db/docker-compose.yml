@@ -2,20 +2,20 @@
 # both postgres + redis for dev. Kept as a fallback if you only need Postgres.
 # Run: docker compose -f packages/db/docker-compose.yml up -d
 
-name: starter-saas
+name: vibestack
 
 services:
   postgres:
     image: postgres:17-alpine
-    container_name: starter-saas-postgres
+    container_name: vibestack-postgres
     environment:
-      POSTGRES_DB: starter-saas
+      POSTGRES_DB: vibestack
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
     ports:
       - "5432:5432"
     volumes:
-      - starter-saas_postgres_data:/var/lib/postgresql/data
+      - vibestack_postgres_data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
@@ -24,4 +24,4 @@ services:
     restart: unless-stopped
 
 volumes:
-  starter-saas_postgres_data:
+  vibestack_postgres_data:

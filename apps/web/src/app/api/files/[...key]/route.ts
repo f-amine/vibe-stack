@@ -1,10 +1,10 @@
-import { auth } from "@starter-saas/auth";
+import { auth } from "@vibestack/auth";
 import {
 	deleteUserObject,
 	presignUserDownload,
 	UploadValidationError,
 	userObjectExists,
-} from "@starter-saas/storage/upload";
+} from "@vibestack/storage/upload";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 

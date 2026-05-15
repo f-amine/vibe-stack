@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@starter-saas/ui/lib/utils";
+import { cn } from "@vibestack/ui/lib/utils";
 import { CloudUpload, FileText, Loader2 } from "lucide-react";
 import * as React from "react";
 

@@ -1,10 +1,10 @@
 {
-	"extends": "@starter-saas/config/tsconfig.base.json",
+	"extends": "@vibestack/config/tsconfig.base.json",
 	"compilerOptions": {
 		"jsx": "react-jsx",
 		"lib": ["ESNext", "DOM", "DOM.Iterable"],
 		"paths": {
-			"@starter-saas/analytics/*": ["./src/*"]
+			"@vibestack/analytics/*": ["./src/*"]
 		}
 	},
 	"include": ["src/**/*.ts", "src/**/*.tsx"],

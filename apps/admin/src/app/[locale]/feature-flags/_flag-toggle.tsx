@@ -1,6 +1,6 @@
 "use client";
 
-import { Switch } from "@starter-saas/ui/components/switch";
+import { Switch } from "@vibestack/ui/components/switch";
 import * as React from "react";
 import { toast } from "sonner";
 

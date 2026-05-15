@@ -1,12 +1,12 @@
-import { Badge } from "@starter-saas/ui/components/badge";
+import { Badge } from "@vibestack/ui/components/badge";
 import {
 	Card,
 	CardContent,
 	CardDescription,
 	CardHeader,
 	CardTitle,
-} from "@starter-saas/ui/components/card";
-import { EmptyState } from "@starter-saas/ui/components/empty-state";
+} from "@vibestack/ui/components/card";
+import { EmptyState } from "@vibestack/ui/components/empty-state";
 import {
 	Table,
 	TableBody,
@@ -14,7 +14,7 @@ import {
 	TableHead,
 	TableHeader,
 	TableRow,
-} from "@starter-saas/ui/components/table";
+} from "@vibestack/ui/components/table";
 import { GrowthArea } from "@/components/charts/area-chart";
 import { CountBar } from "@/components/charts/bar-chart";
 import { PageHeader } from "@/components/layout/page-header";

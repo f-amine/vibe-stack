@@ -1,7 +1,7 @@
-import { Button } from "@starter-saas/ui/components/button";
-import { Input } from "@starter-saas/ui/components/input";
-import { Label } from "@starter-saas/ui/components/label";
 import { useForm } from "@tanstack/react-form";
+import { Button } from "@vibestack/ui/components/button";
+import { Input } from "@vibestack/ui/components/input";
+import { Label } from "@vibestack/ui/components/label";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import z from "zod";

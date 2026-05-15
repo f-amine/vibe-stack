@@ -1,25 +1,25 @@
 "use client";
 
-import { Avatar, AvatarFallback } from "@starter-saas/ui/components/avatar";
-import { Badge } from "@starter-saas/ui/components/badge";
-import { Button, buttonVariants } from "@starter-saas/ui/components/button";
+import { Avatar, AvatarFallback } from "@vibestack/ui/components/avatar";
+import { Badge } from "@vibestack/ui/components/badge";
+import { Button, buttonVariants } from "@vibestack/ui/components/button";
 import {
 	Card,
 	CardContent,
 	CardHeader,
 	CardTitle,
-} from "@starter-saas/ui/components/card";
-import { EmptyState } from "@starter-saas/ui/components/empty-state";
-import { Input } from "@starter-saas/ui/components/input";
-import { Label } from "@starter-saas/ui/components/label";
+} from "@vibestack/ui/components/card";
+import { EmptyState } from "@vibestack/ui/components/empty-state";
+import { Input } from "@vibestack/ui/components/input";
+import { Label } from "@vibestack/ui/components/label";
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "@starter-saas/ui/components/select";
-import { Skeleton } from "@starter-saas/ui/components/skeleton";
+} from "@vibestack/ui/components/select";
+import { Skeleton } from "@vibestack/ui/components/skeleton";
 import { Trash2 } from "lucide-react";
 import Link from "next/link";
 import { use, useEffect, useState } from "react";

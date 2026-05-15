@@ -1,7 +1,7 @@
 // Cron-friendly endpoint to purge users past their grace window.
 
-import { purgeExpiredDeletions } from "@starter-saas/api/gdpr";
-import { env } from "@starter-saas/env/server";
+import { purgeExpiredDeletions } from "@vibestack/api/gdpr";
+import { env } from "@vibestack/env/server";
 import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";

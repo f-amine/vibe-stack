@@ -1,5 +1,5 @@
 {
-	"name": "@starter-saas/analytics",
+	"name": "@vibestack/analytics",
 	"version": "0.0.0",
 	"private": true,
 	"type": "module",
@@ -14,14 +14,14 @@
 	},
 	"dependencies": {
 		"@sentry/nextjs": "catalog:",
-		"@starter-saas/env": "workspace:*",
+		"@vibestack/env": "workspace:*",
 		"next": "catalog:",
 		"posthog-js": "catalog:",
 		"posthog-node": "catalog:",
 		"react": "catalog:"
 	},
 	"devDependencies": {
-		"@starter-saas/config": "workspace:*",
+		"@vibestack/config": "workspace:*",
 		"@types/react": "catalog:",
 		"typescript": "catalog:"
 	}

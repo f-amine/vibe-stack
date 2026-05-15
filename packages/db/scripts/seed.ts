@@ -16,9 +16,9 @@
  * the dashboards.
  */
 
-import { auditLog } from "@starter-saas/db/schema/audit";
-import { member, organization, user } from "@starter-saas/db/schema/auth";
-import { polarCustomer, subscription } from "@starter-saas/db/schema/billing";
+import { auditLog } from "@vibestack/db/schema/audit";
+import { member, organization, user } from "@vibestack/db/schema/auth";
+import { polarCustomer, subscription } from "@vibestack/db/schema/billing";
 import { count, eq, sql } from "drizzle-orm";
 
 import { db } from "../src/index";

@@ -1,5 +1,5 @@
-import { byUser, requestPayout } from "@starter-saas/api/affiliate";
-import { auth } from "@starter-saas/auth";
+import { byUser, requestPayout } from "@vibestack/api/affiliate";
+import { auth } from "@vibestack/auth";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { z } from "zod";

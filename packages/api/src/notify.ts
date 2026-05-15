@@ -1,11 +1,11 @@
 // Server-side notification helper. Writes a row to `notification` and,
-// optionally, queues an email via `@starter-saas/email`. Designed to be
+// optionally, queues an email via `@vibestack/email`. Designed to be
 // safe in `noStore()` server actions: never throws.
 
 import "server-only";
 import { randomUUID } from "node:crypto";
-import { db } from "@starter-saas/db";
-import { notification } from "@starter-saas/db/schema/notification";
+import { db } from "@vibestack/db";
+import { notification } from "@vibestack/db/schema/notification";
 
 export type NotificationKind =
 	| "system"

@@ -1,4 +1,4 @@
-import { logClick } from "@starter-saas/api/affiliate";
+import { logClick } from "@vibestack/api/affiliate";
 import { NextResponse } from "next/server";
 
 export const runtime = "nodejs";

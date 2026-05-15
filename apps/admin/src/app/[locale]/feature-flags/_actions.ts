@@ -2,9 +2,9 @@
 
 import "server-only";
 import { randomUUID } from "node:crypto";
-import { db } from "@starter-saas/db";
-import { auditLog } from "@starter-saas/db/schema/audit";
-import { toggleFlag } from "@starter-saas/feature-flags/admin";
+import { db } from "@vibestack/db";
+import { auditLog } from "@vibestack/db/schema/audit";
+import { toggleFlag } from "@vibestack/feature-flags/admin";
 import { revalidatePath } from "next/cache";
 
 import { requireAdmin } from "@/lib/require-admin";

@@ -1,11 +1,12 @@
-import { GoogleAnalytics } from "@starter-saas/analytics/ga";
+import { GoogleAnalytics } from "@vibestack/analytics/ga";
+import type { Metadata } from "next";
 import { Fraunces, Geist, JetBrains_Mono } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
 import { ThemeProvider } from "next-themes";
 import type { ReactNode } from "react";
 import { Toaster } from "sonner";
-import { ogMetadata } from "@/lib/og";
+import { ogMetadata, siteBase } from "@/lib/og";
 import "../globals.css";
 
 const fraunces = Fraunces({
@@ -26,17 +27,33 @@ const jetbrainsMono = JetBrains_Mono({
 	display: "swap",
 });
 
-const SITE_TITLE = "stack/saas — Ship the interesting part. We wired the rest.";
+const SITE_TITLE = "vibestack — The SaaS starter where Claude writes the rest.";
 const SITE_DESCRIPTION =
-	"A pre-wired SaaS starter: auth, billing, email, storage, analytics, admin, AI workflow. Ship features, not plumbing.";
+	"Opinionated, AI-first SaaS starter. Stack pre-wired, Claude Code skills vendored in the repo. For devs and vibe-coders. Bring the business logic, skip the plumbing.";
 
-export const metadata = {
+const SITE_BASE = siteBase();
+
+export const metadata: Metadata = {
+	metadataBase: new URL(SITE_BASE),
 	title: SITE_TITLE,
 	description: SITE_DESCRIPTION,
+	alternates: {
+		canonical: "/",
+		languages: {
+			en: `${SITE_BASE}/`,
+			fr: `${SITE_BASE}/fr`,
+		},
+		types: {
+			"application/atom+xml": [
+				{ url: "/blog/feed.xml", title: "vibestack journal" },
+			],
+		},
+	},
 	...ogMetadata({
-		title: "Ship the interesting part.",
-		subtitle: "Auth, billing, email, storage, analytics — all pre-wired.",
-		eyebrow: "stack/saas",
+		title: "Claude writes the rest.",
+		subtitle:
+			"Auth, billing, email, storage, deploy, pre-wired. Skills vendored.",
+		eyebrow: "vibestack",
 	}),
 };
 

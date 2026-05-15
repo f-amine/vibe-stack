@@ -4,7 +4,7 @@ import type { NextRequest } from "next/server";
 import { OG_DIMENSIONS } from "@/lib/og";
 
 export const runtime = "edge";
-export const dynamic = "force-dynamic";
+export const revalidate = 86400;
 
 const ACCENT = "#facc15"; // matches --marketing-accent
 const BG = "#0a0a0a";
@@ -22,14 +22,15 @@ function clamp(value: string, max: number): string {
 export function GET(request: NextRequest) {
 	const { searchParams } = new URL(request.url);
 	const title = clamp(
-		searchParams.get("title") ?? "stack/saas — ship the interesting part.",
+		searchParams.get("title") ?? "vibestack — where Claude writes the rest.",
 		90,
 	);
 	const subtitle = clamp(
-		searchParams.get("subtitle") ?? "The boring parts are pre-wired.",
+		searchParams.get("subtitle") ??
+			"The AI-first SaaS starter. Stack pre-wired, skills vendored.",
 		140,
 	);
-	const eyebrow = clamp(searchParams.get("eyebrow") ?? "stack/saas", 40);
+	const eyebrow = clamp(searchParams.get("eyebrow") ?? "vibestack", 40);
 
 	return new ImageResponse(
 		<div
@@ -190,7 +191,7 @@ export function GET(request: NextRequest) {
 							background: ACCENT,
 						}}
 					/>
-					<div style={{ display: "flex" }}>stack/saas</div>
+					<div style={{ display: "flex" }}>vibestack</div>
 				</div>
 			</div>
 		</div>,

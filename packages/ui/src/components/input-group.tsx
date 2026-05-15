@@ -1,9 +1,9 @@
 "use client";
 
-import { Button } from "@starter-saas/ui/components/button";
-import { Input } from "@starter-saas/ui/components/input";
-import { Textarea } from "@starter-saas/ui/components/textarea";
-import { cn } from "@starter-saas/ui/lib/utils";
+import { Button } from "@vibestack/ui/components/button";
+import { Input } from "@vibestack/ui/components/input";
+import { Textarea } from "@vibestack/ui/components/textarea";
+import { cn } from "@vibestack/ui/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import type * as React from "react";
 

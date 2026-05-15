@@ -5,12 +5,12 @@
 services:
   postgres:
     image: postgres:17-alpine
-    container_name: starter-saas-postgres
+    container_name: vibestack-postgres
     restart: unless-stopped
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-password}
-      POSTGRES_DB: ${POSTGRES_DB:-starter-saas}
+      POSTGRES_DB: ${POSTGRES_DB:-vibestack}
     volumes:
       - pgdata:/var/lib/postgresql/data
     ports:
@@ -23,7 +23,7 @@ services:
 
   redis:
     image: redis:7-alpine
-    container_name: starter-saas-redis
+    container_name: vibestack-redis
     restart: unless-stopped
     command: redis-server --appendonly yes
     volumes:

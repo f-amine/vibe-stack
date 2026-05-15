@@ -4,11 +4,11 @@
 
 import "server-only";
 import { createHmac, randomBytes, randomUUID } from "node:crypto";
-import { db } from "@starter-saas/db";
+import { db } from "@vibestack/db";
 import {
 	userWebhook,
 	webhookDelivery,
-} from "@starter-saas/db/schema/user-webhook";
+} from "@vibestack/db/schema/user-webhook";
 import { and, eq, inArray, lt, or } from "drizzle-orm";
 
 export const WEBHOOK_TIMEOUT_MS = 10_000;
@@ -103,8 +103,8 @@ async function send(
 			method: "POST",
 			headers: {
 				"content-type": "application/json",
-				"x-starter-saas-event": event,
-				"x-starter-saas-signature": signature,
+				"x-vibestack-event": event,
+				"x-vibestack-signature": signature,
 			},
 			body,
 			signal: controller.signal,

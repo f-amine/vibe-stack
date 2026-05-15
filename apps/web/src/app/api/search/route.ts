@@ -1,5 +1,5 @@
-import { search } from "@starter-saas/api/search";
-import { auth } from "@starter-saas/auth";
+import { search } from "@vibestack/api/search";
+import { auth } from "@vibestack/auth";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 

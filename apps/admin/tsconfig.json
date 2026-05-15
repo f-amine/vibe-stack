@@ -1,5 +1,5 @@
 {
-	"extends": "@starter-saas/config/tsconfig.base.json",
+	"extends": "@vibestack/config/tsconfig.base.json",
 	"compilerOptions": {
 		"jsx": "preserve",
 		"target": "ES2022",

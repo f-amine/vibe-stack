@@ -2,9 +2,9 @@
 
 import "server-only";
 import { randomUUID } from "node:crypto";
-import { auth } from "@starter-saas/auth";
-import { db } from "@starter-saas/db";
-import { auditLog } from "@starter-saas/db/schema/audit";
+import { auth } from "@vibestack/auth";
+import { db } from "@vibestack/db";
+import { auditLog } from "@vibestack/db/schema/audit";
 import { and, eq } from "drizzle-orm";
 import { headers } from "next/headers";
 

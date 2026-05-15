@@ -4,15 +4,15 @@ import {
 	Alert,
 	AlertDescription,
 	AlertTitle,
-} from "@starter-saas/ui/components/alert";
-import { Button } from "@starter-saas/ui/components/button";
+} from "@vibestack/ui/components/alert";
+import { Button } from "@vibestack/ui/components/button";
 import {
 	Card,
 	CardContent,
 	CardDescription,
 	CardHeader,
 	CardTitle,
-} from "@starter-saas/ui/components/card";
+} from "@vibestack/ui/components/card";
 import {
 	Dialog,
 	DialogContent,
@@ -20,9 +20,9 @@ import {
 	DialogFooter,
 	DialogHeader,
 	DialogTitle,
-} from "@starter-saas/ui/components/dialog";
-import { Input } from "@starter-saas/ui/components/input";
-import { Label } from "@starter-saas/ui/components/label";
+} from "@vibestack/ui/components/dialog";
+import { Input } from "@vibestack/ui/components/input";
+import { Label } from "@vibestack/ui/components/label";
 import { AlertCircle, Download, Trash2 } from "lucide-react";
 import * as React from "react";
 import { toast } from "sonner";

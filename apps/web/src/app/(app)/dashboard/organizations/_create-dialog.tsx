@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@starter-saas/ui/components/button";
+import { Button } from "@vibestack/ui/components/button";
 import {
 	Dialog,
 	DialogContent,
@@ -8,9 +8,9 @@ import {
 	DialogFooter,
 	DialogHeader,
 	DialogTitle,
-} from "@starter-saas/ui/components/dialog";
-import { Input } from "@starter-saas/ui/components/input";
-import { Label } from "@starter-saas/ui/components/label";
+} from "@vibestack/ui/components/dialog";
+import { Input } from "@vibestack/ui/components/input";
+import { Label } from "@vibestack/ui/components/label";
 import * as React from "react";
 import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";

@@ -1,10 +1,10 @@
-import { sendEmail } from "@starter-saas/email/client";
-import MagicLink from "@starter-saas/email/templates/magic-link";
-import OrgInvite from "@starter-saas/email/templates/org-invite";
-import PasswordReset from "@starter-saas/email/templates/password-reset";
-import VerifyEmail from "@starter-saas/email/templates/verify-email";
-import Welcome from "@starter-saas/email/templates/welcome";
-import { env } from "@starter-saas/env/server";
+import { sendEmail } from "@vibestack/email/client";
+import MagicLink from "@vibestack/email/templates/magic-link";
+import OrgInvite from "@vibestack/email/templates/org-invite";
+import PasswordReset from "@vibestack/email/templates/password-reset";
+import VerifyEmail from "@vibestack/email/templates/verify-email";
+import Welcome from "@vibestack/email/templates/welcome";
+import { env } from "@vibestack/env/server";
 
 export async function sendVerify(opts: {
 	to: string;

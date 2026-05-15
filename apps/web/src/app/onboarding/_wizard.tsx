@@ -4,8 +4,8 @@ import {
 	Avatar,
 	AvatarFallback,
 	AvatarImage,
-} from "@starter-saas/ui/components/avatar";
-import { Button, buttonVariants } from "@starter-saas/ui/components/button";
+} from "@vibestack/ui/components/avatar";
+import { Button, buttonVariants } from "@vibestack/ui/components/button";
 import {
 	Card,
 	CardContent,
@@ -13,9 +13,9 @@ import {
 	CardFooter,
 	CardHeader,
 	CardTitle,
-} from "@starter-saas/ui/components/card";
-import { Input } from "@starter-saas/ui/components/input";
-import { Label } from "@starter-saas/ui/components/label";
+} from "@vibestack/ui/components/card";
+import { Input } from "@vibestack/ui/components/input";
+import { Label } from "@vibestack/ui/components/label";
 import { ArrowRight, CheckCircle2 } from "lucide-react";
 import Link from "next/link";
 import * as React from "react";
@@ -53,18 +53,18 @@ function StepDots({ active }: { active: StepKey }) {
 					<li key={s.key} className="flex items-center gap-3">
 						<span
 							aria-current={isActive ? "step" : undefined}
-							className={`inline-flex h-7 w-7 items-center justify-center rounded-full border font-mono text-xs ${
+							className={`inline-flex h-7 w-7 items-center justify-center rounded-full border font-mono text-xs transition-colors ${
 								isDone
-									? "border-emerald-500 bg-emerald-500/10 text-emerald-500"
+									? "border-[color:var(--vs-affirm)] bg-[color:var(--vs-affirm)]/15 text-[color:var(--vs-affirm)]"
 									: isActive
-										? "border-foreground bg-foreground text-background"
+										? "border-[color:var(--vs-gold)] bg-[color:var(--vs-gold)] text-[color:var(--vs-ink)]"
 										: "border-border text-muted-foreground"
 							}`}
 						>
 							{isDone ? <CheckCircle2 className="h-3.5 w-3.5" /> : i + 1}
 						</span>
 						<span
-							className={`hidden text-sm sm:inline ${isActive ? "" : "text-muted-foreground"}`}
+							className={`hidden font-mono-label sm:inline ${isActive ? "text-foreground" : "text-muted-foreground"}`}
 						>
 							{s.label}
 						</span>
@@ -236,20 +236,31 @@ export function OnboardingWizard({ user }: Props) {
 	};
 
 	return (
-		<div className="grain relative min-h-dvh bg-background">
+		<div className="relative min-h-dvh bg-background">
+			<div
+				aria-hidden
+				className="pointer-events-none absolute inset-0 -z-10"
+				style={{
+					background:
+						"radial-gradient(48% 32% at 50% -10%, oklch(0.84 0.13 88 / 0.16), transparent 70%)",
+				}}
+			/>
 			<header className="mx-auto flex max-w-3xl items-center justify-between px-6 py-8">
 				<Link
 					href="/"
-					className="inline-flex items-center gap-2 font-semibold tracking-tight"
+					className="vs-focus-ring inline-flex items-center gap-2 rounded-sm"
+					aria-label="vibestack — home"
 				>
-					<span className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-foreground text-background text-xs">
-						S
+					<span className="inline-block bg-foreground px-1.5 py-0.5 font-display font-medium text-[0.875rem] text-background leading-none">
+						vibe
 					</span>
-					<span>stack/saas</span>
+					<span className="font-display text-[0.95rem] text-foreground/80">
+						/stack
+					</span>
 				</Link>
 				<button
 					type="button"
-					className="text-muted-foreground text-xs uppercase tracking-widest hover:text-foreground"
+					className="vs-focus-ring font-mono-label text-muted-foreground transition-colors hover:text-foreground disabled:opacity-50"
 					onClick={() => void finish(true)}
 					disabled={finishing}
 				>
@@ -257,10 +268,11 @@ export function OnboardingWizard({ user }: Props) {
 				</button>
 			</header>
 
-			<main className="mx-auto max-w-xl px-6 pt-2 pb-20">
-				<div className="mb-8 flex flex-col items-center gap-4">
+			<main className="mx-auto max-w-xl px-6 pt-4 pb-20 vs-fade-up">
+				<div className="mb-10 flex flex-col items-center gap-5">
 					<StepDots active={step} />
-					<p className="text-center font-display text-3xl tracking-tight sm:text-4xl">
+					<span aria-hidden className="gold-rule" />
+					<p className="max-w-md text-center font-display text-[2rem] leading-[1.08] tracking-[-0.02em] text-foreground sm:text-[2.5rem]">
 						{STEPS.find((s) => s.key === step)?.hint}
 					</p>
 				</div>

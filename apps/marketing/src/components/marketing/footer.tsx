@@ -1,6 +1,12 @@
 import Link from "next/link";
 
-const columns = [
+type FooterLink = {
+	label: string;
+	href: string;
+	external?: boolean;
+};
+
+const columns: { title: string; links: FooterLink[] }[] = [
 	{
 		title: "Product",
 		links: [
@@ -14,7 +20,11 @@ const columns = [
 		links: [
 			{ label: "Documentation", href: "/docs" },
 			{ label: "Journal", href: "/blog" },
-			{ label: "GitHub", href: "https://github.com" },
+			{
+				label: "GitHub",
+				href: "https://github.com/f-amine/vibestack",
+				external: true,
+			},
 		],
 	},
 	{
@@ -35,15 +45,16 @@ export function MarketingFooter() {
 					<div>
 						<Link href="/" className="font-display text-2xl tracking-tight">
 							<span className="inline-block bg-[color:var(--marketing-fg)] px-2 py-0.5 font-medium text-[color:var(--marketing-bg)]">
-								stack
+								vibe
 							</span>
 							<span className="ml-1.5 text-[color:var(--marketing-fg)]/70">
-								/saas
+								/stack
 							</span>
 						</Link>
 						<p className="mt-6 max-w-md text-[color:var(--marketing-fg)]/60 text-sm leading-relaxed">
-							The boring parts of a SaaS, pre-wired and ready. So you ship the
-							part of your product nobody else has.
+							The opinionated, AI-first SaaS starter. Full stack pre-wired,
+							every Claude Code skill vendored in the repo. You bring the
+							business logic.
 						</p>
 					</div>
 
@@ -59,6 +70,12 @@ export function MarketingFooter() {
 											<Link
 												href={l.href}
 												className="text-[color:var(--marketing-fg)]/80 transition-colors hover:text-[color:var(--marketing-fg)]"
+												{...(l.external
+													? {
+															target: "_blank",
+															rel: "noopener noreferrer",
+														}
+													: {})}
 											>
 												{l.label}
 											</Link>
@@ -71,7 +88,7 @@ export function MarketingFooter() {
 				</div>
 
 				<div className="mt-16 flex flex-col items-start justify-between gap-6 border-[color:var(--marketing-line)] border-t pt-8 font-mono text-[color:var(--marketing-muted)] text-xs uppercase tracking-widest lg:flex-row lg:items-center">
-					<span>© {new Date().getFullYear()} — Stack/saas</span>
+					<span>© {new Date().getFullYear()} — vibestack</span>
 					<span className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
 						<span className="text-[color:var(--marketing-fg)]/45">
 							Built on

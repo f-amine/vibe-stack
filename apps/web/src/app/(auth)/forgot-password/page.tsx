@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@starter-saas/ui/components/button";
+import { Button } from "@vibestack/ui/components/button";
 import {
 	Form,
 	FormControl,
@@ -9,8 +9,8 @@ import {
 	FormItem,
 	FormLabel,
 	FormMessage,
-} from "@starter-saas/ui/components/form";
-import { Input } from "@starter-saas/ui/components/input";
+} from "@vibestack/ui/components/form";
+import { Input } from "@vibestack/ui/components/input";
 import { Loader2, MailCheck } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
@@ -54,13 +54,17 @@ export default function ForgotPasswordPage() {
 	};
 
 	return (
-		<div className="grid gap-8">
-			<div>
-				<h1 className="font-semibold text-3xl tracking-tight">
-					Reset your password
+		<div className="space-y-10">
+			<div className="space-y-3">
+				<span className="font-mono-label text-muted-foreground">
+					Account · recovery
+				</span>
+				<h1 className="font-display text-[2.25rem] leading-[1.05] tracking-[-0.02em] text-foreground">
+					Lost the key.
 				</h1>
-				<p className="mt-2 text-muted-foreground text-sm">
-					Enter the email tied to your account.
+				<p className="max-w-sm text-muted-foreground text-sm leading-relaxed">
+					Enter the email tied to your account. We'll send a one-time reset
+					link that expires in an hour.
 				</p>
 			</div>
 

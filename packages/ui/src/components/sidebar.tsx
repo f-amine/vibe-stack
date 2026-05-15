@@ -2,24 +2,24 @@
 
 import { mergeProps } from "@base-ui/react/merge-props";
 import { useRender } from "@base-ui/react/use-render";
-import { Button } from "@starter-saas/ui/components/button";
-import { Input } from "@starter-saas/ui/components/input";
-import { Separator } from "@starter-saas/ui/components/separator";
+import { Button } from "@vibestack/ui/components/button";
+import { Input } from "@vibestack/ui/components/input";
+import { Separator } from "@vibestack/ui/components/separator";
 import {
 	Sheet,
 	SheetContent,
 	SheetDescription,
 	SheetHeader,
 	SheetTitle,
-} from "@starter-saas/ui/components/sheet";
-import { Skeleton } from "@starter-saas/ui/components/skeleton";
+} from "@vibestack/ui/components/sheet";
+import { Skeleton } from "@vibestack/ui/components/skeleton";
 import {
 	Tooltip,
 	TooltipContent,
 	TooltipTrigger,
-} from "@starter-saas/ui/components/tooltip";
-import { useIsMobile } from "@starter-saas/ui/hooks/use-mobile";
-import { cn } from "@starter-saas/ui/lib/utils";
+} from "@vibestack/ui/components/tooltip";
+import { useIsMobile } from "@vibestack/ui/hooks/use-mobile";
+import { cn } from "@vibestack/ui/lib/utils";
 import { cva, type VariantProps } from "class-variance-authority";
 import { PanelLeftIcon } from "lucide-react";
 import * as React from "react";

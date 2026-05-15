@@ -1,7 +1,7 @@
 "use client";
 
-import { Badge } from "@starter-saas/ui/components/badge";
-import { Button } from "@starter-saas/ui/components/button";
+import { Badge } from "@vibestack/ui/components/badge";
+import { Button } from "@vibestack/ui/components/button";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -9,8 +9,8 @@ import {
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from "@starter-saas/ui/components/dropdown-menu";
-import { Skeleton } from "@starter-saas/ui/components/skeleton";
+} from "@vibestack/ui/components/dropdown-menu";
+import { Skeleton } from "@vibestack/ui/components/skeleton";
 import { Bell, CheckCheck, Inbox } from "lucide-react";
 import Link from "next/link";
 import * as React from "react";

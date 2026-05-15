@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@starter-saas/ui/components/button";
+import { Button } from "@vibestack/ui/components/button";
 import {
 	Card,
 	CardContent,
@@ -9,7 +9,7 @@ import {
 	CardFooter,
 	CardHeader,
 	CardTitle,
-} from "@starter-saas/ui/components/card";
+} from "@vibestack/ui/components/card";
 import {
 	Form,
 	FormControl,
@@ -18,8 +18,8 @@ import {
 	FormItem,
 	FormLabel,
 	FormMessage,
-} from "@starter-saas/ui/components/form";
-import { Input } from "@starter-saas/ui/components/input";
+} from "@vibestack/ui/components/form";
+import { Input } from "@vibestack/ui/components/input";
 import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";

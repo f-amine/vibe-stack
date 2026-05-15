@@ -1,4 +1,4 @@
-import { Button } from "@starter-saas/ui/components/button";
+import { Button } from "@vibestack/ui/components/button";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -7,8 +7,8 @@ import {
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
-} from "@starter-saas/ui/components/dropdown-menu";
-import { Skeleton } from "@starter-saas/ui/components/skeleton";
+} from "@vibestack/ui/components/dropdown-menu";
+import { Skeleton } from "@vibestack/ui/components/skeleton";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 

@@ -1,15 +1,15 @@
 "use client";
 
-import { Button } from "@starter-saas/ui/components/button";
+import { Button } from "@vibestack/ui/components/button";
 import {
 	Card,
 	CardContent,
 	CardHeader,
 	CardTitle,
-} from "@starter-saas/ui/components/card";
-import { Dropzone } from "@starter-saas/ui/components/dropzone";
-import { EmptyState } from "@starter-saas/ui/components/empty-state";
-import { Skeleton } from "@starter-saas/ui/components/skeleton";
+} from "@vibestack/ui/components/card";
+import { Dropzone } from "@vibestack/ui/components/dropzone";
+import { EmptyState } from "@vibestack/ui/components/empty-state";
+import { Skeleton } from "@vibestack/ui/components/skeleton";
 import { Download, FileIcon, Trash2 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";

@@ -1,5 +1,5 @@
 {
-	"name": "@starter-saas/storage",
+	"name": "@vibestack/storage",
 	"version": "0.0.0",
 	"private": true,
 	"type": "module",
@@ -10,12 +10,12 @@
 	"dependencies": {
 		"@aws-sdk/client-s3": "catalog:",
 		"@aws-sdk/s3-request-presigner": "catalog:",
-		"@starter-saas/env": "workspace:*",
+		"@vibestack/env": "workspace:*",
 		"nanoid": "catalog:",
 		"zod": "catalog:"
 	},
 	"devDependencies": {
-		"@starter-saas/config": "workspace:*",
+		"@vibestack/config": "workspace:*",
 		"typescript": "catalog:"
 	}
 }

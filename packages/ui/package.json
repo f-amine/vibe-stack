@@ -1,5 +1,5 @@
 {
-	"name": "@starter-saas/ui",
+	"name": "@vibestack/ui",
 	"version": "0.0.0",
 	"private": true,
 	"type": "module",
@@ -21,6 +21,7 @@
 		"clsx": "^2.1.1",
 		"cmdk": "^1.1.1",
 		"lucide-react": "catalog:",
+		"motion": "^12.23.12",
 		"next-themes": "catalog:",
 		"react": "catalog:",
 		"react-dom": "catalog:",
@@ -31,7 +32,7 @@
 		"tw-animate-css": "catalog:"
 	},
 	"devDependencies": {
-		"@starter-saas/config": "workspace:*",
+		"@vibestack/config": "workspace:*",
 		"@types/react": "catalog:",
 		"@types/react-dom": "catalog:",
 		"tailwindcss": "catalog:",

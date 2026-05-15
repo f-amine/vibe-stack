@@ -75,7 +75,7 @@ function Column({
 						<a
 							href={item.url}
 							target="_blank"
-							rel="noreferrer noopener"
+							rel="noopener noreferrer"
 							className="block"
 						>
 							<p className="font-medium text-sm leading-snug">{item.title}</p>
@@ -113,7 +113,7 @@ export default async function RoadmapPage() {
 						<a
 							href={`https://github.com/${repo}/issues?q=is:open+label:roadmap:planned,roadmap:in-progress,roadmap:done`}
 							target="_blank"
-							rel="noreferrer noopener"
+							rel="noopener noreferrer"
 							className="underline-offset-4 hover:underline"
 						>
 							github.com/{repo}

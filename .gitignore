@@ -45,3 +45,7 @@ tsconfig.tsbuildinfo
 
 .ruflo/autonomous-log.jsonl
 .ruflo/memory/
+
+# AI tooling artefacts
+.claude-flow
+.hive-mind

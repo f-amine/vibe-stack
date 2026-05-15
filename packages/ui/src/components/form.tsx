@@ -1,8 +1,8 @@
 "use client";
 
 import { Slot } from "@radix-ui/react-slot";
-import { Label } from "@starter-saas/ui/components/label";
-import { cn } from "@starter-saas/ui/lib/utils";
+import { Label } from "@vibestack/ui/components/label";
+import { cn } from "@vibestack/ui/lib/utils";
 import * as React from "react";
 import {
 	Controller,

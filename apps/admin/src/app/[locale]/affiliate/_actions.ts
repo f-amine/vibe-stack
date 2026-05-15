@@ -1,7 +1,7 @@
 "use server";
 
 import "server-only";
-import { decidePayout } from "@starter-saas/api/affiliate";
+import { decidePayout } from "@vibestack/api/affiliate";
 import { revalidatePath } from "next/cache";
 
 import { requireAdmin } from "@/lib/require-admin";

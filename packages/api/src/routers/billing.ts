@@ -1,5 +1,5 @@
-import { db } from "@starter-saas/db";
-import { polarCustomer, subscription } from "@starter-saas/db/schema/billing";
+import { db } from "@vibestack/db";
+import { polarCustomer, subscription } from "@vibestack/db/schema/billing";
 import { and, eq, inArray } from "drizzle-orm";
 import { protectedProcedure, router } from "../index";
 

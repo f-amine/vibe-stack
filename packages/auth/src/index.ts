@@ -1,10 +1,10 @@
 import { passkey } from "@better-auth/passkey";
 import { checkout, polar, portal, webhooks } from "@polar-sh/better-auth";
-import { polar as polarClient } from "@starter-saas/billing/client";
-import { polarCheckoutProducts } from "@starter-saas/billing/plans-server";
-import { createDb } from "@starter-saas/db";
-import * as schema from "@starter-saas/db/schema/auth";
-import { env } from "@starter-saas/env/server";
+import { polar as polarClient } from "@vibestack/billing/client";
+import { polarCheckoutProducts } from "@vibestack/billing/plans-server";
+import { createDb } from "@vibestack/db";
+import * as schema from "@vibestack/db/schema/auth";
+import { env } from "@vibestack/env/server";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
@@ -39,7 +39,7 @@ export function createAuth() {
 		...(secondaryStorage ? { secondaryStorage } : {}),
 		verification: { storeInDatabase: true },
 		session: { storeSessionInDatabase: true },
-		appName: "starter-saas",
+		appName: "vibestack",
 		trustedOrigins: [env.CORS_ORIGIN, env.APP_URL],
 		secret: env.BETTER_AUTH_SECRET,
 		baseURL: env.BETTER_AUTH_URL,
@@ -105,7 +105,7 @@ export function createAuth() {
 			}),
 			passkey({
 				rpID: new URL(env.APP_URL).hostname,
-				rpName: "starter-saas",
+				rpName: "vibestack",
 				origin: env.APP_URL,
 			}),
 			twoFactor(),

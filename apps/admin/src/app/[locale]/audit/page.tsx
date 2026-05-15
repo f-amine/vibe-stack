@@ -1,13 +1,13 @@
-import { db } from "@starter-saas/db";
-import { auditLog } from "@starter-saas/db/schema/audit";
-import { Badge } from "@starter-saas/ui/components/badge";
+import { db } from "@vibestack/db";
+import { auditLog } from "@vibestack/db/schema/audit";
+import { Badge } from "@vibestack/ui/components/badge";
 import {
 	Card,
 	CardContent,
 	CardHeader,
 	CardTitle,
-} from "@starter-saas/ui/components/card";
-import { EmptyState } from "@starter-saas/ui/components/empty-state";
+} from "@vibestack/ui/components/card";
+import { EmptyState } from "@vibestack/ui/components/empty-state";
 import { desc } from "drizzle-orm";
 import { PageHeader } from "@/components/layout/page-header";
 

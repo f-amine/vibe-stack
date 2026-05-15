@@ -21,7 +21,7 @@
 		],
 		"paths": {
 			"@/*": ["./src/*"],
-			"@starter-saas/ui/*": ["../../packages/ui/src/*"]
+			"@vibestack/ui/*": ["../../packages/ui/src/*"]
 		}
 	},
 	"include": [

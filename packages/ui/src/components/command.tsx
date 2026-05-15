@@ -6,13 +6,13 @@ import {
 	DialogDescription,
 	DialogHeader,
 	DialogTitle,
-} from "@starter-saas/ui/components/dialog";
+} from "@vibestack/ui/components/dialog";
 import {
 	InputGroup,
 	InputGroupAddon,
-} from "@starter-saas/ui/components/input-group";
+} from "@vibestack/ui/components/input-group";
 
-import { cn } from "@starter-saas/ui/lib/utils";
+import { cn } from "@vibestack/ui/lib/utils";
 import { Command as CommandPrimitive } from "cmdk";
 import { CheckIcon, SearchIcon } from "lucide-react";
 import type * as React from "react";

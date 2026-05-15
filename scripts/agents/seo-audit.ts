@@ -66,7 +66,7 @@ async function safeFetch(
 	try {
 		const res = await fetch(url, {
 			redirect: "follow",
-			headers: { "user-agent": "starter-saas-seo-audit/1.0" },
+			headers: { "user-agent": "vibestack-seo-audit/1.0" },
 		});
 		const body = await res.text();
 		return { status: res.status, body };

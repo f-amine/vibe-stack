@@ -1,4 +1,4 @@
-import { DEFAULT_LOCALE, LOCALES } from "@starter-saas/i18n";
+import { DEFAULT_LOCALE, LOCALES } from "@vibestack/i18n";
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import createIntlMiddleware from "next-intl/middleware";

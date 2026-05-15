@@ -1,6 +1,6 @@
-import { auth } from "@starter-saas/auth";
-import { db } from "@starter-saas/db";
-import { notification } from "@starter-saas/db/schema/notification";
+import { auth } from "@vibestack/auth";
+import { db } from "@vibestack/db";
+import { notification } from "@vibestack/db/schema/notification";
 import { and, desc, eq, isNull } from "drizzle-orm";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";

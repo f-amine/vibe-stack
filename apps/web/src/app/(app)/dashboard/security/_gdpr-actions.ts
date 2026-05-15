@@ -6,8 +6,8 @@ import {
 	exportUserData,
 	pendingDeletion,
 	scheduleAccountDeletion,
-} from "@starter-saas/api/gdpr";
-import { auth } from "@starter-saas/auth";
+} from "@vibestack/api/gdpr";
+import { auth } from "@vibestack/auth";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 

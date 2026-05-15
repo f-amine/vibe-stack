@@ -1,6 +1,6 @@
 import "server-only";
-import { db } from "@starter-saas/db";
-import { userPreferences } from "@starter-saas/db/schema/preferences";
+import { db } from "@vibestack/db";
+import { userPreferences } from "@vibestack/db/schema/preferences";
 import { eq } from "drizzle-orm";
 
 export type Preferences = {

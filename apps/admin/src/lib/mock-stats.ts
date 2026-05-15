@@ -1,9 +1,9 @@
 // Server-side helpers that read live data from the DB.
 import "server-only";
-import { db } from "@starter-saas/db";
-import { auditLog } from "@starter-saas/db/schema/audit";
-import { organization, user } from "@starter-saas/db/schema/auth";
-import { subscription } from "@starter-saas/db/schema/billing";
+import { db } from "@vibestack/db";
+import { auditLog } from "@vibestack/db/schema/audit";
+import { organization, user } from "@vibestack/db/schema/auth";
+import { subscription } from "@vibestack/db/schema/billing";
 import { count, eq, gte, sql } from "drizzle-orm";
 
 export async function fetchKpis() {

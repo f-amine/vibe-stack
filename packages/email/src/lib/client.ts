@@ -1,9 +1,9 @@
-import { env } from "@starter-saas/env/server";
+import { env } from "@vibestack/env/server";
 import type { ReactElement } from "react";
 import { Resend } from "resend";
 
 // Lazy singleton — instantiating Resend at module load means any caller
-// that imports `@starter-saas/email` pays the cost (and crashes if the
+// that imports `@vibestack/email` pays the cost (and crashes if the
 // key is absent) even when no email is actually sent. Defer to first use.
 let _resend: Resend | null = null;
 function getResend(): Resend {

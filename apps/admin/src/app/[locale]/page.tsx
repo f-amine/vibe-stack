@@ -1,11 +1,11 @@
-import { Badge } from "@starter-saas/ui/components/badge";
+import { Badge } from "@vibestack/ui/components/badge";
 import {
 	Card,
 	CardContent,
 	CardDescription,
 	CardHeader,
 	CardTitle,
-} from "@starter-saas/ui/components/card";
+} from "@vibestack/ui/components/card";
 import { Building2, CreditCard, TrendingUp, Users } from "lucide-react";
 import { CountBar, GrowthArea } from "@/components/charts/lazy";
 import { PageHeader } from "@/components/layout/page-header";

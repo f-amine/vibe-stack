@@ -8,10 +8,10 @@ const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 const config: NextConfig = {
 	reactStrictMode: true,
 	transpilePackages: [
-		"@starter-saas/ui",
-		"@starter-saas/analytics",
-		"@starter-saas/i18n",
-		"@starter-saas/env",
+		"@vibestack/ui",
+		"@vibestack/analytics",
+		"@vibestack/i18n",
+		"@vibestack/env",
 	],
 	reactCompiler: true,
 };

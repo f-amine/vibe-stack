@@ -1,5 +1,5 @@
 import "server-only";
-import { env } from "@starter-saas/env/server";
+import { env } from "@vibestack/env/server";
 import { PostHog } from "posthog-node";
 import type { EventName, EventProps } from "./events";
 

@@ -1,5 +1,5 @@
 {
-	"name": "@starter-saas/auth",
+	"name": "@vibestack/auth",
 	"type": "module",
 	"exports": {
 		".": {
@@ -19,10 +19,10 @@
 		"@better-auth/passkey": "catalog:",
 		"@polar-sh/better-auth": "catalog:",
 		"@polar-sh/sdk": "catalog:",
-		"@starter-saas/billing": "workspace:*",
-		"@starter-saas/db": "workspace:*",
-		"@starter-saas/email": "workspace:*",
-		"@starter-saas/env": "workspace:*",
+		"@vibestack/billing": "workspace:*",
+		"@vibestack/db": "workspace:*",
+		"@vibestack/email": "workspace:*",
+		"@vibestack/env": "workspace:*",
 		"better-auth": "catalog:",
 		"dotenv": "catalog:",
 		"drizzle-orm": "catalog:",
@@ -32,7 +32,7 @@
 	},
 	"devDependencies": {
 		"@better-auth/cli": "^1.4.21",
-		"@starter-saas/config": "workspace:*",
+		"@vibestack/config": "workspace:*",
 		"typescript": "catalog:"
 	}
 }

@@ -6,21 +6,21 @@ import {
 	CardDescription,
 	CardHeader,
 	CardTitle,
-} from "@starter-saas/ui/components/card";
-import { Label } from "@starter-saas/ui/components/label";
+} from "@vibestack/ui/components/card";
+import { Label } from "@vibestack/ui/components/label";
 import {
 	RadioGroup,
 	RadioGroupItem,
-} from "@starter-saas/ui/components/radio-group";
+} from "@vibestack/ui/components/radio-group";
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "@starter-saas/ui/components/select";
-import { Switch } from "@starter-saas/ui/components/switch";
-import { cn } from "@starter-saas/ui/lib/utils";
+} from "@vibestack/ui/components/select";
+import { Switch } from "@vibestack/ui/components/switch";
+import { cn } from "@vibestack/ui/lib/utils";
 import { Monitor, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";

@@ -1,4 +1,4 @@
-import "@starter-saas/env/web";
+import "@vibestack/env/web";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {

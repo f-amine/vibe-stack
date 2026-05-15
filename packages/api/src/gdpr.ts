@@ -5,12 +5,12 @@
 import "server-only";
 import { randomUUID } from "node:crypto";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
-import { db } from "@starter-saas/db";
-import { auditLog } from "@starter-saas/db/schema/audit";
-import { member, user as userTable } from "@starter-saas/db/schema/auth";
-import { polarCustomer, subscription } from "@starter-saas/db/schema/billing";
-import { accountDeletion } from "@starter-saas/db/schema/gdpr";
-import { presignDownload, R2_BUCKET, r2 } from "@starter-saas/storage";
+import { db } from "@vibestack/db";
+import { auditLog } from "@vibestack/db/schema/audit";
+import { member, user as userTable } from "@vibestack/db/schema/auth";
+import { polarCustomer, subscription } from "@vibestack/db/schema/billing";
+import { accountDeletion } from "@vibestack/db/schema/gdpr";
+import { presignDownload, R2_BUCKET, r2 } from "@vibestack/storage";
 import { eq, lt } from "drizzle-orm";
 
 export const EXPORT_LINK_TTL_SECONDS = 60 * 60 * 24;

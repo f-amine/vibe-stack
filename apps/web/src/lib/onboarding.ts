@@ -1,6 +1,6 @@
 import "server-only";
-import { db } from "@starter-saas/db";
-import { auditLog } from "@starter-saas/db/schema/audit";
+import { db } from "@vibestack/db";
+import { auditLog } from "@vibestack/db/schema/audit";
 import { and, eq } from "drizzle-orm";
 import { cache } from "react";
 

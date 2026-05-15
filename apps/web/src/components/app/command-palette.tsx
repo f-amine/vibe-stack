@@ -7,7 +7,7 @@ import {
 	CommandInput,
 	CommandItem,
 	CommandList,
-} from "@starter-saas/ui/components/command";
+} from "@vibestack/ui/components/command";
 import {
 	Building2,
 	CreditCard,

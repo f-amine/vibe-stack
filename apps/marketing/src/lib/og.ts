@@ -5,11 +5,13 @@ export const OG_DIMENSIONS = { width: 1200, height: 630 } as const;
 
 const FALLBACK_BASE = "http://localhost:3000";
 
-function siteBase(): string {
+export function siteBase(): string {
+	// Marketing is its own deploy. Never fall back to NEXT_PUBLIC_APP_URL —
+	// that points at the authed web app on a different host, and using it
+	// here leaks the wrong domain into sitemaps, OG tags, and JSON-LD.
 	const fromEnv =
 		process.env.NEXT_PUBLIC_MARKETING_URL ??
 		process.env.NEXT_PUBLIC_SITE_URL ??
-		process.env.NEXT_PUBLIC_APP_URL ??
 		FALLBACK_BASE;
 	return fromEnv.replace(/\/$/, "");
 }

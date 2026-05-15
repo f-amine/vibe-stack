@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ogMetadata } from "@/lib/og";
+import { WebsiteJsonLd } from "@/components/seo/json-ld";
+import { ogMetadata, siteBase } from "@/lib/og";
 import { changelogSource } from "@/lib/source";
 
 const TITLE = "Changelog";
-const SUBTITLE = "Every release of stack/saas, sorted newest first.";
+const SUBTITLE = "Every release of vibestack, sorted newest first.";
 
 export const metadata: Metadata = {
 	title: TITLE,
@@ -42,6 +43,11 @@ export default function ChangelogIndex() {
 
 	return (
 		<main className="mx-auto max-w-3xl px-6 py-16">
+			<WebsiteJsonLd
+				siteUrl={siteBase()}
+				name="vibestack"
+				description={SUBTITLE}
+			/>
 			<header>
 				<p className="font-mono text-[color:var(--marketing-muted)] text-xs uppercase tracking-[0.3em]">
 					— What's new

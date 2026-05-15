@@ -13,8 +13,8 @@
 	"iconLibrary": "lucide",
 	"aliases": {
 		"components": "@/components",
-		"utils": "@starter-saas/ui/lib/utils",
-		"ui": "@starter-saas/ui/components",
+		"utils": "@vibestack/ui/lib/utils",
+		"ui": "@vibestack/ui/components",
 		"lib": "@/lib",
 		"hooks": "@/hooks"
 	},

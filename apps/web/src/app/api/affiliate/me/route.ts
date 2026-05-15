@@ -1,6 +1,6 @@
-import { byUser, enroll, stats } from "@starter-saas/api/affiliate";
-import { auth } from "@starter-saas/auth";
-import { env } from "@starter-saas/env/server";
+import { byUser, enroll, stats } from "@vibestack/api/affiliate";
+import { auth } from "@vibestack/auth";
+import { env } from "@vibestack/env/server";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 

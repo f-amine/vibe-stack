@@ -12,11 +12,11 @@
 	},
 	"iconLibrary": "lucide",
 	"aliases": {
-		"components": "@starter-saas/ui/components",
-		"utils": "@starter-saas/ui/lib/utils",
-		"hooks": "@starter-saas/ui/hooks",
-		"lib": "@starter-saas/ui/lib",
-		"ui": "@starter-saas/ui/components"
+		"components": "@vibestack/ui/components",
+		"utils": "@vibestack/ui/lib/utils",
+		"hooks": "@vibestack/ui/hooks",
+		"lib": "@vibestack/ui/lib",
+		"ui": "@vibestack/ui/components"
 	},
 	"menuColor": "default",
 	"menuAccent": "subtle",

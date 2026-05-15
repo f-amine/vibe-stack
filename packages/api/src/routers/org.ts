@@ -1,5 +1,5 @@
-import { db } from "@starter-saas/db";
-import { member, organization } from "@starter-saas/db/schema/auth";
+import { db } from "@vibestack/db";
+import { member, organization } from "@vibestack/db/schema/auth";
 import { and, eq } from "drizzle-orm";
 import { z } from "zod";
 import { protectedProcedure, router } from "../index";

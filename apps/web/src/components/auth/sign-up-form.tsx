@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@starter-saas/ui/components/button";
+import { Button } from "@vibestack/ui/components/button";
 import {
 	Form,
 	FormControl,
@@ -9,8 +9,8 @@ import {
 	FormItem,
 	FormLabel,
 	FormMessage,
-} from "@starter-saas/ui/components/form";
-import { Input } from "@starter-saas/ui/components/input";
+} from "@vibestack/ui/components/form";
+import { Input } from "@vibestack/ui/components/input";
 import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";

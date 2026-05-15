@@ -4,10 +4,10 @@
 // algorithm inline so we don't pull a heavy dep.
 
 import { createHmac, randomUUID, timingSafeEqual } from "node:crypto";
-import { db } from "@starter-saas/db";
-import { auditLog } from "@starter-saas/db/schema/audit";
-import { polarCustomer, subscription } from "@starter-saas/db/schema/billing";
-import { env } from "@starter-saas/env/server";
+import { db } from "@vibestack/db";
+import { auditLog } from "@vibestack/db/schema/audit";
+import { polarCustomer, subscription } from "@vibestack/db/schema/billing";
+import { env } from "@vibestack/env/server";
 import { eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 

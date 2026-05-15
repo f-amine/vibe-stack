@@ -1,6 +1,6 @@
 "use client";
 
-import { buttonVariants } from "@starter-saas/ui/components/button";
+import { buttonVariants } from "@vibestack/ui/components/button";
 import {
 	Card,
 	CardContent,
@@ -8,8 +8,8 @@ import {
 	CardFooter,
 	CardHeader,
 	CardTitle,
-} from "@starter-saas/ui/components/card";
-import { Skeleton } from "@starter-saas/ui/components/skeleton";
+} from "@vibestack/ui/components/card";
+import { Skeleton } from "@vibestack/ui/components/skeleton";
 import { CheckCircle2, XCircle } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -155,7 +155,7 @@ export default function AcceptInvitationPage({ params }: Props) {
 					<span className="inline-flex h-7 w-7 items-center justify-center rounded-md bg-foreground text-background text-xs">
 						S
 					</span>
-					<span>stack/saas</span>
+					<span>vibestack</span>
 				</Link>
 			</header>
 
