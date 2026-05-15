@@ -37,14 +37,13 @@ type SessionRow = {
 
 export default function SecurityPage() {
 	const { data } = authClient.useSession();
-	const [twoFA, setTwoFA] = useState(false);
+	// Derive during render — Better Auth's useSession is the source of
+	// truth. The wizard at /security/2fa flips this server-side and a
+	// session refresh propagates the new value.
+	const twoFA = Boolean(
+		(data?.user as { twoFactorEnabled?: boolean })?.twoFactorEnabled,
+	);
 	const [sessions, setSessions] = useState<SessionRow[] | null>(null);
-
-	useEffect(() => {
-		setTwoFA(
-			Boolean((data?.user as { twoFactorEnabled?: boolean })?.twoFactorEnabled),
-		);
-	}, [data]);
 
 	useEffect(() => {
 		(async () => {
@@ -94,13 +93,12 @@ export default function SecurityPage() {
 						<Switch
 							id="2fa"
 							checked={twoFA}
-							onCheckedChange={async (next) => {
+							onCheckedChange={(next) => {
 								toast.info(
 									next
 										? "2FA setup flow — wire to /security/2fa wizard"
 										: "Disabling 2FA — wire confirmation modal",
 								);
-								setTwoFA(next);
 							}}
 						/>
 					</CardContent>
