@@ -25,6 +25,7 @@
 		"format": "biome format --write .",
 		"format:check": "biome format .",
 		"setup": "bash scripts/link-env.sh",
+		"gen:image": "tsx scripts/gen-image.ts",
 		"infra:start": "bash scripts/infra-start.sh",
 		"infra:watch": "docker compose up",
 		"infra:stop": "docker compose stop",
@@ -50,8 +51,12 @@
 	},
 	"devDependencies": {
 		"@biomejs/biome": "catalog:",
+		"@google/genai": "catalog:",
 		"@starter-saas/config": "workspace:*",
 		"@types/node": "catalog:",
+		"mri": "catalog:",
+		"sharp": "catalog:",
+		"tsx": "catalog:",
 		"turbo": "catalog:",
 		"typescript": "catalog:"
 	},
