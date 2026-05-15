@@ -29,11 +29,16 @@ export function createAuth() {
 			provider: "pg",
 			schema,
 		}),
-		// When REDIS_URL is set, Better Auth uses Redis for sessions
-		// (optional) and rate-limit counters (see `rateLimit.storage` below).
-		// When unset, falls back to the in-memory store — fine for dev,
-		// not safe across multiple replicas in prod.
+		// When REDIS_URL is set, Better Auth uses Redis as secondaryStorage
+		// for rate-limit counters (see `rateLimit.storage` below).
+		//
+		// We pin OAuth state + verification rows + sessions to Postgres
+		// regardless of Redis state — losing them when Redis hiccups is
+		// catastrophic (OAuth callbacks fail with "state mismatch", users
+		// get signed out). Redis is a cache for rate-limit only.
 		...(secondaryStorage ? { secondaryStorage } : {}),
+		verification: { storeInDatabase: true },
+		session: { storeSessionInDatabase: true },
 		appName: "starter-saas",
 		trustedOrigins: [env.CORS_ORIGIN, env.APP_URL],
 		secret: env.BETTER_AUTH_SECRET,
