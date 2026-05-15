@@ -1,3 +1,4 @@
+import { passkey } from "@better-auth/passkey";
 import { checkout, polar, portal, webhooks } from "@polar-sh/better-auth";
 import { polar as polarClient } from "@starter-saas/billing/client";
 import { polarCheckoutProducts } from "@starter-saas/billing/plans-server";
@@ -8,8 +9,6 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { nextCookies } from "better-auth/next-js";
 import { admin, magicLink, organization, twoFactor } from "better-auth/plugins";
-// TODO: passkey plugin not exported from better-auth@1.6.9. Re-enable when upgrading.
-// import { passkey } from "better-auth/plugins/passkey";
 
 import { ac, admin as adminRole, member, owner } from "./lib/permissions";
 import { createRedisSecondaryStorage } from "./lib/redis";
@@ -99,7 +98,11 @@ export function createAuth() {
 					await sendMagicLink({ to: email, url });
 				},
 			}),
-			// passkey({ rpID: new URL(env.APP_URL).hostname, rpName: "starter-saas", origin: env.APP_URL }),
+			passkey({
+				rpID: new URL(env.APP_URL).hostname,
+				rpName: "starter-saas",
+				origin: env.APP_URL,
+			}),
 			twoFactor(),
 			admin({
 				defaultRole: "user",

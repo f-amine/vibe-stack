@@ -9,6 +9,7 @@
 		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {
+		"@better-auth/passkey": "catalog:",
 		"@hookform/resolvers": "^5.2.2",
 		"@polar-sh/better-auth": "catalog:",
 		"@starter-saas/analytics": "workspace:*",
