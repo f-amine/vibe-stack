@@ -1,0 +1,10 @@
+/* Fumadocs UI v16 styles. Loaded only by the docs layout so the bundle
+ * ships exclusively for /docs pages.
+ *
+ * Tailwind is imported here too because the fumadocs preset references
+ * utility classes (sm:ms-4 etc.) that Tailwind v4 only emits when it
+ * sees an @import "tailwindcss" in the same entry. */
+@import "tailwindcss";
+@import "fumadocs-ui/css/preset.css";
+@import "fumadocs-ui/css/shadcn.css";
+@source "../../../../../../node_modules/fumadocs-ui/dist/**/*.js";
