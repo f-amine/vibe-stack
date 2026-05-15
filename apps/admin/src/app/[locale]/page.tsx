@@ -7,40 +7,8 @@ import {
 	CardTitle,
 } from "@starter-saas/ui/components/card";
 import { Building2, CreditCard, TrendingUp, Users } from "lucide-react";
-import dynamic from "next/dynamic";
+import { CountBar, GrowthArea } from "@/components/charts/lazy";
 import { PageHeader } from "@/components/layout/page-header";
-
-// Recharts is ~60kb gz and only runs in the browser — defer it off the
-// critical path so first-byte for admins doesn't ship the chart engine.
-const GrowthArea = dynamic(
-	() =>
-		import("@/components/charts/area-chart").then((m) => ({
-			default: m.GrowthArea,
-		})),
-	{
-		ssr: false,
-		loading: () => <ChartSkeleton />,
-	},
-);
-const CountBar = dynamic(
-	() =>
-		import("@/components/charts/bar-chart").then((m) => ({
-			default: m.CountBar,
-		})),
-	{
-		ssr: false,
-		loading: () => <ChartSkeleton />,
-	},
-);
-
-function ChartSkeleton() {
-	return (
-		<div
-			aria-hidden
-			className="h-[260px] w-full animate-pulse rounded-md bg-muted/40"
-		/>
-	);
-}
 import {
 	fetchAuditByAction,
 	fetchKpis,
