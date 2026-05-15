@@ -96,5 +96,6 @@ export async function search(opts: {
 			})),
 		);
 
+	// Order: orgs first (more meaningful in a workspace context), then users.
 	return [...orgHits, ...userHits].slice(0, MAX_PER_TYPE * 2);
 }
