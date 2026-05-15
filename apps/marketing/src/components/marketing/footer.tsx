@@ -70,9 +70,36 @@ export function MarketingFooter() {
 					</div>
 				</div>
 
-				<div className="mt-16 flex flex-col items-start justify-between gap-4 border-[color:var(--marketing-line)] border-t pt-8 font-mono text-[color:var(--marketing-muted)] text-xs uppercase tracking-widest sm:flex-row sm:items-center">
+				<div className="mt-16 flex flex-col items-start justify-between gap-6 border-[color:var(--marketing-line)] border-t pt-8 font-mono text-[color:var(--marketing-muted)] text-xs uppercase tracking-widest lg:flex-row lg:items-center">
 					<span>© {new Date().getFullYear()} — Stack/saas</span>
-					<span>Built on Next 16 · React 19 · TypeScript 6</span>
+					<span className="flex flex-wrap items-center gap-x-3 gap-y-1.5">
+						<span className="text-[color:var(--marketing-fg)]/45">
+							Built on
+						</span>
+						<span>Next 16</span>
+						<span aria-hidden>·</span>
+						<span>React 19</span>
+						<span aria-hidden>·</span>
+						<span>Better Auth</span>
+						<span aria-hidden>·</span>
+						<span>Drizzle</span>
+						<span aria-hidden>·</span>
+						<span>Postgres</span>
+						<span aria-hidden>·</span>
+						<span>Polar.sh</span>
+						<span aria-hidden>·</span>
+						<span>Resend</span>
+						<span aria-hidden>·</span>
+						<span>R2</span>
+						<span aria-hidden>·</span>
+						<span>PostHog</span>
+						<span aria-hidden>·</span>
+						<span>Turborepo</span>
+						<span aria-hidden>·</span>
+						<span>shadcn</span>
+						<span aria-hidden>·</span>
+						<span>Biome</span>
+					</span>
 				</div>
 			</div>
 		</footer>
