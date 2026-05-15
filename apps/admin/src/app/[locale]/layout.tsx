@@ -1,3 +1,4 @@
+import { GoogleAnalytics } from "@starter-saas/analytics/ga";
 import { Badge } from "@starter-saas/ui/components/badge";
 import { Separator } from "@starter-saas/ui/components/separator";
 import {
@@ -63,6 +64,7 @@ export default async function AdminLayout({ children, params }: Props) {
 						<Toaster />
 					</ThemeProvider>
 				</NextIntlClientProvider>
+				<GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
 			</body>
 		</html>
 	);

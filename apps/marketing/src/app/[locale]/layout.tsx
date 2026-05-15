@@ -1,3 +1,4 @@
+import { GoogleAnalytics } from "@starter-saas/analytics/ga";
 import { Fraunces, Geist, JetBrains_Mono } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages } from "next-intl/server";
@@ -65,6 +66,7 @@ export default async function LocaleLayout({ children, params }: Props) {
 						<Toaster theme="dark" />
 					</ThemeProvider>
 				</NextIntlClientProvider>
+				<GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
 			</body>
 		</html>
 	);

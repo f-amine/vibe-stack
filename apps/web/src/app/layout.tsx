@@ -1,3 +1,4 @@
+import { GoogleAnalytics } from "@starter-saas/analytics/ga";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
@@ -30,6 +31,7 @@ export default function RootLayout({
 				className={`${geistSans.variable} ${geistMono.variable} min-h-dvh antialiased`}
 			>
 				<Providers>{children}</Providers>
+				<GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
 			</body>
 		</html>
 	);
