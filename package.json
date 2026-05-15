@@ -30,6 +30,8 @@
 		"gen:changelog": "tsx scripts/agents/write-changelog.ts",
 		"gen:blog-covers": "tsx scripts/agents/gen-blog-covers.ts",
 		"gen:blog-post": "tsx scripts/agents/write-blog-post.ts",
+		"gen:hero-illustrations": "tsx scripts/agents/gen-hero-illustrations.ts",
+		"gen:feature-landing": "tsx scripts/agents/gen-feature-landing.ts",
 		"infra:start": "bash scripts/infra-start.sh",
 		"infra:watch": "docker compose up",
 		"infra:stop": "docker compose stop",
