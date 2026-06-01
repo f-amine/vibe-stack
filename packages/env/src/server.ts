@@ -62,8 +62,17 @@ export const env = createEnv({
 
 		// Google Gemini (asset + content generation agents)
 		GOOGLE_AI_API_KEY: z.string().min(1).optional(),
-		GEMINI_TEXT_MODEL: z.string().default("gemini-3.1-flash"),
+		GEMINI_API_KEY: z.string().min(1).optional(),
+		GEMINI_TEXT_MODEL: z.string().default("gemini-flash-latest"),
 		GEMINI_IMAGE_MODEL: z.string().default("gemini-3.1-flash-image-preview"),
+
+		// ElevenLabs (reel voiceover + sound effects)
+		ELEVENLABS_API_KEY: z.string().min(1).optional(),
+		ELEVEN_API_KEY: z.string().min(1).optional(),
+		ELEVENLABS_DEFAULT_VOICE_ID: z
+			.string()
+			.default("21m00Tcm4TlvDq8ikWAM"),
+		ELEVENLABS_TEXT_MODEL: z.string().default("eleven_multilingual_v2"),
 
 		// Optional OpenAI fallback (for blog writing agent)
 		OPENAI_API_KEY: z.string().optional(),

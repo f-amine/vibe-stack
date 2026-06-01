@@ -49,3 +49,8 @@ tsconfig.tsbuildinfo
 # AI tooling artefacts
 .claude-flow
 .hive-mind
+
+# Generated reel renders + per-slug assets (regenerable via /video-writer).
+# Keep the music/sfx source libraries under packages/video/assets.
+apps/marketing/public/reels/*
+!apps/marketing/public/reels/.gitkeep

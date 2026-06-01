@@ -28,6 +28,7 @@ new idea      → /prototype  (throwaway to flush out the design)
 | `setup` | First-time clone-to-running-app walkthrough. Generates `.env`, helps you collect API keys, installs `toprank` plugin. |
 | `impeccable` | **Mandatory for any UI / design work.** Reads `PRODUCT.md` + `DESIGN.md` and applies them to redesigns, polish, motion, accessibility, theming. |
 | `blog-writer` | **Mandatory for any blog / journal / long-form content.** Spawns a researcher → writer → SEO editor + image producer swarm. 15-20 min read with Gemini-generated inline images. Output: draft MDX in `apps/marketing/content/blog/`. |
+| `video-writer` | **Mandatory for any Instagram Reel / short-form video / TikTok content.** Seven-role swarm: researcher → script writer → visual director → [voice + images + SFX + music] parallel → motion designer → renderer. ElevenLabs voice, Gemini stills, curated music. Output: 9:16 MP4 in `apps/marketing/public/reels/`. |
 | `toprank` *(plugin)* | **Mandatory for SEO / GEO / Google Ads / Meta Ads.** Installed via marketplace, not vendored. Skills: `seo-analysis`, `keyword-research`, `content-writer`, `geo-optimizer`, `meta-tags-optimizer`, `schema-markup-generator`, `broken-link-checker`, `seo-page`, `google-ads-*`, `meta-ads-*`. Uses live Search Console + PageSpeed APIs. |
 | `grill-with-docs` | Stress-test plans against `CONTEXT.md` + ADRs. Updates docs inline as decisions crystallise. |
 | `grill-me` | Stress-test a plan without doc updates. |

@@ -1,0 +1,35 @@
+{
+	"name": "@vibestack/video",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"description": "Remotion compositions + render pipeline for vibestack Instagram reels.",
+	"exports": {
+		".": "./src/index.ts",
+		"./types": "./src/lib/types.ts",
+		"./compositions/*": "./src/compositions/*.tsx"
+	},
+	"scripts": {
+		"check-types": "tsc --noEmit",
+		"studio": "remotion studio src/Root.tsx",
+		"render": "remotion render src/Root.tsx Reel",
+		"render:from": "tsx scripts/render-from-manifest.ts"
+	},
+	"dependencies": {
+		"@remotion/captions": "^4.0.300",
+		"@remotion/cli": "^4.0.300",
+		"@remotion/media-utils": "^4.0.300",
+		"react": "catalog:",
+		"react-dom": "catalog:",
+		"remotion": "^4.0.300",
+		"simple-icons": "^16.19.0",
+		"zod": "catalog:"
+	},
+	"devDependencies": {
+		"@types/react": "catalog:",
+		"@types/react-dom": "catalog:",
+		"@vibestack/config": "workspace:*",
+		"tsx": "catalog:",
+		"typescript": "catalog:"
+	}
+}
