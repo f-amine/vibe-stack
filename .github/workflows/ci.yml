@@ -33,7 +33,6 @@ jobs:
     # proves the zero-key boot path (optional services degrade to "disabled").
     env:
       DATABASE_URL: postgresql://postgres:postgres@localhost:5432/starter_saas_ci
-      BETTER_AUTH_SECRET: ci_secret_ci_secret_ci_secret_ci_
       BETTER_AUTH_URL: http://localhost:3001
       APP_URL: http://localhost:3001
       CORS_ORIGIN: http://localhost:3001
@@ -56,7 +55,7 @@ jobs:
           cat > .env <<EOF
           NODE_ENV=production
           DATABASE_URL=${DATABASE_URL}
-          BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET}
+          BETTER_AUTH_SECRET=$(openssl rand -base64 32)
           BETTER_AUTH_URL=${BETTER_AUTH_URL}
           APP_URL=${APP_URL}
           CORS_ORIGIN=${CORS_ORIGIN}
@@ -89,7 +88,6 @@ jobs:
           --health-retries 5
     env:
       DATABASE_URL: postgresql://postgres:postgres@localhost:5432/starter_saas_smoke
-      BETTER_AUTH_SECRET: ci_secret_ci_secret_ci_secret_ci_
       BETTER_AUTH_URL: http://localhost:3001
       APP_URL: http://localhost:3001
       CORS_ORIGIN: http://localhost:3001
@@ -108,7 +106,7 @@ jobs:
           cat > .env <<EOF
           NODE_ENV=production
           DATABASE_URL=${DATABASE_URL}
-          BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET}
+          BETTER_AUTH_SECRET=$(openssl rand -base64 32)
           BETTER_AUTH_URL=${BETTER_AUTH_URL}
           APP_URL=${APP_URL}
           CORS_ORIGIN=${CORS_ORIGIN}
