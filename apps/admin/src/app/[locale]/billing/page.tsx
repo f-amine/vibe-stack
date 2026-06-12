@@ -7,6 +7,7 @@ import {
 	CardTitle,
 } from "@vibestack/ui/components/card";
 import { EmptyState } from "@vibestack/ui/components/empty-state";
+import { PageHeader } from "@vibestack/ui/components/page-header";
 import {
 	Table,
 	TableBody,
@@ -17,7 +18,6 @@ import {
 } from "@vibestack/ui/components/table";
 import { GrowthArea } from "@/components/charts/area-chart";
 import { CountBar } from "@/components/charts/bar-chart";
-import { PageHeader } from "@/components/layout/page-header";
 import {
 	fetchChurn,
 	fetchMrr,

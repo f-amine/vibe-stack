@@ -9,6 +9,9 @@
 		"./plans-server": "./src/plans-server.ts",
 		"./client": "./src/client.ts"
 	},
+	"scripts": {
+		"test": "vitest run"
+	},
 	"dependencies": {
 		"@polar-sh/sdk": "catalog:",
 		"@vibestack/env": "workspace:*",
@@ -16,6 +19,7 @@
 	},
 	"devDependencies": {
 		"@vibestack/config": "workspace:*",
-		"typescript": "catalog:"
+		"typescript": "catalog:",
+		"vitest": "catalog:"
 	}
 }

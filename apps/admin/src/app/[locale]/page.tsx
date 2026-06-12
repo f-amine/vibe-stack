@@ -6,14 +6,10 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@vibestack/ui/components/card";
+import { PageHeader } from "@vibestack/ui/components/page-header";
 import { Building2, CreditCard, TrendingUp, Users } from "lucide-react";
 import { CountBar, GrowthArea } from "@/components/charts/lazy";
-import { PageHeader } from "@/components/layout/page-header";
-import {
-	fetchAuditByAction,
-	fetchKpis,
-	fetchSignupsByDay,
-} from "@/lib/mock-stats";
+import { fetchAuditByAction, fetchKpis, fetchSignupsByDay } from "@/lib/stats";
 
 const formatter = new Intl.NumberFormat("en", { notation: "compact" });
 

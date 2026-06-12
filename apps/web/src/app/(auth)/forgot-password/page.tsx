@@ -59,12 +59,12 @@ export default function ForgotPasswordPage() {
 				<span className="font-mono-label text-muted-foreground">
 					Account · recovery
 				</span>
-				<h1 className="font-display text-[2.25rem] leading-[1.05] tracking-[-0.02em] text-foreground">
+				<h1 className="font-display text-[2.25rem] text-foreground leading-[1.05] tracking-[-0.02em]">
 					Lost the key.
 				</h1>
 				<p className="max-w-sm text-muted-foreground text-sm leading-relaxed">
-					Enter the email tied to your account. We'll send a one-time reset
-					link that expires in an hour.
+					Enter the email tied to your account. We'll send a one-time reset link
+					that expires in an hour.
 				</p>
 			</div>
 

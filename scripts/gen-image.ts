@@ -192,8 +192,7 @@ async function run(argv: string[]): Promise<number> {
 		return EXIT_USAGE;
 	}
 
-	const apiKey =
-		process.env.GOOGLE_AI_API_KEY ?? process.env.GEMINI_API_KEY;
+	const apiKey = process.env.GOOGLE_AI_API_KEY ?? process.env.GEMINI_API_KEY;
 	if (!apiKey) {
 		process.stderr.write(
 			"Neither GOOGLE_AI_API_KEY nor GEMINI_API_KEY is set, skipping image generation. Add one to .env to enable.\n",

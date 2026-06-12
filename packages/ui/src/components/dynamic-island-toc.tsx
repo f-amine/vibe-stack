@@ -3,12 +3,7 @@
 import { cn } from "@vibestack/ui/lib/utils";
 import { X } from "lucide-react";
 import { AnimatePresence, motion, type Transition } from "motion/react";
-import {
-	type ReactNode,
-	useEffect,
-	useMemo,
-	useState,
-} from "react";
+import { type ReactNode, useEffect, useMemo, useState } from "react";
 
 type HeadingData = {
 	id: string;
@@ -31,12 +26,7 @@ function CircleProgress({ percentage }: { percentage: number }) {
 	const offset = circumference - (percentage / 100) * circumference;
 
 	return (
-		<svg
-			width={size}
-			height={size}
-			className="-rotate-90 shrink-0"
-			aria-hidden
-		>
+		<svg width={size} height={size} className="shrink-0 -rotate-90" aria-hidden>
 			<title>Reading progress</title>
 			<circle
 				cx={size / 2}
@@ -151,8 +141,7 @@ export function DynamicIslandTOC({
 
 			setActiveId(currentActiveId);
 
-			const total =
-				document.documentElement.scrollHeight - window.innerHeight;
+			const total = document.documentElement.scrollHeight - window.innerHeight;
 			setProgress(
 				total > 0
 					? Math.min(100, Math.max(0, (window.scrollY / total) * 100))
@@ -237,7 +226,7 @@ export function DynamicIslandTOC({
 									animate={{ opacity: 1, y: 0 }}
 									exit={{ opacity: 0, y: -15 }}
 									transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-									className="block w-full overflow-hidden text-ellipsis whitespace-nowrap text-sm font-medium text-foreground"
+									className="block w-full overflow-hidden text-ellipsis whitespace-nowrap font-medium text-foreground text-sm"
 								>
 									{activeHeading?.text || "Contents"}
 								</motion.span>
@@ -260,7 +249,7 @@ export function DynamicIslandTOC({
 						)}
 					>
 						<div className="flex shrink-0 items-center justify-between px-6 pt-5 pb-3">
-							<span className="font-mono text-[11px] font-semibold tracking-[0.18em] text-muted-foreground uppercase">
+							<span className="font-mono font-semibold text-[11px] text-muted-foreground uppercase tracking-[0.18em]">
 								Table of Contents
 							</span>
 							<button
@@ -306,7 +295,8 @@ export function DynamicIslandTOC({
 											style={{ paddingLeft: `${paddingLeft}px` }}
 											className={cn(
 												"group flex w-full shrink-0 cursor-pointer items-center rounded-lg border-none py-2 pr-3 text-left text-sm transition-all duration-300 ease-out",
-												isActive && "bg-foreground/10 font-medium text-foreground",
+												isActive &&
+													"bg-foreground/10 font-medium text-foreground",
 												!isActive &&
 													isHovered &&
 													"bg-foreground/5 text-foreground/85",

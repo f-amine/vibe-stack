@@ -73,7 +73,7 @@ function buildScriptFromShots(shots: Shot[]): {
 			ranges.push({ id: s.id, charStart: cursor, charEnd: cursor });
 			continue;
 		}
-		const padded = (parts.length === 0 ? text : ` ${text}`);
+		const padded = parts.length === 0 ? text : ` ${text}`;
 		ranges.push({
 			id: s.id,
 			charStart: cursor + (parts.length === 0 ? 0 : 1),
@@ -109,7 +109,8 @@ function chunksFromAlignment(
 				words.push({
 					text: currentWord,
 					startSec: wordStartSec - scriptOffsetSec,
-					endSec: (alignment.character_end_times_seconds[i - 1] ?? e) -
+					endSec:
+						(alignment.character_end_times_seconds[i - 1] ?? e) -
 						scriptOffsetSec,
 				});
 				currentWord = "";

@@ -7,6 +7,9 @@
 		".": "./src/index.ts",
 		"./upload": "./src/upload.ts"
 	},
+	"scripts": {
+		"test": "vitest run"
+	},
 	"dependencies": {
 		"@aws-sdk/client-s3": "catalog:",
 		"@aws-sdk/s3-request-presigner": "catalog:",
@@ -16,6 +19,7 @@
 	},
 	"devDependencies": {
 		"@vibestack/config": "workspace:*",
-		"typescript": "catalog:"
+		"typescript": "catalog:",
+		"vitest": "catalog:"
 	}
 }

@@ -1,0 +1,6 @@
+# Keep docker build contexts lean — both Dockerfiles run `pnpm install`
+# and build from source inside the image.
+**/node_modules
+**/.next
+**/.turbo
+.git

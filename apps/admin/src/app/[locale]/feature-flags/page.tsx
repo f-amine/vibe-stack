@@ -8,8 +8,8 @@ import {
 	CardTitle,
 } from "@vibestack/ui/components/card";
 import { EmptyState } from "@vibestack/ui/components/empty-state";
+import { PageHeader } from "@vibestack/ui/components/page-header";
 import { AlertCircle, Flag } from "lucide-react";
-import { PageHeader } from "@/components/layout/page-header";
 import { requireAdmin } from "@/lib/require-admin";
 
 import { FlagToggle } from "./_flag-toggle";

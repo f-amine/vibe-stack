@@ -1,0 +1,329 @@
+---
+title: Build your first feature
+description: One vertical slice through vibestack — a notes feature, from database table to tRPC API to dashboard page. About 20 minutes.
+---
+
+This tutorial walks one complete feature through every layer of the stack: a personal **notes** list. You'll touch three places, in order:
+
+1. **`packages/db`** — a Drizzle table for storing notes in Postgres.
+2. **`packages/api`** — a tRPC router so the browser can list, create, and delete notes (with auth enforced).
+3. **`apps/web`** — a dashboard page that renders them.
+
+That top-to-bottom path — schema, then API, then UI — is how every feature in vibestack is built. Once you've done it once, you (or Claude) can repeat it for anything: projects, invoices, comments, whatever your product needs.
+
+You need the app running first (`pnpm dev`, sign in at `http://localhost:3001`). If you're not there yet, run `/setup` in Claude Code or follow the README quickstart. No third-party API keys are needed for any of this.
+
+## Step 1 — The database table
+
+Drizzle schemas live in `packages/db/src/schema/`, one file per concept. Tables are `snake_case` and singular (`user`, `organization`, `note`) — that's a project convention from `CONTEXT.md`.
+
+Create `packages/db/src/schema/note.ts`:
+
+```ts title="packages/db/src/schema/note.ts"
+import { index, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { user } from "./auth";
+
+export const note = pgTable(
+	"note",
+	{
+		id: text("id").primaryKey(),
+		userId: text("user_id")
+			.notNull()
+			.references(() => user.id, { onDelete: "cascade" }),
+		title: text("title").notNull(),
+		body: text("body"),
+		createdAt: timestamp("created_at").defaultNow().notNull(),
+		updatedAt: timestamp("updated_at")
+			.defaultNow()
+			.$onUpdate(() => new Date())
+			.notNull(),
+	},
+	(table) => [index("note_user_id_idx").on(table.userId)],
+);
+
+export type Note = typeof note.$inferSelect;
+export type NoteInsert = typeof note.$inferInsert;
+```
+
+What's going on here:
+
+- `references(() => user.id, { onDelete: "cascade" })` ties every note to its owner. Delete the user, their notes go too.
+- The index on `user_id` keeps "list my notes" fast — every query in this feature filters by it.
+- `$onUpdate(() => new Date())` keeps `updatedAt` fresh automatically.
+- The two exported types give you full type-safety everywhere else without writing a single interface by hand.
+
+Then register the file in the schema barrel. Open `packages/db/src/schema/index.ts` and add one line (alphabetical order):
+
+```ts title="packages/db/src/schema/index.ts"
+export * from "./note";
+```
+
+### Apply it to Postgres
+
+In development, push the schema straight to the database:
+
+```bash
+pnpm db:push
+```
+
+You should see Drizzle report a new `note` table. Want to look at it? `pnpm db:studio` opens a database browser in your browser.
+
+(When you ship to production you'll use the migration pair instead — `pnpm db:generate` to write a SQL migration file, `pnpm db:migrate` to apply it. For local iteration, `db:push` is the move.)
+
+## Step 2 — The API
+
+All data access goes through tRPC procedures in `packages/api` — that's an invariant in this repo (no direct DB queries from app pages). Routers live in `packages/api/src/routers/`, one file per resource, and procedures are named `<resource>.<verb>`.
+
+Two building blocks come from `packages/api/src/index.ts`:
+
+- `publicProcedure` — anyone can call it.
+- `protectedProcedure` — middleware that throws `UNAUTHORIZED` unless the request carries a valid session cookie, and gives you the typed `ctx.session` with the signed-in user.
+
+Notes are private, so everything here uses `protectedProcedure`. Create `packages/api/src/routers/note.ts`:
+
+```ts title="packages/api/src/routers/note.ts"
+import { randomUUID } from "node:crypto";
+import { db } from "@vibestack/db";
+import { note } from "@vibestack/db/schema/note";
+import { and, desc, eq } from "drizzle-orm";
+import { z } from "zod";
+import { protectedProcedure, router } from "../index";
+
+export const noteRouter = router({
+	list: protectedProcedure.query(async ({ ctx }) => {
+		return db
+			.select()
+			.from(note)
+			.where(eq(note.userId, ctx.session.user.id))
+			.orderBy(desc(note.createdAt));
+	}),
+
+	create: protectedProcedure
+		.input(
+			z.object({
+				title: z.string().min(1).max(200),
+				body: z.string().max(10_000).optional(),
+			}),
+		)
+		.mutation(async ({ ctx, input }) => {
+			const [row] = await db
+				.insert(note)
+				.values({
+					id: randomUUID(),
+					userId: ctx.session.user.id,
+					title: input.title,
+					body: input.body ?? null,
+				})
+				.returning();
+			return row;
+		}),
+
+	remove: protectedProcedure
+		.input(z.object({ id: z.string() }))
+		.mutation(async ({ ctx, input }) => {
+			await db
+				.delete(note)
+				.where(
+					and(eq(note.id, input.id), eq(note.userId, ctx.session.user.id)),
+				);
+			return { ok: true };
+		}),
+});
+```
+
+Three things to notice — they're the security model of the whole app:
+
+- **Every query filters by `ctx.session.user.id`.** A user can only ever see or delete their own notes. The `and(...)` in `remove` means deleting someone else's note id silently does nothing.
+- **Zod validates every input** before your code runs. Bad payloads never reach the database.
+- **You never trust a `userId` from the client.** It always comes from the session.
+
+Now mount the router. Open `packages/api/src/routers/index.ts` and wire it in next to the existing ones:
+
+```ts title="packages/api/src/routers/index.ts"
+import { protectedProcedure, publicProcedure, router } from "../index";
+
+import { billingRouter } from "./billing";
+import { noteRouter } from "./note";
+import { orgRouter } from "./org";
+import { searchRouter } from "./search";
+import { userRouter } from "./user";
+
+export const appRouter = router({
+	healthCheck: publicProcedure.query(() => "OK"),
+	privateData: protectedProcedure.query(({ ctx }) => ({
+		message: "This is private",
+		user: ctx.session.user,
+	})),
+	user: userRouter,
+	org: orgRouter,
+	billing: billingRouter,
+	search: searchRouter,
+	note: noteRouter,
+});
+
+export type AppRouter = typeof appRouter;
+```
+
+That's the entire API. No REST routes, no fetch handlers, no API docs to keep in sync — the `AppRouter` type flows into the frontend and your editor autocompletes `trpc.note.list` with the exact return type of your Drizzle query.
+
+## Step 3 — The page
+
+Dashboard pages live under `apps/web/src/app/(app)/dashboard/`. The `(app)` layout already handles the hard parts: it redirects signed-out visitors to `/sign-in` and wraps everything in the sidebar shell, so your page only worries about its own content.
+
+The web app talks to tRPC through TanStack Query, via the typed helper in `apps/web/src/utils/trpc.ts`. The pattern is `useQuery(trpc.<router>.<procedure>.queryOptions())` for reads and `useMutation(trpc...mutationOptions())` for writes.
+
+Create `apps/web/src/app/(app)/dashboard/notes/page.tsx`:
+
+```tsx title="apps/web/src/app/(app)/dashboard/notes/page.tsx"
+"use client";
+
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { Button } from "@vibestack/ui/components/button";
+import { Input } from "@vibestack/ui/components/input";
+import { PageHeader } from "@vibestack/ui/components/page-header";
+import { Skeleton } from "@vibestack/ui/components/skeleton";
+import { useState } from "react";
+import { toast } from "sonner";
+import { queryClient, trpc } from "@/utils/trpc";
+
+export default function NotesPage() {
+	const [title, setTitle] = useState("");
+
+	const notes = useQuery(trpc.note.list.queryOptions());
+
+	const invalidate = () =>
+		queryClient.invalidateQueries({ queryKey: trpc.note.list.queryKey() });
+
+	const create = useMutation(
+		trpc.note.create.mutationOptions({
+			onSuccess: () => {
+				setTitle("");
+				invalidate();
+			},
+			onError: (err) => toast.error(err.message),
+		}),
+	);
+
+	const remove = useMutation(
+		trpc.note.remove.mutationOptions({
+			onSuccess: invalidate,
+			onError: (err) => toast.error(err.message),
+		}),
+	);
+
+	return (
+		<>
+			<PageHeader
+				bordered
+				eyebrow="Notes"
+				title="Your notes"
+				description="The first feature you built yourself. Scratchpad for whatever's next."
+			/>
+
+			<form
+				className="mb-10 flex max-w-xl gap-3"
+				onSubmit={(e) => {
+					e.preventDefault();
+					if (title.trim()) create.mutate({ title: title.trim() });
+				}}
+			>
+				<Input
+					value={title}
+					onChange={(e) => setTitle(e.target.value)}
+					placeholder="Write something down…"
+					aria-label="Note title"
+				/>
+				<Button type="submit" disabled={create.isPending || !title.trim()}>
+					{create.isPending ? "Adding…" : "Add note"}
+				</Button>
+			</form>
+
+			{notes.isLoading ? (
+				<div className="max-w-xl space-y-3">
+					<Skeleton className="h-12 w-full" />
+					<Skeleton className="h-12 w-full" />
+				</div>
+			) : notes.data?.length ? (
+				<ul className="max-w-xl divide-y divide-border border-border border-y">
+					{notes.data.map((n) => (
+						<li key={n.id} className="flex items-center gap-4 py-4">
+							<div className="min-w-0 flex-1">
+								<p className="font-medium text-foreground text-sm">{n.title}</p>
+								<p className="mt-1 font-mono text-muted-foreground text-xs">
+									{new Date(n.createdAt).toLocaleDateString()}
+								</p>
+							</div>
+							<Button
+								variant="ghost"
+								size="sm"
+								onClick={() => remove.mutate({ id: n.id })}
+								disabled={remove.isPending}
+							>
+								Delete
+							</Button>
+						</li>
+					))}
+				</ul>
+			) : (
+				<p className="text-muted-foreground text-sm">
+					No notes yet. Add the first one above.
+				</p>
+			)}
+		</>
+	);
+}
+```
+
+The conventions this page follows (steal them for every page you build):
+
+- `PageHeader` (with `bordered` for the web app's editorial look) instead of a bare `<h1>`.
+- UI primitives come from `@vibestack/ui/components/*` (shadcn-based, already themed).
+- Errors surface through `toast.error` — the global query cache in `utils/trpc.ts` does the same for queries.
+- After a mutation succeeds, invalidate the list query so the UI refetches. No manual state syncing.
+
+## Step 4 — Try it
+
+```bash
+pnpm dev:web
+```
+
+Open `http://localhost:3001/dashboard/notes`, add a few notes, delete one, refresh the page — they persist. Open `pnpm db:studio` and you'll see the rows in the `note` table.
+
+Quality gates before you commit (CI runs the same):
+
+```bash
+pnpm check        # biome format + lint
+pnpm typecheck    # tsc across packages
+pnpm test         # vitest
+```
+
+Two optional polish steps:
+
+- **Sidebar link** — add a Notes entry in `apps/web/src/components/app/app-sidebar.tsx` next to the existing `/dashboard/files` and `/dashboard/organizations` items. Heads-up: this repo uses Next.js typed routes, so the first time you link to a brand-new route you may need to cast (`href={"/dashboard/notes" as never}`) until the dev server picks it up — you'll find the same pattern already in the sidebar.
+- **Make it beautiful** — any further UI work on this page should start with `/impeccable` in Claude Code. That's the house rule for all frontend changes.
+
+## What you just learned
+
+The whole feature was three files plus two one-line registrations:
+
+```
+packages/db/src/schema/note.ts        ← the table
+packages/db/src/schema/index.ts       ← + one export line
+packages/api/src/routers/note.ts      ← the API (auth enforced)
+packages/api/src/routers/index.ts     ← + one router entry
+apps/web/.../dashboard/notes/page.tsx ← the page
+```
+
+Types flow end-to-end: change a column in the schema and `pnpm typecheck` tells you every router and page that needs updating. That tight loop is what makes this codebase easy for AI agents to work in, too.
+
+## Where to go next
+
+Notes was a warm-up you did by hand to understand the layers. For real features, let the skill workflow drive — open Claude Code in the repo and chain:
+
+1. **`/grill-with-docs`** — Claude interviews you about the feature until the design is solid, updating `CONTEXT.md` as decisions land.
+2. **`/to-prd`** — turns that conversation into a PRD.
+3. **`/to-issues`** — breaks the PRD into independently-shippable issues.
+4. **`/tdd`** — implements each issue test-first (red → green → refactor).
+5. **`/review`** — reviews the diff before you merge.
+
+Each skill knows this codebase's conventions — the same ones you just used — so what comes out the other end looks like the code you read today.

@@ -1,6 +1,9 @@
 import { passkey } from "@better-auth/passkey";
 import { checkout, polar, portal, webhooks } from "@polar-sh/better-auth";
-import { polar as polarClient } from "@vibestack/billing/client";
+import {
+	billingEnabled,
+	polar as polarClient,
+} from "@vibestack/billing/client";
 import { polarCheckoutProducts } from "@vibestack/billing/plans-server";
 import { createDb } from "@vibestack/db";
 import * as schema from "@vibestack/db/schema/auth";
@@ -19,6 +22,17 @@ import {
 	sendVerify,
 } from "./lib/send";
 import { maybeSendWelcomeOnVerify } from "./lib/welcome";
+
+// Email delivery must never take an auth flow down with it: a Resend
+// outage during signup would otherwise 500 the whole request. Log and
+// continue — every flow has a resend/retry path in the UI.
+async function trySend(label: string, send: () => Promise<unknown>) {
+	try {
+		await send();
+	} catch (err) {
+		console.error(`[auth] failed to send ${label} email:`, err);
+	}
+}
 
 export function createAuth() {
 	const db = createDb();
@@ -48,7 +62,9 @@ export function createAuth() {
 			enabled: true,
 			requireEmailVerification: true,
 			sendResetPassword: async ({ user, url }) => {
-				await sendPasswordReset({ to: user.email, url });
+				await trySend("password-reset", () =>
+					sendPasswordReset({ to: user.email, url }),
+				);
 			},
 		},
 
@@ -56,7 +72,9 @@ export function createAuth() {
 			sendOnSignUp: true,
 			autoSignInAfterVerification: true,
 			sendVerificationEmail: async ({ user, url }) => {
-				await sendVerify({ to: user.email, name: user.name, url });
+				await trySend("verification", () =>
+					sendVerify({ to: user.email, name: user.name, url }),
+				);
 			},
 		},
 
@@ -100,7 +118,7 @@ export function createAuth() {
 		plugins: [
 			magicLink({
 				sendMagicLink: async ({ email, url }) => {
-					await sendMagicLink({ to: email, url });
+					await trySend("magic-link", () => sendMagicLink({ to: email, url }));
 				},
 			}),
 			passkey({
@@ -118,36 +136,44 @@ export function createAuth() {
 				roles: { member, admin: adminRole, owner },
 				sendInvitationEmail: async (data) => {
 					const acceptUrl = `${env.APP_URL}/orgs/invitations/${data.id}`;
-					await sendOrgInvite({
-						to: data.email,
-						inviterName: data.inviter.user.name ?? data.inviter.user.email,
-						orgName: data.organization.name,
-						acceptUrl,
-					});
+					await trySend("org-invite", () =>
+						sendOrgInvite({
+							to: data.email,
+							inviterName: data.inviter.user.name ?? data.inviter.user.email,
+							orgName: data.organization.name,
+							acceptUrl,
+						}),
+					);
 				},
 				teams: { enabled: false },
 				cancelPendingInvitationsOnReInvite: true,
 			}),
-			polar({
-				client: polarClient,
-				createCustomerOnSignUp: true,
-				enableCustomerPortal: true,
-				use: [
-					checkout({
-						products: polarCheckoutProducts(),
-						successUrl: env.POLAR_SUCCESS_URL,
-						authenticatedUsersOnly: true,
-					}),
-					portal(),
-					...(env.POLAR_WEBHOOK_SECRET
-						? [
-								webhooks({
-									secret: env.POLAR_WEBHOOK_SECRET,
+			// Billing plugin only mounts when POLAR_ACCESS_TOKEN is set — the
+			// app boots (and auth works) without a Polar account.
+			...(billingEnabled()
+				? [
+						polar({
+							client: polarClient,
+							createCustomerOnSignUp: true,
+							enableCustomerPortal: true,
+							use: [
+								checkout({
+									products: polarCheckoutProducts(),
+									successUrl: env.POLAR_SUCCESS_URL ?? `${env.APP_URL}/success`,
+									authenticatedUsersOnly: true,
 								}),
-							]
-						: []),
-				],
-			}),
+								portal(),
+								...(env.POLAR_WEBHOOK_SECRET
+									? [
+											webhooks({
+												secret: env.POLAR_WEBHOOK_SECRET,
+											}),
+										]
+									: []),
+							],
+						}),
+					]
+				: []),
 			nextCookies(),
 		],
 	});

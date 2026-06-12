@@ -32,9 +32,7 @@ type Manifest = {
 
 function pickFromDir(dir: string): string | null {
 	if (!existsSync(dir)) return null;
-	const files = readdirSync(dir).filter((f) =>
-		/\.(mp3|wav|m4a|ogg)$/i.test(f),
-	);
+	const files = readdirSync(dir).filter((f) => /\.(mp3|wav|m4a|ogg)$/i.test(f));
 	if (files.length === 0) return null;
 	return path.join(dir, files[Math.floor(Math.random() * files.length)]!);
 }

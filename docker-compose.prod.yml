@@ -30,6 +30,19 @@ services:
       timeout: 5s
       retries: 5
 
+  # One-shot: applies committed Drizzle migrations (packages/db/src/migrations)
+  # before web/admin start. Generate migrations with `pnpm db:generate` and
+  # commit them — this service is a no-op if none exist yet.
+  migrate:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.migrate
+    restart: "no"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file: .env.production
+
   web:
     build:
       context: .
@@ -43,9 +56,17 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
     env_file: .env.production
     ports:
       - "3001:3001"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3001/api/health || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
 
   marketing:
     build:
@@ -58,6 +79,12 @@ services:
     env_file: .env.production
     ports:
       - "3000:3000"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3000/api/health || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
 
   admin:
     build:
@@ -72,9 +99,17 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
     env_file: .env.production
     ports:
       - "3002:3002"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3002/api/health || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
 
   backup:
     image: alpine:3.20

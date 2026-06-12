@@ -126,7 +126,7 @@ export function AppSidebar() {
 					<span className="inline-block bg-foreground px-1.5 py-0.5 font-medium text-[0.875rem] text-background leading-none">
 						vibe
 					</span>
-					<span className="group-data-[collapsible=icon]:hidden text-foreground/80">
+					<span className="text-foreground/80 group-data-[collapsible=icon]:hidden">
 						/stack
 					</span>
 				</Link>
@@ -152,7 +152,7 @@ export function AppSidebar() {
 												isActive={active}
 												render={<Link href={{ pathname: item.href }} />}
 												tooltip={item.label}
-												className="relative data-[active=true]:bg-[color:var(--vs-ink-line)] data-[active=true]:text-[color:var(--vs-gold)] data-[active=true]:before:absolute data-[active=true]:before:left-0 data-[active=true]:before:top-2 data-[active=true]:before:bottom-2 data-[active=true]:before:w-[2px] data-[active=true]:before:bg-[color:var(--vs-gold)] data-[active=true]:before:rounded-r-sm"
+												className="relative data-[active=true]:bg-[color:var(--vs-ink-line)] data-[active=true]:text-[color:var(--vs-gold)] data-[active=true]:before:absolute data-[active=true]:before:top-2 data-[active=true]:before:bottom-2 data-[active=true]:before:left-0 data-[active=true]:before:w-[2px] data-[active=true]:before:rounded-r-sm data-[active=true]:before:bg-[color:var(--vs-gold)]"
 											>
 												<Icon className="h-4 w-4" />
 												<span>{item.label}</span>

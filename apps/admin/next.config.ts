@@ -15,6 +15,8 @@ const config: NextConfig = {
 		"@vibestack/analytics",
 	],
 	reactCompiler: true,
+	// docker/Dockerfile.next copies .next/standalone — required for prod images.
+	output: "standalone",
 };
 
 export default withNextIntl(config);

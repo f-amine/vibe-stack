@@ -70,7 +70,7 @@ function Inner() {
 					Almost there · ch. 02
 				</span>
 				<span aria-hidden className="gold-rule" />
-				<h1 className="font-display text-[2.25rem] leading-[1.05] tracking-[-0.02em] text-foreground">
+				<h1 className="font-display text-[2.25rem] text-foreground leading-[1.05] tracking-[-0.02em]">
 					Check your email.
 				</h1>
 				<p className="max-w-sm text-muted-foreground text-sm leading-relaxed">

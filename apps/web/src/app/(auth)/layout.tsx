@@ -33,9 +33,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
 
 				<footer className="flex items-center justify-between font-mono-label text-muted-foreground">
 					<span>© {new Date().getFullYear()} · vibestack</span>
-					<span className="hidden sm:inline">
-						Terms · Privacy · Security
-					</span>
+					<span className="hidden sm:inline">Terms · Privacy · Security</span>
 				</footer>
 			</main>
 

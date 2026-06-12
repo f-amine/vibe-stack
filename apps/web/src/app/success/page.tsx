@@ -85,11 +85,12 @@ export default async function SuccessPage({ searchParams }: Props) {
 					? "one-time"
 					: null;
 
-	const statusLine = checkoutKnown && plan
-		? "Subscription active. Receipt sent."
-		: checkoutId
-			? "Checkout received. We'll finalise your subscription in a moment."
-			: "Welcome aboard. Your plan is active.";
+	const statusLine =
+		checkoutKnown && plan
+			? "Subscription active. Receipt sent."
+			: checkoutId
+				? "Checkout received. We'll finalise your subscription in a moment."
+				: "Welcome aboard. Your plan is active.";
 
 	return (
 		<div className="relative min-h-dvh bg-background">
@@ -121,19 +122,21 @@ export default async function SuccessPage({ searchParams }: Props) {
 				</span>
 			</header>
 
-			<main className="mx-auto max-w-2xl px-6 pt-12 pb-24 vs-fade-up">
+			<main className="vs-fade-up mx-auto max-w-2xl px-6 pt-12 pb-24">
 				<div className="space-y-5">
 					<span className="font-mono-label text-muted-foreground">
 						Subscription active
 					</span>
 					<span aria-hidden className="gold-rule" />
-					<h1 className="font-display text-[clamp(2.25rem,5vw,3.25rem)] leading-[1.04] tracking-[-0.02em] text-foreground">
-						You're on <em
+					<h1 className="font-display text-[clamp(2.25rem,5vw,3.25rem)] text-foreground leading-[1.04] tracking-[-0.02em]">
+						You're on{" "}
+						<em
 							className="not-italic"
 							style={{ color: "var(--vs-gold)", fontStyle: "italic" }}
 						>
 							{display.name}
-						</em>.
+						</em>
+						.
 					</h1>
 					<p className="max-w-lg text-muted-foreground text-sm leading-relaxed">
 						{statusLine}
@@ -154,7 +157,7 @@ export default async function SuccessPage({ searchParams }: Props) {
 								{display.name} plan
 							</p>
 							<div className="mt-3 flex items-baseline gap-3">
-								<span className="font-display text-[3.5rem] leading-none tracking-[-0.02em] text-foreground">
+								<span className="font-display text-[3.5rem] text-foreground leading-none tracking-[-0.02em]">
 									{price}
 								</span>
 								{interval ? (
@@ -190,7 +193,7 @@ export default async function SuccessPage({ searchParams }: Props) {
 				<div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
 					<Link
 						href="/dashboard"
-						className="vs-focus-ring inline-flex h-11 items-center justify-center gap-2 rounded-full bg-[color:var(--vs-gold)] px-6 font-medium text-[color:var(--vs-ink)] text-sm transition-transform hover:bg-[color:var(--vs-gold-deep)] hover:scale-[1.015]"
+						className="vs-focus-ring inline-flex h-11 items-center justify-center gap-2 rounded-full bg-[color:var(--vs-gold)] px-6 font-medium text-[color:var(--vs-ink)] text-sm transition-transform hover:scale-[1.015] hover:bg-[color:var(--vs-gold-deep)]"
 					>
 						Go to dashboard
 						<span aria-hidden>→</span>
@@ -209,9 +212,7 @@ export default async function SuccessPage({ searchParams }: Props) {
 					{checkoutId ? (
 						<>
 							{" · checkout reference "}
-							<span className="font-mono text-foreground/80">
-								{checkoutId}
-							</span>
+							<span className="font-mono text-foreground/80">{checkoutId}</span>
 						</>
 					) : null}
 					.

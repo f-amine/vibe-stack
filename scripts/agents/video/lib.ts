@@ -1,12 +1,7 @@
 /**
  * Shared helpers for the video swarm worker scripts.
  */
-import {
-	existsSync,
-	mkdirSync,
-	readFileSync,
-	writeFileSync,
-} from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 
 export const EXIT_OK = 0;

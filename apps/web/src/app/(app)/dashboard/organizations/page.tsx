@@ -9,12 +9,12 @@ import {
 	CardTitle,
 } from "@vibestack/ui/components/card";
 import { EmptyState } from "@vibestack/ui/components/empty-state";
+import { PageHeader } from "@vibestack/ui/components/page-header";
 import { Skeleton } from "@vibestack/ui/components/skeleton";
 import { CheckCircle2, Plus, UsersRound } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { PageHeader } from "@/components/app/page-header";
 import { authClient } from "@/lib/auth-client";
 import { formatError } from "@/lib/format-error";
 
@@ -78,6 +78,7 @@ export default function OrgsPage() {
 	return (
 		<>
 			<PageHeader
+				bordered
 				title="Organizations"
 				description="Workspaces you own or belong to."
 				actions={

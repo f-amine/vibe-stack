@@ -23,8 +23,8 @@
 
 	/* Fonts */
 	--vs-display: var(--font-display), "Fraunces", ui-serif, Georgia, serif;
-	--vs-body: var(--font-geist-sans), "Geist", ui-sans-serif, system-ui,
-		sans-serif;
+	--vs-body:
+		var(--font-geist-sans), "Geist", ui-sans-serif, system-ui, sans-serif;
 	--vs-mono: var(--font-mono), "JetBrains Mono", ui-monospace, monospace;
 
 	/* Light theme — inverted lit-reading-room: parchment canvas, ink type. */

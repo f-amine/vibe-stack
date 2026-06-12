@@ -177,7 +177,7 @@ export default function BlogIndex() {
 								<h2 className="font-mono text-[color:var(--marketing-muted)] text-xs uppercase tracking-[0.3em]">
 									The Ledger
 								</h2>
-								<p className="font-mono text-[color:var(--marketing-muted)] text-[10px] uppercase tracking-[0.22em]">
+								<p className="font-mono text-[10px] text-[color:var(--marketing-muted)] uppercase tracking-[0.22em]">
 									{rest.length} {rest.length === 1 ? "entry" : "entries"}
 								</p>
 							</div>

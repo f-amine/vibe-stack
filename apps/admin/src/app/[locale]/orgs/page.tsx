@@ -9,6 +9,7 @@ import {
 	CardTitle,
 } from "@vibestack/ui/components/card";
 import { EmptyState } from "@vibestack/ui/components/empty-state";
+import { PageHeader } from "@vibestack/ui/components/page-header";
 import {
 	Table,
 	TableBody,
@@ -18,7 +19,6 @@ import {
 	TableRow,
 } from "@vibestack/ui/components/table";
 import { desc, eq, count as sqlCount } from "drizzle-orm";
-import { PageHeader } from "@/components/layout/page-header";
 
 export default async function OrgsPage() {
 	const orgs = await db

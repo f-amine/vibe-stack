@@ -5,10 +5,10 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@vibestack/ui/components/card";
+import { PageHeader } from "@vibestack/ui/components/page-header";
 import { GrowthArea } from "@/components/charts/area-chart";
 import { CountBar } from "@/components/charts/bar-chart";
-import { PageHeader } from "@/components/layout/page-header";
-import { fetchAuditByAction, fetchSignupsByDay } from "@/lib/mock-stats";
+import { fetchAuditByAction, fetchSignupsByDay } from "@/lib/stats";
 
 export default async function AnalyticsPage() {
 	const [signups90, audit] = await Promise.all([
