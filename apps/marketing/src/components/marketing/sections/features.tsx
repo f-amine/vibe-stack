@@ -3,36 +3,44 @@
 import { useRef } from "react";
 import { gsap, useGSAP } from "@/lib/use-gsap";
 
+// Ledger layout, not a card grid: each capability is an index entry with a
+// hairline rule, like a table of contents for the repo you're about to own.
 const features = [
 	{
 		id: "01",
-		title: "Auth, organizations, & roles",
+		tag: "Better Auth",
+		title: "Auth, organizations & roles",
 		desc: "Email + magic link + Google + passkeys + 2FA. Multi-tenant orgs, member invites, admin impersonation. All wired through Better Auth.",
 	},
 	{
 		id: "02",
-		title: "Billing in 60 seconds",
-		desc: "Polar.sh checkout, customer portal, webhooks. Subscription mirror in your DB so the rest of your app stays simple.",
+		tag: "Polar.sh",
+		title: "Billing, pre-wired, never pre-charged",
+		desc: "Polar checkout, customer portal, webhooks, a subscription mirror in your DB. It bills your customers, not you. Boots fine without a token.",
 	},
 	{
 		id: "03",
+		tag: "Resend",
 		title: "Email that won't embarrass you",
-		desc: "Resend + React Email templates: verification, magic link, password reset, org invite. Preview them locally on :3010.",
+		desc: "React Email templates: verification, magic link, password reset, org invite. No API key yet? Emails print to your terminal in dev.",
 	},
 	{
 		id: "04",
+		tag: "Cloudflare R2",
 		title: "File storage you control",
-		desc: "Cloudflare R2 with presigned uploads. Nightly Postgres dumps to the same bucket on a 30-day rolling retention.",
+		desc: "Presigned uploads straight to your bucket. Nightly Postgres dumps land in the same place on a 30-day rolling retention.",
 	},
 	{
 		id: "05",
-		title: "Marketing, product, admin — separate",
-		desc: "Three Next.js apps in one Turborepo. Marketing stays fast and static. Product behind auth. Admin gated by role.",
+		tag: "Turborepo",
+		title: "Marketing, product, admin: separate",
+		desc: "Three Next.js apps in one workspace. Marketing stays fast and static. Product behind auth. Admin gated by role.",
 	},
 	{
 		id: "06",
+		tag: "Claude Code",
 		title: "Made for AI agents",
-		desc: "CONTEXT.md, ADRs, Mattpocock skills, and a ruflo autonomous-loop prompt. Hand work to agents and walk away.",
+		desc: "CONTEXT.md, ADRs, vendored skills, an autonomous-loop runbook. Describe the feature; the workflow carries it to a PR.",
 	},
 ];
 
@@ -41,17 +49,16 @@ export function Features() {
 
 	useGSAP(
 		() => {
-			gsap.utils.toArray<HTMLElement>(".feature-card").forEach((card) => {
-				gsap.from(card, {
-					y: 60,
-					autoAlpha: 0,
-					duration: 0.9,
-					ease: "expo.out",
-					scrollTrigger: {
-						trigger: card,
-						start: "top 85%",
-					},
-				});
+			gsap.from(".feature-row", {
+				scrollTrigger: {
+					trigger: ".feature-ledger",
+					start: "top 80%",
+				},
+				y: 36,
+				autoAlpha: 0,
+				duration: 0.8,
+				ease: "expo.out",
+				stagger: 0.07,
 			});
 
 			gsap.from(".features-eyebrow", {
@@ -83,7 +90,7 @@ export function Features() {
 		<section ref={root} id="features" className="py-32 sm:py-40">
 			<div className="mx-auto max-w-7xl px-6 lg:px-10">
 				<p className="features-eyebrow font-mono text-[color:var(--marketing-muted)] text-xs uppercase tracking-[0.3em]">
-					— What's included
+					— What's in the box
 				</p>
 
 				<h2 className="features-title mt-6 max-w-3xl font-display text-5xl tracking-[-0.03em] sm:text-6xl">
@@ -96,30 +103,37 @@ export function Features() {
 					)}
 				</h2>
 
-				<div className="mt-20 grid grid-cols-1 gap-px overflow-hidden rounded-3xl border border-[color:var(--marketing-line)] bg-[color:var(--marketing-line)] md:grid-cols-2 lg:grid-cols-3">
+				<ol className="feature-ledger mt-20 border-[color:var(--marketing-line)] border-t">
 					{features.map((f) => (
-						<article
+						<li
 							key={f.id}
-							className="feature-card group relative flex flex-col gap-5 bg-[color:var(--marketing-bg)] p-10 transition-colors hover:bg-[color:var(--marketing-line)]/30"
+							className="feature-row group border-[color:var(--marketing-line)] border-b transition-colors hover:bg-[color:var(--marketing-line)]/25"
 						>
-							<span className="font-mono text-[color:var(--marketing-accent)] text-xs tracking-widest">
-								{f.id}
-							</span>
-							<h3 className="font-display text-2xl leading-tight tracking-tight">
-								{f.title}
-							</h3>
-							<p className="text-[color:var(--marketing-fg)]/65 text-sm leading-relaxed">
-								{f.desc}
-							</p>
-							<div
-								aria-hidden
-								className="mt-auto text-[color:var(--marketing-fg)]/30 transition-all group-hover:translate-x-1 group-hover:text-[color:var(--marketing-accent)]"
-							>
-								→
+							<div className="grid items-baseline gap-x-8 gap-y-2 py-8 sm:py-9 lg:grid-cols-[3.5rem_1.1fr_1.4fr_auto]">
+								<span className="font-mono text-[color:var(--marketing-accent)] text-xs tracking-widest">
+									{f.id}
+								</span>
+								<h3 className="font-display text-2xl leading-tight tracking-tight sm:text-[1.75rem]">
+									{f.title}
+								</h3>
+								<p className="max-w-prose text-[color:var(--marketing-fg)]/65 text-sm leading-relaxed">
+									{f.desc}
+								</p>
+								<span className="hidden items-baseline gap-3 justify-self-end lg:flex">
+									<span className="font-mono text-[0.65rem] text-[color:var(--marketing-muted)] uppercase tracking-[0.2em]">
+										{f.tag}
+									</span>
+									<span
+										aria-hidden
+										className="text-[color:var(--marketing-fg)]/30 transition-all group-hover:translate-x-1 group-hover:text-[color:var(--marketing-accent)]"
+									>
+										→
+									</span>
+								</span>
 							</div>
-						</article>
+						</li>
 					))}
-				</div>
+				</ol>
 			</div>
 		</section>
 	);

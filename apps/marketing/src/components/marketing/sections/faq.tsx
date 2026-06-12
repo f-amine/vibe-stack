@@ -6,8 +6,12 @@ import { gsap, useGSAP } from "@/lib/use-gsap";
 
 const faqs = [
 	{
+		q: "Is it really free?",
+		a: "Yes. MIT license, no tiers, no trial clock. The billing screens inside the product are a working demo of how billing will work for your customers; nothing in the starter ever charges you.",
+	},
+	{
 		q: "Why a starter instead of a hosted platform?",
-		a: "Because the data and the customer relationship belong to you, not a vendor. Self-host on Dokploy, Hetzner, Fly, wherever you like — swap providers without rewriting your product.",
+		a: "Because the data and the customer relationship belong to you, not a vendor. Self-host on Dokploy, Hetzner, Fly, wherever you like; swap providers without rewriting your product.",
 	},
 	{
 		q: "How is this different from create-next-app?",
@@ -15,7 +19,11 @@ const faqs = [
 	},
 	{
 		q: "Can I use this for client work?",
-		a: "Yes. Starter and Pro tiers are licensed for unlimited internal and client projects. Team tier includes a white-label license.",
+		a: "Yes. MIT covers unlimited internal, client, and commercial projects, white-label included. Ship it under your own name.",
+	},
+	{
+		q: "Do I need API keys to try it?",
+		a: "No. The app boots with just Postgres and a generated secret. Sign-in emails print to your terminal until you add a Resend key; billing and file storage stay hidden until you connect Polar and R2.",
 	},
 	{
 		q: "What if I want to deploy to Vercel?",

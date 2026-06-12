@@ -6,18 +6,18 @@ import { gsap, useGSAP } from "@/lib/use-gsap";
 const steps = [
 	{
 		num: "i.",
-		title: "Clone the starter",
-		body: "pnpm create from the GitHub template. Rename the package scope. You're moving in 30 seconds.",
+		title: "npx create-vibestack my-app",
+		body: "One command. The wizard asks your product name, renames the whole repo to it, and writes your .env with a generated secret.",
 	},
 	{
 		num: "ii.",
-		title: "Fill in five env vars",
-		body: "Postgres URL, Better Auth secret, Polar token, Resend key, R2 keys. The rest is optional.",
+		title: "Pick your features",
+		body: "Billing, email, storage, OAuth: paste a key now or skip. Zero keys still boots; sign-in links print to your terminal until you add Resend.",
 	},
 	{
 		num: "iii.",
-		title: "Push schema, run dev",
-		body: "pnpm db:push, pnpm dev. Three apps boot in parallel. Marketing on 3000. Product on 3001. Admin on 3002.",
+		title: "pnpm dev",
+		body: "Three apps boot in parallel. Marketing on 3000. Product on 3001. Admin on 3002. Postgres comes up in Docker on the way.",
 	},
 	{
 		num: "iv.",
