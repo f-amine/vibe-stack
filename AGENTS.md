@@ -4,7 +4,9 @@ vibestack is designed to be operated by AI agents in addition to humans. The ski
 
 ## First-time setup
 
-If `.env` does not exist, run `/setup` in Claude Code. The skill walks through Postgres, BETTER_AUTH_SECRET, and collecting Resend / R2 / Polar keys conversationally — never reads or prints existing `.env` values.
+If `.env` does not exist, run `pnpm init:app` (interactive wizard: product name rename, feature toggles, optional API keys, `.env` with a generated `BETTER_AUTH_SECRET`) or `/setup` in Claude Code for the conversational version — never read or print existing `.env` values. `pnpm rename <name>` does just the rename (lockfile-safe; run `pnpm install` after).
+
+**Zero-key boot**: the app boots without any third-party keys — only `DATABASE_URL` + `BETTER_AUTH_SECRET` (+ URL vars) are required. Missing keys degrade or hide their feature: auth emails print to the dev console, billing doesn't mount without Polar, storage errors only when used without R2, `/api/health` reports them as `disabled`. See [ADR-0009](docs/adr/0009-create-cli-and-zero-key-boot.md).
 
 Already running? Skip to the workflow.
 
@@ -16,7 +18,7 @@ Before doing anything non-trivial:
 2. Pick the entry skill based on the kind of work:
    - **New feature or capability** — `/grill-with-docs` → `/to-prd` → `/to-issues` → `/tdd` → `/review`
    - **Any frontend / UI change** — `/impeccable` is mandatory **before** writing or editing component / page / styling code. Covers redesigns, new screens, "make this look better", spacing, colour, motion, copy, empty states. Holds even when the user did not name the skill. See [ADR-0005](docs/adr/0005-impeccable-for-frontend-design.md).
-   - **Instagram Reels / short-form video / TikTok / YouTube Shorts** — `/video-writer`. Seven-role swarm (researcher → script writer → visual director → [voice + images + SFX + music] parallel → motion designer → renderer). Output: 30-90s 9:16 MP4 + all assets under `apps/marketing/public/reels/<slug>/`. Remotion composition lives at `packages/video/src/compositions/Reel.tsx`. See [ADR-0008](docs/adr/0008-video-writer-swarm.md).
+   - **Instagram Reels / short-form video / TikTok / YouTube Shorts** — `/video-writer`. Swarm: researcher → script writer → [voice + SFX + music] parallel → motion designer → renderer → publisher. Reels are pure typographic / UI-mockup composition — no AI-generated stills on this surface. Output: 30-90s 9:16 MP4 + all assets under `apps/marketing/public/reels/<slug>/`. Remotion composition lives at `packages/video/src/compositions/Reel.tsx`. See [ADR-0008](docs/adr/0008-video-writer-swarm.md).
    - **Long-form blog posts / journal / content marketing** — `/blog-writer`. Swarm: researcher → writer → (SEO editor + image producer in parallel) → publisher. 15-20 min read, multiple Gemini inline images, draft MDX in `apps/marketing/content/blog/`. See [ADR-0007](docs/adr/0007-blog-writer-swarm.md).
    - **SEO / GEO / Search Console / organic traffic / keyword research / meta tags / schema / broken links / Core Web Vitals** — route to `toprank`. Skills: `/toprank:seo-analysis`, `/toprank:keyword-research`, `/toprank:content-writer`, `/toprank:geo-optimizer`, `/toprank:meta-tags-optimizer`, `/toprank:schema-markup-generator`, `/toprank:broken-link-checker`, `/toprank:seo-page`. Uses live Google Search Console + PageSpeed Insights via OAuth. See [ADR-0006](docs/adr/0006-toprank-for-seo-geo-ads.md).
    - **Google Ads / Meta Ads / paid acquisition** — also `toprank`. Skills: `/toprank:google-ads-audit`, `/toprank:google-ads-manage`, `/toprank:google-ads-copy`, `/toprank:google-ads-landing`, `/toprank:meta-ads-audit`, `/toprank:meta-ads-manage`. Connects via the NotFair-GoogleAds and NotFair-MetaAds HTTP MCPs in `.mcp.json`.

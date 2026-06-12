@@ -118,8 +118,18 @@ function GridOverlay({ theme }: { theme: Theme }) {
 		>
 			<title>grid</title>
 			<defs>
-				<pattern id="reel-grid" width="48" height="48" patternUnits="userSpaceOnUse">
-					<path d="M 48 0 L 0 0 0 48" fill="none" stroke={stroke} strokeWidth="0.5" />
+				<pattern
+					id="reel-grid"
+					width="48"
+					height="48"
+					patternUnits="userSpaceOnUse"
+				>
+					<path
+						d="M 48 0 L 0 0 0 48"
+						fill="none"
+						stroke={stroke}
+						strokeWidth="0.5"
+					/>
 				</pattern>
 			</defs>
 			<rect width="100%" height="100%" fill="url(#reel-grid)" />
@@ -127,13 +137,7 @@ function GridOverlay({ theme }: { theme: Theme }) {
 	);
 }
 
-function IndexWatermark({
-	index,
-	theme,
-}: {
-	index: number;
-	theme: Theme;
-}) {
+function IndexWatermark({ index, theme }: { index: number; theme: Theme }) {
 	const p = PALETTES[theme];
 	return (
 		<div
@@ -231,13 +235,7 @@ function TopStrip({
 	);
 }
 
-function BottomStrip({
-	theme,
-	progress,
-}: {
-	theme: Theme;
-	progress: number;
-}) {
+function BottomStrip({ theme, progress }: { theme: Theme; progress: number }) {
 	const p = PALETTES[theme];
 	return (
 		<div
@@ -378,27 +376,31 @@ function SerifHeadline({
 
 			{/* AUX zone — push to bottom of inset */}
 			<div style={{ marginTop: "auto" }}>
-				{t.subline ? (
-					(() => {
-						const { y, opacity } = lift(frame, 14 + t.words.length * 7 + 4, fps);
-						return (
-							<div
-								style={{
-									marginBottom: 36,
-									fontFamily: GEIST,
-									fontSize: 38,
-									lineHeight: 1.32,
-									color: p.mute,
-									maxWidth: 780,
-									transform: `translateY(${y}px)`,
-									opacity,
-								}}
-							>
-								{t.subline}
-							</div>
-						);
-					})()
-				) : null}
+				{t.subline
+					? (() => {
+							const { y, opacity } = lift(
+								frame,
+								14 + t.words.length * 7 + 4,
+								fps,
+							);
+							return (
+								<div
+									style={{
+										marginBottom: 36,
+										fontFamily: GEIST,
+										fontSize: 38,
+										lineHeight: 1.32,
+										color: p.mute,
+										maxWidth: 780,
+										transform: `translateY(${y}px)`,
+										opacity,
+									}}
+								>
+									{t.subline}
+								</div>
+							);
+						})()
+					: null}
 				<div
 					style={{
 						display: "flex",
@@ -502,9 +504,30 @@ function CodeWindow({
 						color: "#9b9684",
 					}}
 				>
-					<span style={{ width: 10, height: 10, borderRadius: 999, background: "#4a4334" }} />
-					<span style={{ width: 10, height: 10, borderRadius: 999, background: "#4a4334" }} />
-					<span style={{ width: 10, height: 10, borderRadius: 999, background: "#4a4334" }} />
+					<span
+						style={{
+							width: 10,
+							height: 10,
+							borderRadius: 999,
+							background: "#4a4334",
+						}}
+					/>
+					<span
+						style={{
+							width: 10,
+							height: 10,
+							borderRadius: 999,
+							background: "#4a4334",
+						}}
+					/>
+					<span
+						style={{
+							width: 10,
+							height: 10,
+							borderRadius: 999,
+							background: "#4a4334",
+						}}
+					/>
 					<span style={{ marginLeft: 10 }}>{t.filename}</span>
 				</div>
 
@@ -719,40 +742,40 @@ function PrCard({
 					) : null}
 				</div>
 
-				{t.stamp ? (
-					(() => {
-						const stamp = t.stamp;
-						const stampBg =
-							stamp.color === "gold"
-								? p.gold
-								: stamp.color === "green"
-									? "#3a9a5a"
-									: "#c83a23";
-						return (
-							<div
-								style={{
-									position: "absolute",
-									right: -40,
-									top: -36,
-									padding: "16px 28px",
-									background: stampBg,
-									color: "#fff",
-									fontFamily: GEIST,
-									fontWeight: 700,
-									fontSize: 36,
-									letterSpacing: "0.08em",
-									textTransform: "uppercase",
-									transform: `rotate(${stamp.rotation}deg) scale(${0.6 + 0.4 * stampEnter})`,
-									opacity: stampEnter,
-									boxShadow: "0 18px 40px -10px rgba(0,0,0,0.4)",
-									borderRadius: 4,
-								}}
-							>
-								{stamp.text}
-							</div>
-						);
-					})()
-				) : null}
+				{t.stamp
+					? (() => {
+							const stamp = t.stamp;
+							const stampBg =
+								stamp.color === "gold"
+									? p.gold
+									: stamp.color === "green"
+										? "#3a9a5a"
+										: "#c83a23";
+							return (
+								<div
+									style={{
+										position: "absolute",
+										right: -40,
+										top: -36,
+										padding: "16px 28px",
+										background: stampBg,
+										color: "#fff",
+										fontFamily: GEIST,
+										fontWeight: 700,
+										fontSize: 36,
+										letterSpacing: "0.08em",
+										textTransform: "uppercase",
+										transform: `rotate(${stamp.rotation}deg) scale(${0.6 + 0.4 * stampEnter})`,
+										opacity: stampEnter,
+										boxShadow: "0 18px 40px -10px rgba(0,0,0,0.4)",
+										borderRadius: 4,
+									}}
+								>
+									{stamp.text}
+								</div>
+							);
+						})()
+					: null}
 			</div>
 
 			{/* AUX bottom stat list */}
@@ -1044,8 +1067,8 @@ function LogoGrid({
 					maxWidth: 820,
 				}}
 			>
-				Plus seven more modules already wired together so your agent can
-				ship features, not glue code.
+				Plus seven more modules already wired together so your agent can ship
+				features, not glue code.
 			</div>
 		</div>
 	);
@@ -1128,11 +1151,7 @@ function RepetitionList({
 	);
 }
 
-function EyebrowOnly({
-	shot,
-}: {
-	shot: Shot;
-}) {
+function EyebrowOnly({ shot }: { shot: Shot }) {
 	if (shot.treatment.kind !== "eyebrow-only") return null;
 	const t = shot.treatment;
 	const theme = shot.theme ?? "dark";
@@ -1183,7 +1202,9 @@ function TransitionMotif({
 		const width = t < 0.5 ? eased * 2 * 800 : (1 - (t - 0.5) * 2) * 800;
 		return (
 			<AbsoluteFill style={{ alignItems: "center", justifyContent: "center" }}>
-				<div style={{ width: Math.max(0, width), height: 1, background: p.gold }} />
+				<div
+					style={{ width: Math.max(0, width), height: 1, background: p.gold }}
+				/>
 			</AbsoluteFill>
 		);
 	}
@@ -1284,16 +1305,33 @@ function ShotContent({
 	switch (t.kind) {
 		case "serif-headline":
 			inner = (
-				<SerifHeadline shot={shot} frame={shotFrame} shotFrames={shotFrames} fps={fps} />
+				<SerifHeadline
+					shot={shot}
+					frame={shotFrame}
+					shotFrames={shotFrames}
+					fps={fps}
+				/>
 			);
 			break;
 		case "code-window":
 			inner = (
-				<CodeWindow shot={shot} frame={shotFrame} shotFrames={shotFrames} fps={fps} />
+				<CodeWindow
+					shot={shot}
+					frame={shotFrame}
+					shotFrames={shotFrames}
+					fps={fps}
+				/>
 			);
 			break;
 		case "pr-card":
-			inner = <PrCard shot={shot} frame={shotFrame} shotFrames={shotFrames} fps={fps} />;
+			inner = (
+				<PrCard
+					shot={shot}
+					frame={shotFrame}
+					shotFrames={shotFrames}
+					fps={fps}
+				/>
+			);
 			break;
 		case "metric-tile":
 			inner = <MetricTile shot={shot} frame={shotFrame} fps={fps} />;
@@ -1308,7 +1346,13 @@ function ShotContent({
 			inner = <EyebrowOnly shot={shot} />;
 			break;
 		case "transition":
-			inner = <TransitionMotif shot={shot} frame={shotFrame} shotFrames={shotFrames} />;
+			inner = (
+				<TransitionMotif
+					shot={shot}
+					frame={shotFrame}
+					shotFrames={shotFrames}
+				/>
+			);
 			break;
 	}
 
@@ -1344,7 +1388,9 @@ function ShotContent({
 					volume={dbToVolume(shot.sfx.volumeDb ?? -6)}
 				/>
 			) : null}
-			{showChrome ? <BottomStrip theme={theme} progress={reelProgress} /> : null}
+			{showChrome ? (
+				<BottomStrip theme={theme} progress={reelProgress} />
+			) : null}
 		</AbsoluteFill>
 	);
 }
@@ -1402,7 +1448,10 @@ export const Reel = ({ manifest }: { manifest: ReelManifest }) => {
 						fps={fps}
 						index={index}
 						total={total}
-						reelProgress={Math.min(1, (start + (frame - start)) / Math.max(1, totalFrames))}
+						reelProgress={Math.min(
+							1,
+							(start + (frame - start)) / Math.max(1, totalFrames),
+						)}
 					/>
 				</Sequence>
 			))}

@@ -11,6 +11,7 @@ import {
 } from "@vibestack/ui/components/card";
 import { EmptyState } from "@vibestack/ui/components/empty-state";
 import { Input } from "@vibestack/ui/components/input";
+import { PageHeader } from "@vibestack/ui/components/page-header";
 import {
 	Table,
 	TableBody,
@@ -21,7 +22,6 @@ import {
 } from "@vibestack/ui/components/table";
 import { desc } from "drizzle-orm";
 import { Search } from "lucide-react";
-import { PageHeader } from "@/components/layout/page-header";
 import { requireAdmin } from "@/lib/require-admin";
 import { UserActionsMenu } from "./_user-actions-menu";
 

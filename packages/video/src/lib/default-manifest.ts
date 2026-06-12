@@ -71,7 +71,8 @@ export const defaultReelManifest: ReelManifest = {
 				label: "Pre-wired modules",
 				value: "11",
 				barFraction: 0.92,
-				subline: "auth, billing, email, R2, jobs, audit, i18n, errors, analytics, admin, content.",
+				subline:
+					"auth, billing, email, R2, jobs, audit, i18n, errors, analytics, admin, content.",
 			},
 		},
 		{

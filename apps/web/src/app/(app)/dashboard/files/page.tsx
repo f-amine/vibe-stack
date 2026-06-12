@@ -9,11 +9,11 @@ import {
 } from "@vibestack/ui/components/card";
 import { Dropzone } from "@vibestack/ui/components/dropzone";
 import { EmptyState } from "@vibestack/ui/components/empty-state";
+import { PageHeader } from "@vibestack/ui/components/page-header";
 import { Skeleton } from "@vibestack/ui/components/skeleton";
 import { Download, FileIcon, Trash2 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
-import { PageHeader } from "@/components/app/page-header";
 
 type FileRow = {
 	key: string;
@@ -176,6 +176,7 @@ export default function FilesPage() {
 	return (
 		<>
 			<PageHeader
+				bordered
 				title="Files"
 				description="Drag and drop. Stored in Cloudflare R2, scoped to your user."
 			/>

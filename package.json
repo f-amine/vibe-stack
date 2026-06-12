@@ -26,6 +26,8 @@
 		"format": "biome format --write .",
 		"format:check": "biome format .",
 		"setup": "bash scripts/link-env.sh",
+		"init:app": "node scripts/init.mjs",
+		"rename": "node scripts/rename.mjs",
 		"gen:image": "tsx scripts/gen-image.ts",
 		"gen:changelog": "tsx scripts/agents/write-changelog.ts",
 		"gen:blog-covers": "tsx scripts/agents/gen-blog-covers.ts",

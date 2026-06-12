@@ -7,7 +7,7 @@ import { WEB_URLS } from "@/lib/app-urls";
 
 const links = [
 	{ href: "#features", label: "Features" },
-	{ href: "#pricing", label: "Pricing" },
+	{ href: "#how-it-works", label: "Workflow" },
 	{ href: "/blog", label: "Journal" },
 	{ href: "/docs", label: "Docs" },
 ];

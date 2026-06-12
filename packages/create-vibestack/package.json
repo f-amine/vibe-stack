@@ -1,0 +1,28 @@
+{
+	"name": "create-vibestack",
+	"version": "0.1.0",
+	"description": "Scaffold a vibestack SaaS — clone the template, pick your features, get a running app.",
+	"type": "module",
+	"bin": {
+		"create-vibestack": "./index.mjs"
+	},
+	"files": [
+		"index.mjs",
+		"README.md"
+	],
+	"engines": {
+		"node": ">=22"
+	},
+	"publishConfig": {
+		"access": "public"
+	},
+	"keywords": [
+		"saas",
+		"starter",
+		"nextjs",
+		"create",
+		"vibestack",
+		"claude"
+	],
+	"license": "MIT"
+}

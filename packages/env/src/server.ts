@@ -21,26 +21,29 @@ export const env = createEnv({
 		GOOGLE_CLIENT_ID: z.string().min(1).optional(),
 		GOOGLE_CLIENT_SECRET: z.string().min(1).optional(),
 
-		// Polar (billing)
-		POLAR_ACCESS_TOKEN: z.string().min(1),
-		POLAR_SUCCESS_URL: z.url(),
+		// Polar (billing) — optional: without a token the app boots with
+		// billing disabled (see @vibestack/billing/client).
+		POLAR_ACCESS_TOKEN: z.string().min(1).optional(),
+		POLAR_SUCCESS_URL: z.url().optional(),
 		POLAR_WEBHOOK_SECRET: z.string().min(1).optional(),
 		POLAR_SERVER: z.enum(["sandbox", "production"]).default("sandbox"),
 		POLAR_PRODUCT_ID_PRO: z.string().min(1).optional(),
 		POLAR_PRODUCT_ID_TEAM: z.string().min(1).optional(),
 
-		// Resend (email)
-		RESEND_API_KEY: z.string().min(1),
+		// Resend (email) — optional: without a key, dev logs emails to the
+		// console (magic links still work); production refuses to send.
+		RESEND_API_KEY: z.string().min(1).optional(),
 		RESEND_WEBHOOK_SECRET: z.string().min(1).optional(),
-		EMAIL_FROM: z.string().min(3),
+		EMAIL_FROM: z.string().min(3).optional(),
 		EMAIL_REPLY_TO: z.string().optional(),
 
-		// Cloudflare R2 (storage + backups)
-		R2_ACCOUNT_ID: z.string().min(1),
-		R2_ACCESS_KEY_ID: z.string().min(1),
-		R2_SECRET_ACCESS_KEY: z.string().min(1),
-		R2_BUCKET: z.string().min(1),
-		R2_ENDPOINT: z.url(),
+		// Cloudflare R2 (storage + backups) — optional: without credentials
+		// the app boots with file storage disabled (see @vibestack/storage).
+		R2_ACCOUNT_ID: z.string().min(1).optional(),
+		R2_ACCESS_KEY_ID: z.string().min(1).optional(),
+		R2_SECRET_ACCESS_KEY: z.string().min(1).optional(),
+		R2_BUCKET: z.string().min(1).optional(),
+		R2_ENDPOINT: z.url().optional(),
 		R2_PUBLIC_URL: z.url().optional(),
 		R2_BACKUP_PREFIX: z.string().default("backups"),
 
@@ -69,9 +72,7 @@ export const env = createEnv({
 		// ElevenLabs (reel voiceover + sound effects)
 		ELEVENLABS_API_KEY: z.string().min(1).optional(),
 		ELEVEN_API_KEY: z.string().min(1).optional(),
-		ELEVENLABS_DEFAULT_VOICE_ID: z
-			.string()
-			.default("21m00Tcm4TlvDq8ikWAM"),
+		ELEVENLABS_DEFAULT_VOICE_ID: z.string().default("21m00Tcm4TlvDq8ikWAM"),
 		ELEVENLABS_TEXT_MODEL: z.string().default("eleven_multilingual_v2"),
 
 		// Optional OpenAI fallback (for blog writing agent)

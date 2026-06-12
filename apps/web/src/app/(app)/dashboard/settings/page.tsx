@@ -1,5 +1,6 @@
 "use client";
 
+import { PageHeader } from "@vibestack/ui/components/page-header";
 import {
 	Tabs,
 	TabsContent,
@@ -16,7 +17,6 @@ import {
 } from "lucide-react";
 import type { ComponentType } from "react";
 import { useEffect, useState } from "react";
-import { PageHeader } from "@/components/app/page-header";
 import { ApiKeysSection } from "@/components/settings/api-keys-section";
 import { AppearanceSection } from "@/components/settings/appearance-section";
 import { BillingSection } from "@/components/settings/billing-section";
@@ -116,6 +116,7 @@ export default function SettingsPage() {
 	return (
 		<>
 			<PageHeader
+				bordered
 				title="Settings"
 				description="Profile, appearance, billing, security, integrations — all in one place."
 			/>

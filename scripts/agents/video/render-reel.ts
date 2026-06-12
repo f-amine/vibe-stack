@@ -19,8 +19,8 @@ import {
 	EXIT_RUNTIME,
 	EXIT_USAGE,
 	manifestPath,
-	readManifest,
 	REELS_PUBLIC_DIR,
+	readManifest,
 } from "./lib";
 
 type Manifest = { slug: string };

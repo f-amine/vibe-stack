@@ -10,11 +10,11 @@ import {
 } from "@vibestack/ui/components/card";
 import { EmptyState } from "@vibestack/ui/components/empty-state";
 import { Input } from "@vibestack/ui/components/input";
+import { PageHeader } from "@vibestack/ui/components/page-header";
 import { Skeleton } from "@vibestack/ui/components/skeleton";
 import { Copy, MousePointerClick, Sparkles, UserPlus } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { PageHeader } from "@/components/app/page-header";
 
 type State = {
 	enrolled: boolean;
@@ -117,6 +117,7 @@ export default function AffiliatePage() {
 		return (
 			<>
 				<PageHeader
+					bordered
 					title="Affiliate program"
 					description="Share, refer, get paid."
 				/>
@@ -129,6 +130,7 @@ export default function AffiliatePage() {
 		return (
 			<>
 				<PageHeader
+					bordered
 					title="Affiliate program"
 					description="Share, refer, get paid."
 				/>
@@ -158,6 +160,7 @@ export default function AffiliatePage() {
 	return (
 		<>
 			<PageHeader
+				bordered
 				title="Affiliate program"
 				description={`Your commission rate: ${(commission * 100).toFixed(0)}%`}
 			/>

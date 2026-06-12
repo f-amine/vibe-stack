@@ -1,7 +1,7 @@
 import { auth } from "@vibestack/auth";
+import { PageHeader } from "@vibestack/ui/components/page-header";
 import { headers } from "next/headers";
 import Link from "next/link";
-import { PageHeader } from "@/components/app/page-header";
 
 /*
  * Dashboard overview — the "lit reading room" landing.
@@ -65,6 +65,7 @@ export default async function DashboardPage() {
 	return (
 		<>
 			<PageHeader
+				bordered
 				eyebrow={`Overview · ${new Date().toLocaleDateString("en", {
 					weekday: "long",
 					day: "numeric",
@@ -85,7 +86,7 @@ export default async function DashboardPage() {
 							{row.label}
 						</dt>
 						<dd className="mt-3 flex items-baseline gap-2">
-							<span className="font-display text-[2.5rem] leading-none tracking-[-0.02em] text-foreground">
+							<span className="font-display text-[2.5rem] text-foreground leading-none tracking-[-0.02em]">
 								{row.value}
 							</span>
 							{row.suffix ? (
@@ -109,7 +110,7 @@ export default async function DashboardPage() {
 							</span>
 							<h2
 								id="setup-heading"
-								className="mt-2 font-display text-[1.625rem] leading-tight tracking-[-0.015em] text-foreground"
+								className="mt-2 font-display text-[1.625rem] text-foreground leading-tight tracking-[-0.015em]"
 							>
 								Getting set up
 							</h2>
@@ -117,7 +118,7 @@ export default async function DashboardPage() {
 						{next?.href ? (
 							<Link
 								href={next.href as never}
-								className="vs-focus-ring inline-flex h-9 items-center gap-1.5 rounded-full bg-[color:var(--vs-gold)] px-4 font-medium text-[color:var(--vs-ink)] text-sm transition-transform hover:bg-[color:var(--vs-gold-deep)] hover:scale-[1.015]"
+								className="vs-focus-ring inline-flex h-9 items-center gap-1.5 rounded-full bg-[color:var(--vs-gold)] px-4 font-medium text-[color:var(--vs-ink)] text-sm transition-transform hover:scale-[1.015] hover:bg-[color:var(--vs-gold-deep)]"
 							>
 								{next.title}
 								<span aria-hidden>→</span>
@@ -153,11 +154,7 @@ export default async function DashboardPage() {
 									</p>
 								</div>
 								<span className="font-mono-label text-muted-foreground">
-									{step.done
-										? "Done"
-										: step === next
-											? "Next"
-											: "Later"}
+									{step.done ? "Done" : step === next ? "Next" : "Later"}
 								</span>
 							</li>
 						))}
@@ -172,17 +169,14 @@ export default async function DashboardPage() {
 						</span>
 						<h2
 							id="activity-heading"
-							className="mt-2 font-display text-[1.625rem] leading-tight tracking-[-0.015em] text-foreground"
+							className="mt-2 font-display text-[1.625rem] text-foreground leading-tight tracking-[-0.015em]"
 						>
 							The last few things
 						</h2>
 					</div>
 					<ol className="space-y-5">
 						{recent.map((evt) => (
-							<li
-								key={evt.id}
-								className="flex items-start gap-3 text-sm"
-							>
+							<li key={evt.id} className="flex items-start gap-3 text-sm">
 								<span
 									aria-hidden
 									className="mt-1.5 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-[color:var(--vs-gold)]/70"

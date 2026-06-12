@@ -75,7 +75,9 @@ export const ShotSchema = z.object({
 			stamp: z
 				.object({
 					text: z.string(),
-					color: z.union([z.literal("red"), z.literal("gold"), z.literal("green")]).default("red"),
+					color: z
+						.union([z.literal("red"), z.literal("gold"), z.literal("green")])
+						.default("red"),
 					rotation: z.number().default(-10),
 				})
 				.optional(),

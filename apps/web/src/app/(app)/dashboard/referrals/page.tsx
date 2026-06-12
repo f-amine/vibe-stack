@@ -11,11 +11,11 @@ import {
 } from "@vibestack/ui/components/card";
 import { EmptyState } from "@vibestack/ui/components/empty-state";
 import { Input } from "@vibestack/ui/components/input";
+import { PageHeader } from "@vibestack/ui/components/page-header";
 import { Skeleton } from "@vibestack/ui/components/skeleton";
 import { Gift, Send } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { PageHeader } from "@/components/app/page-header";
 
 type Invite = {
 	id: string;
@@ -101,7 +101,7 @@ export default function ReferralsPage() {
 	if (data === null) {
 		return (
 			<>
-				<PageHeader title="Refer a friend" description="Loading…" />
+				<PageHeader bordered title="Refer a friend" description="Loading…" />
 				<Skeleton className="h-32 w-full" />
 			</>
 		);
@@ -116,6 +116,7 @@ export default function ReferralsPage() {
 	return (
 		<>
 			<PageHeader
+				bordered
 				title="Refer a friend"
 				description={`Both of you get ${money(data.rewardCents)} once they sign up.`}
 			/>

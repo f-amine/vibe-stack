@@ -30,7 +30,8 @@ Full ADR set under `docs/adr/`. Decisions you don't have to re-make.
 ## What's NOT in the box
 
 - App-level AI features. The stack is "AI-native dev" — not "AI SaaS template". Add `ai` SDK or whatever model wrapper you want when you build your features.
-- A name. Run the rename script below after cloning.
+- A name. `npx create-vibestack` asks for one — or run `pnpm rename` after cloning.
+- A wall of required API keys. **Zero-key boot**: the app runs with just a database and an auth secret. Every third-party integration (email, billing, storage, OAuth, analytics, errors) is optional and degrades gracefully until you add its key.
 
 ## The vibestack workflow
 
@@ -47,39 +48,37 @@ Each skill is a short, opinionated playbook. They share a domain model (`CONTEXT
 
 See `.claude/skills/README.md` for the full catalogue.
 
-## Quickstart — vibe-coder track
+## Quickstart
 
-You have Claude Code installed. You may or may not write code yourself. That's fine.
+One command, both crowds:
 
 ```bash
-git clone https://github.com/<you>/vibestack.git my-saas
-cd my-saas
-pnpm install
+npx create-vibestack my-saas
 ```
 
-Now open the folder in Claude Code and run:
+The wizard clones the template and walks you through:
 
-```
-/setup
-```
+1. **Your product name** — renames the `@vibestack/*` scope and every brand string for you (lockfile-safe).
+2. **Feature toggles** — email, billing, storage, Google sign-in, analytics, Sentry, French locale, the video swarm. Pick what you want; skip the rest.
+3. **API keys** for the features you enabled — every single one skippable, with the signup URL printed next to it.
+4. Writes `.env` with a generated `BETTER_AUTH_SECRET`.
+5. Offers to run `pnpm install`, start Postgres (Docker), and push the schema.
 
-Claude walks you through:
-
-1. Bringing Postgres up via Docker.
-2. Generating `BETTER_AUTH_SECRET`.
-3. Collecting your Resend, Cloudflare R2, and Polar.sh keys — with the signup URL and free-tier picks for each.
-4. Writing `.env` for you.
-5. Pushing the schema and starting `pnpm dev`.
-
-When `/setup` finishes you have three apps running locally:
+When it finishes, `pnpm dev` gives you three apps:
 
 - `http://localhost:3001` — your authed product
 - `http://localhost:3000` — your marketing site + docs + blog
 - `http://localhost:3002` — admin dashboard
 
-Then describe what you want to build. The workflow above takes it from there.
+**No keys? No problem.** Auth emails (magic links, verification, password reset) print to your terminal until you add a Resend key. Billing UI stays hidden until you add Polar. File storage tells you it's not configured only if you actually use it. `/api/health` reports unconfigured optional services as `disabled`.
 
-## Quickstart — dev track
+### Vibe-coder track
+
+After `npx create-vibestack`, open the folder in Claude Code. Run `/setup` if you want a conversational hand to finish configuring keys (it knows every signup URL and free tier), or just describe what you want to build — the workflow above takes it from there.
+
+### Dev track — manual path
+
+Already cloned the repo (or prefer doing it by hand)?
 
 ```bash
 git clone https://github.com/<you>/vibestack.git my-saas
@@ -87,18 +86,25 @@ cd my-saas
 pnpm install
 pnpm db:start
 cp .env.example .env
-# fill BETTER_AUTH_SECRET (openssl rand -base64 32) + Resend + R2 + Polar keys
+# only the core vars are needed to boot:
+#   DATABASE_URL          — default matches pnpm db:start
+#   BETTER_AUTH_SECRET    — openssl rand -base64 32
+#   APP_URL / CORS_ORIGIN / BETTER_AUTH_URL / NEXT_PUBLIC_APP_URL — localhost defaults
 pnpm db:push
 pnpm dev
 ```
 
-Need the full env-var key-by-key list? See [`.claude/skills/setup/env-reference.md`](.claude/skills/setup/env-reference.md).
+That's a fully working app — sign-up, sessions, orgs, the lot. Emails print to your terminal until you add Resend; add the other keys whenever the feature matters to you.
+
+Prefer the wizard inside an existing clone? `pnpm init:app` runs the same interactive flow (rename + feature toggles + `.env`).
+
+Need the full env-var key-by-key list? See [`.claude/skills/setup/env-reference.md`](.claude/skills/setup/env-reference.md). Deploying? See [`docs/deploy/production-env.md`](docs/deploy/production-env.md).
 
 ## Common commands
 
 ```bash
 pnpm dev                      # turbo dev across all apps
-pnpm --filter web dev         # single app
+pnpm dev:web                  # just the product app (faster startup; also dev:marketing, dev:admin)
 pnpm build                    # turbo build
 pnpm check                    # biome format + lint
 pnpm typecheck                # tsc across packages
@@ -119,31 +125,31 @@ pnpm auth:generate
 # Email preview
 pnpm email:dev                # react-email at :3010
 
+# First-run / branding
+pnpm init:app                 # interactive wizard: name, features, keys, .env
+pnpm rename <name>            # rename @vibestack scope + brand strings only
+
 # Skills maintenance
 pnpm skills:update            # pull latest upstream skills into .claude/skills/
 ```
 
 ## Renaming for your product
 
-vibestack ships under the `@vibestack/*` workspace scope. After cloning, rename to your own org:
+`npx create-vibestack` and `pnpm init:app` already do this as their first step. If you only want the rename:
 
 ```bash
-# Replace @vibestack/ everywhere and the root package name.
-find . -type f \( -name "*.json" -o -name "*.ts" -o -name "*.tsx" -o -name "*.mjs" -o -name "*.yaml" -o -name "*.yml" -o -name "*.sh" -o -name "*.toml" -o -name "*.md" -o -name "*.mdx" \) \
-  -not -path "*/node_modules/*" -not -path "*/.next/*" -not -path "*/.turbo/*" -not -path "*/.git/*" \
-  -exec sed -i.bak 's|@vibestack/|@your-org/|g; s|vibestack|your-product|g' {} \;
-find . -name "*.bak" -delete
-pnpm install
+pnpm rename my-product
+pnpm install   # regenerates pnpm-lock.yaml for the new scope
 ```
 
-Review the diff before committing. Drop your own copy on the marketing landing hero.
+Unlike a raw `sed` over the tree, `pnpm rename` never touches `pnpm-lock.yaml`, skips `node_modules` / build output / binary assets, and handles case variants (`vibestack` / `Vibestack` / `VIBESTACK`). Review the diff before committing. Drop your own copy on the marketing landing hero.
 
 ## Deploying with Dokploy
 
 1. Provision a small VPS (Hetzner / DigitalOcean / Vultr).
 2. Install Dokploy via its one-liner.
 3. Point a Compose service at `docker-compose.yml` in this repo.
-4. Fill `.env.production` from the same template you used locally.
+4. Fill `.env.production` — see [`docs/deploy/production-env.md`](docs/deploy/production-env.md) for what's required vs optional in production.
 5. Map domains to apps:
    - `marketing.example.com` → `marketing:3000`
    - `app.example.com` → `web:3001`

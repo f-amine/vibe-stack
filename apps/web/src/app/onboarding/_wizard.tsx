@@ -268,11 +268,11 @@ export function OnboardingWizard({ user }: Props) {
 				</button>
 			</header>
 
-			<main className="mx-auto max-w-xl px-6 pt-4 pb-20 vs-fade-up">
+			<main className="vs-fade-up mx-auto max-w-xl px-6 pt-4 pb-20">
 				<div className="mb-10 flex flex-col items-center gap-5">
 					<StepDots active={step} />
 					<span aria-hidden className="gold-rule" />
-					<p className="max-w-md text-center font-display text-[2rem] leading-[1.08] tracking-[-0.02em] text-foreground sm:text-[2.5rem]">
+					<p className="max-w-md text-center font-display text-[2rem] text-foreground leading-[1.08] tracking-[-0.02em] sm:text-[2.5rem]">
 						{STEPS.find((s) => s.key === step)?.hint}
 					</p>
 				</div>

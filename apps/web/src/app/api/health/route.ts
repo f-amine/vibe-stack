@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
-type CheckStatus = "up" | "degraded" | "down";
+type CheckStatus = "up" | "degraded" | "down" | "disabled";
 
 type Check = {
 	name: string;
@@ -33,13 +33,21 @@ async function checkDb(): Promise<Check> {
 	}
 }
 
-function envCheck(name: string, keys: string[]): Check {
+function envCheck(
+	name: string,
+	keys: string[],
+	{ optional = false }: { optional?: boolean } = {},
+): Check {
 	const missing = keys.filter((k) => {
 		const v = process.env[k];
 		return !v || v.length === 0;
 	});
 	if (missing.length === 0) {
 		return { name, status: "up" };
+	}
+	// Optional feature with no keys at all = deliberately off, not unhealthy.
+	if (optional && missing.length === keys.length) {
+		return { name, status: "disabled", detail: "not configured (optional)" };
 	}
 	if (missing.length < keys.length) {
 		return {
@@ -61,17 +69,25 @@ export async function GET() {
 			envCheck("auth", ["BETTER_AUTH_SECRET", "BETTER_AUTH_URL"]),
 		),
 		checkDb(),
-		Promise.resolve(envCheck("email", ["RESEND_API_KEY", "EMAIL_FROM"])),
 		Promise.resolve(
-			envCheck("storage", [
-				"R2_ACCOUNT_ID",
-				"R2_ACCESS_KEY_ID",
-				"R2_SECRET_ACCESS_KEY",
-				"R2_BUCKET",
-				"R2_ENDPOINT",
-			]),
+			envCheck("email", ["RESEND_API_KEY", "EMAIL_FROM"], { optional: true }),
 		),
-		Promise.resolve(envCheck("billing", ["POLAR_ACCESS_TOKEN"])),
+		Promise.resolve(
+			envCheck(
+				"storage",
+				[
+					"R2_ACCOUNT_ID",
+					"R2_ACCESS_KEY_ID",
+					"R2_SECRET_ACCESS_KEY",
+					"R2_BUCKET",
+					"R2_ENDPOINT",
+				],
+				{ optional: true },
+			),
+		),
+		Promise.resolve(
+			envCheck("billing", ["POLAR_ACCESS_TOKEN"], { optional: true }),
+		),
 	]);
 
 	const status: CheckStatus = checks.some((c) => c.status === "down")

@@ -12,7 +12,7 @@ export default function SignInPage() {
 				<span className="font-mono-label text-muted-foreground">
 					Sign in · vol. 01
 				</span>
-				<h1 className="font-display text-[2.25rem] leading-[1.05] tracking-[-0.02em] text-foreground">
+				<h1 className="font-display text-[2.25rem] text-foreground leading-[1.05] tracking-[-0.02em]">
 					Welcome back.
 				</h1>
 				<p className="max-w-sm text-muted-foreground text-sm leading-relaxed">

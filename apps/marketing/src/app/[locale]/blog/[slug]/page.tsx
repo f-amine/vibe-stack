@@ -98,7 +98,7 @@ export default async function BlogPost({ params }: Props) {
 						) : null}
 					</div>
 
-					<h1 className="mt-8 font-display text-[clamp(2.5rem,5.5vw,4rem)] leading-[1.04] tracking-[-0.022em] text-[color:var(--marketing-fg)]">
+					<h1 className="mt-8 font-display text-[clamp(2.5rem,5.5vw,4rem)] text-[color:var(--marketing-fg)] leading-[1.04] tracking-[-0.022em]">
 						{data.title}
 					</h1>
 

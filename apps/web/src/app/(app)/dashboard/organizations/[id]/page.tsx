@@ -12,6 +12,7 @@ import {
 import { EmptyState } from "@vibestack/ui/components/empty-state";
 import { Input } from "@vibestack/ui/components/input";
 import { Label } from "@vibestack/ui/components/label";
+import { PageHeader } from "@vibestack/ui/components/page-header";
 import {
 	Select,
 	SelectContent,
@@ -24,7 +25,6 @@ import { Trash2 } from "lucide-react";
 import Link from "next/link";
 import { use, useEffect, useState } from "react";
 import { toast } from "sonner";
-import { PageHeader } from "@/components/app/page-header";
 import { authClient } from "@/lib/auth-client";
 import { formatError } from "@/lib/format-error";
 
@@ -150,7 +150,11 @@ export default function OrgDetailPage({ params }: Props) {
 	if (org === null) {
 		return (
 			<>
-				<PageHeader title="Loading…" description="Fetching organization." />
+				<PageHeader
+					bordered
+					title="Loading…"
+					description="Fetching organization."
+				/>
 				<div className="grid gap-3">
 					<Skeleton className="h-8 w-48" />
 					<Skeleton className="h-32" />
@@ -165,6 +169,7 @@ export default function OrgDetailPage({ params }: Props) {
 	return (
 		<>
 			<PageHeader
+				bordered
 				title={org.name}
 				description={`${org.slug ?? "—"} · ${org.members?.length ?? 0} member${
 					(org.members?.length ?? 0) === 1 ? "" : "s"

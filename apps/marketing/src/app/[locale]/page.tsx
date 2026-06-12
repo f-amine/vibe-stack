@@ -31,9 +31,9 @@ export const metadata: Metadata = {
 // each pull GSAP + ScrollTrigger (~41kb gz) and don't paint until the
 // user scrolls; lazy them with SSR so the markup ships server-rendered
 // (for SEO + no-JS) but the gsap bundle defers to idle.
-const SocialProof = dynamic(() =>
-	import("@/components/marketing/sections/social-proof").then((m) => ({
-		default: m.SocialProof,
+const StackStrip = dynamic(() =>
+	import("@/components/marketing/sections/stack-strip").then((m) => ({
+		default: m.StackStrip,
 	})),
 );
 const Features = dynamic(() =>
@@ -46,9 +46,9 @@ const HowItWorks = dynamic(() =>
 		default: m.HowItWorks,
 	})),
 );
-const Pricing = dynamic(() =>
-	import("@/components/marketing/sections/pricing").then((m) => ({
-		default: m.Pricing,
+const Free = dynamic(() =>
+	import("@/components/marketing/sections/free").then((m) => ({
+		default: m.Free,
 	})),
 );
 const FAQ = dynamic(() =>
@@ -80,10 +80,10 @@ export default function HomePage() {
 				/>
 				<SoftwareApplicationJsonLd siteUrl={siteUrl} />
 				<Hero />
-				<SocialProof />
+				<StackStrip />
 				<Features />
 				<HowItWorks />
-				<Pricing />
+				<Free />
 				<FAQ />
 				<CTA />
 			</main>

@@ -55,4 +55,5 @@ catalog:
   tsx: ^4.22.0
   "@playwright/test": ^1.55.1
   "@axe-core/playwright": ^4.10.2
+  vitest: ^4.1.8
   ioredis: ^5.7.0

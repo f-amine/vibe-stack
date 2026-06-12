@@ -29,21 +29,13 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+    # Core vars only — POLAR_* / RESEND_* / R2_* are intentionally absent so CI
+    # proves the zero-key boot path (optional services degrade to "disabled").
     env:
       DATABASE_URL: postgresql://postgres:postgres@localhost:5432/starter_saas_ci
-      BETTER_AUTH_SECRET: ci_secret_ci_secret_ci_secret_ci_
       BETTER_AUTH_URL: http://localhost:3001
       APP_URL: http://localhost:3001
       CORS_ORIGIN: http://localhost:3001
-      POLAR_ACCESS_TOKEN: ci-token
-      POLAR_SUCCESS_URL: http://localhost:3001/success
-      RESEND_API_KEY: ci-resend
-      EMAIL_FROM: ci@example.com
-      R2_ACCOUNT_ID: ci
-      R2_ACCESS_KEY_ID: ci
-      R2_SECRET_ACCESS_KEY: ci
-      R2_BUCKET: ci
-      R2_ENDPOINT: https://ci.example.com
       NEXT_PUBLIC_APP_URL: http://localhost:3001
     steps:
       - uses: actions/checkout@v5
@@ -63,27 +55,84 @@ jobs:
           cat > .env <<EOF
           NODE_ENV=production
           DATABASE_URL=${DATABASE_URL}
-          BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET}
+          BETTER_AUTH_SECRET=$(openssl rand -base64 32)
           BETTER_AUTH_URL=${BETTER_AUTH_URL}
           APP_URL=${APP_URL}
           CORS_ORIGIN=${CORS_ORIGIN}
-          POLAR_ACCESS_TOKEN=${POLAR_ACCESS_TOKEN}
-          POLAR_SUCCESS_URL=${POLAR_SUCCESS_URL}
-          POLAR_SERVER=sandbox
-          RESEND_API_KEY=${RESEND_API_KEY}
-          EMAIL_FROM=${EMAIL_FROM}
-          R2_ACCOUNT_ID=${R2_ACCOUNT_ID}
-          R2_ACCESS_KEY_ID=${R2_ACCESS_KEY_ID}
-          R2_SECRET_ACCESS_KEY=${R2_SECRET_ACCESS_KEY}
-          R2_BUCKET=${R2_BUCKET}
-          R2_ENDPOINT=${R2_ENDPOINT}
           NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL}
           EOF
       - run: pnpm install --frozen-lockfile
       - run: pnpm run setup
-      - run: pnpm db:push --filter @vibestack/db
-        continue-on-error: true
+      - run: pnpm db:push
       - run: pnpm check
       - run: pnpm typecheck
       - run: pnpm test
       - run: pnpm build
+
+  smoke:
+    # Boots the web app with core-only env and asserts /api/health returns 200
+    # (optional services report "disabled" without failing the boot).
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: starter_saas_smoke
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/starter_saas_smoke
+      BETTER_AUTH_URL: http://localhost:3001
+      APP_URL: http://localhost:3001
+      CORS_ORIGIN: http://localhost:3001
+      NEXT_PUBLIC_APP_URL: http://localhost:3001
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.30.3
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Materialize core-only .env
+        run: |
+          cat > .env <<EOF
+          NODE_ENV=production
+          DATABASE_URL=${DATABASE_URL}
+          BETTER_AUTH_SECRET=$(openssl rand -base64 32)
+          BETTER_AUTH_URL=${BETTER_AUTH_URL}
+          APP_URL=${APP_URL}
+          CORS_ORIGIN=${CORS_ORIGIN}
+          NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL}
+          EOF
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run setup
+      - run: pnpm db:push
+      - name: Build web only
+        run: pnpm --filter web... build
+      - name: Boot web and probe /api/health
+        run: |
+          PORT=3001 pnpm --filter web start &
+          SERVER_PID=$!
+          code=000
+          for i in $(seq 1 30); do
+            code=$(curl -s -o /tmp/health.json -w '%{http_code}' http://127.0.0.1:3001/api/health || true)
+            if [ "$code" = "200" ]; then
+              echo "health OK (HTTP $code):"
+              cat /tmp/health.json
+              kill "$SERVER_PID"
+              exit 0
+            fi
+            sleep 2
+          done
+          echo "health check failed (last HTTP code: $code)"
+          cat /tmp/health.json 2>/dev/null || true
+          kill "$SERVER_PID" 2>/dev/null || true
+          exit 1

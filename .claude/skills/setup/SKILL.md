@@ -1,41 +1,55 @@
 ---
 name: setup
-description: Conversational first-time setup for a freshly cloned vibestack repo. Walks the user through Postgres up, .env creation, BETTER_AUTH_SECRET generation, collecting third-party API keys (Resend, Cloudflare R2, Polar), running migrations, and starting the dev servers. Use when the user has just cloned vibestack and wants help getting it running, or asks to "set up the project / set up env / get this running".
+description: Conversational first-time setup for a freshly cloned vibestack repo. Progressive model — Phase 1 gets a running app in ~2 minutes (Postgres + a generated BETTER_AUTH_SECRET, no third-party keys needed), Phase 2 enables optional features (Resend, Polar, R2, Google OAuth, analytics, Sentry) one at a time when the user wants them. Use when the user has just cloned vibestack and wants help getting it running, or asks to "set up the project / set up env / get this running / enable billing / add email".
 ---
 
 <what-to-do>
 
-You are walking a user through the first-time setup of a freshly cloned vibestack repo. The user may be a developer or a non-developer (vibe-coder). Assume nothing — confirm each step worked before moving to the next.
+You are walking a user through setting up a vibestack repo. The user may be a developer or a non-developer (vibe-coder). Assume nothing — confirm each step worked before moving to the next.
 
-**Your goals, in order:**
+**The model is progressive.** vibestack has zero-key boot: the app runs with only a database and an auth secret. Everything third-party is optional and degrades gracefully:
 
-1. Confirm the toolchain is in place (Node 22+, pnpm 10+, Docker).
-2. Install dependencies (`pnpm install`).
-3. Create `.env` from `.env.example` at repo root.
-4. Generate `BETTER_AUTH_SECRET` and write it in.
-5. Bring up Postgres (`pnpm db:start`) and verify it's healthy.
-6. Walk the user through collecting **required** third-party keys. For each one, ask: "Do you already have a `<service>` account?" — if no, give them the signup URL and tell them exactly what plan/free-tier to pick. Then ask them to paste the key. **Never read or print the value of an existing `.env`.**
-7. Apply schema with `pnpm db:push`.
-8. Start dev with `pnpm dev`, confirm `:3001` (web) and `:3000` (marketing) load.
-9. **Install the `toprank` plugin for SEO / GEO / Ads** — see "Install toprank" below.
-10. Optionally walk through the **non-required** services (PostHog, Sentry, Google OAuth, Polar live mode).
+- No Resend key → auth emails (magic links, verification, password reset) **print to the dev console** in development. Sign-up and magic-link sign-in still work — the user copies the link out of their terminal.
+- No Polar token → the billing plugin doesn't mount and billing UI hides.
+- No R2 vars → file storage throws a clear "not configured" error only when actually used.
+- `/api/health` reports unconfigured optional services as `disabled` (not errors).
 
-**Required for boot** (the app crashes without these):
-- `DATABASE_URL` — preset to docker default in `.env.example`. Confirm.
-- `BETTER_AUTH_SECRET` — generate with `openssl rand -base64 32`. Write inline.
-- `BETTER_AUTH_URL`, `APP_URL`, `CORS_ORIGIN` — local defaults in `.env.example`. Confirm.
-- `RESEND_API_KEY` + `EMAIL_FROM` — [resend.com signup](https://resend.com). Free tier: 3k emails/mo, 1 domain. EMAIL_FROM can be `onboarding@resend.dev` for the trial.
-- `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET`, `R2_ENDPOINT` — [Cloudflare R2](https://dash.cloudflare.com/?to=/:account/r2). 10 GB free. Create a bucket + API token (Object Read & Write).
-- `POLAR_ACCESS_TOKEN` + `POLAR_SUCCESS_URL` — [polar.sh](https://polar.sh) → switch to sandbox → Settings → Developer → create token. SUCCESS_URL = `http://localhost:3001/dashboard/billing/success` for dev.
+So: **never block the user on collecting API keys.** Get the app running first, enable features after.
 
-**Optional** (gate on a yes/no question — defaults are fine to skip):
-- Google OAuth (`GOOGLE_CLIENT_ID`/`SECRET`) — only if the user wants Sign-in-with-Google.
-- PostHog (`POSTHOG_KEY`/`HOST`) — analytics. Free tier 1M events/mo.
-- Sentry (`SENTRY_DSN`/etc.) — error tracking.
-- Polar product IDs (`POLAR_PRODUCT_ID_PRO`/`TEAM`) — only after they create products.
-- Google Gemini / OpenAI keys — only for the content-gen agent scripts.
-- Redis — only for production rate-limiting.
-- GitHub token — only for autonomous-loop agents.
+**Check first:** if the user ran `npx create-vibestack` or `pnpm init:app`, the wizard already did most of Phase 1 (and possibly some of Phase 2) — `.env` exists with a generated secret and any keys they pasted. Ask which features they skipped and jump straight to enabling those. If they cloned by hand, run both phases.
+
+## Phase 1 — Running app (~2 minutes, zero third-party keys)
+
+1. Confirm the toolchain: Node 22+, pnpm 10+, Docker running.
+2. `pnpm install`.
+3. Create `.env`: either offer `pnpm init:app` (interactive wizard — handles name, features, keys, secret generation in one pass) or manually `cp .env.example .env`.
+4. If manual: generate the secret with `openssl rand -base64 32`, have the user paste it into `BETTER_AUTH_SECRET=` themselves (not into chat).
+5. Confirm the core vars — local defaults all work out of the box:
+   - `DATABASE_URL` — matches the docker postgres from `pnpm db:start`.
+   - `BETTER_AUTH_SECRET` — the generated string (≥ 32 chars).
+   - `APP_URL` / `CORS_ORIGIN` / `BETTER_AUTH_URL` / `NEXT_PUBLIC_APP_URL` — `http://localhost:3001`.
+6. `pnpm db:start`, verify Postgres is healthy (`docker ps`).
+7. `pnpm db:push`.
+8. `pnpm dev` (or `pnpm dev:web` for just the product app). Confirm `:3001` (web) and `:3000` (marketing) load.
+9. Have the user sign up at `http://localhost:3001` — the verification/magic-link email prints in the terminal running dev. That's expected, not a bug. Tell them so before they ask.
+
+Phase 1 done = working auth, orgs, dashboard, no external accounts created.
+
+## Phase 2 — Enable features when needed
+
+Each item is independent and optional. Ask which ones the user wants now; skip the rest — they can re-run `/setup` anytime. For each: "Do you already have a `<service>` account?" — if no, give the signup URL and the exact free-tier pick. Then they paste the key into `.env` themselves (never into chat) and restart `pnpm dev`.
+
+In rough order of how soon people want them:
+
+1. **Resend (real email)** — `RESEND_API_KEY` + `EMAIL_FROM`. [resend.com](https://resend.com) → API Keys. Free tier: 3k emails/mo, 1 domain. `EMAIL_FROM` can be `onboarding@resend.dev` on the trial. Until this is set, emails print to the console (dev) — production refuses to send.
+2. **Polar (billing)** — `POLAR_ACCESS_TOKEN` (+ `POLAR_SUCCESS_URL`, product IDs later). [polar.sh](https://polar.sh) → switch to **sandbox** → Settings → Developer → create token. Sandbox is free and unlimited. Also flip `billing: { enabled: true }` in `apps/web/src/config/features.ts` if the wizard turned it off.
+3. **Cloudflare R2 (file uploads + db backups)** — `R2_ACCOUNT_ID`, `R2_ACCESS_KEY_ID`, `R2_SECRET_ACCESS_KEY`, `R2_BUCKET`, `R2_ENDPOINT`. [Cloudflare R2](https://dash.cloudflare.com/?to=/:account/r2). 10 GB free, no egress fees. Create a bucket + API token (Object Read & Write). Endpoint is `https://<account-id>.r2.cloudflarestorage.com`. Also check `files` in `features.ts`.
+4. **Google OAuth (sign-in-with-Google)** — `GOOGLE_CLIENT_ID` / `GOOGLE_CLIENT_SECRET`. [console.cloud.google.com](https://console.cloud.google.com/apis/credentials) → OAuth 2.0 Client. Free.
+5. **PostHog + GA4 (analytics)** — `NEXT_PUBLIC_POSTHOG_KEY` (+ host), `NEXT_PUBLIC_GA_ID`. [posthog.com](https://posthog.com) free tier: 1M events/mo.
+6. **Sentry (errors)** — `SENTRY_DSN` / `NEXT_PUBLIC_SENTRY_DSN`. [sentry.io](https://sentry.io) free developer plan.
+7. **Gemini + ElevenLabs (content swarms)** — `GOOGLE_AI_API_KEY` ([aistudio.google.com](https://aistudio.google.com), free tier) for `/blog-writer` + `/video-writer` scripts; `ELEVENLABS_API_KEY` ([elevenlabs.io](https://elevenlabs.io), free tier) for reel voice + SFX.
+
+After each key: restart `pnpm dev`, verify the feature (send a real email, open `/dashboard/billing`, upload a file), then move on.
 
 ## Install toprank
 
@@ -58,11 +72,12 @@ If the user skips this step, note it for later — `/setup` can be re-run, and `
 
 ## Hard rules
 
-- **Never read `.env` files.** Hard-blocked by repo permissions and a footgun anyway. If you need to know whether a key is set, ask the user.
+- **Never read `.env` files.** Hard-blocked by repo permissions and a footgun anyway. If you need to know whether a key is set, ask the user (or check `/api/health`, which names services without leaking values).
 - **Never print key values back to the user.** Echo the variable *name* only.
 - **Never commit `.env`.** Verify `.gitignore` covers it before you finish.
 - If `BETTER_AUTH_SECRET` is generated, run `openssl rand -base64 32` and tell the user to paste it themselves — do not log it to chat scrollback.
 - Stop the moment a step fails. Don't paper over Postgres connection errors by skipping ahead — debug them.
+- Never block Phase 1 on a third-party signup. Keys are Phase 2.
 
 ## Recommended dialogue style
 
@@ -71,23 +86,24 @@ Use short, single-question turns. After each user response, restate what you und
 ```
 You: Run `pnpm install` — should take ~60s. Tell me when it finishes or paste any error you see.
 User: done
-You: Good. Now `cp .env.example .env` and `openssl rand -base64 32`. Paste the random string into `BETTER_AUTH_SECRET=` in .env (don't paste it here). Done?
+You: Good. Want the wizard (`pnpm init:app` — asks your product name + features, writes .env for you) or manual (`cp .env.example .env`)?
 ```
 
 Skip ahead when the user clearly knows what they're doing. Slow down when they ask "what does that do?"
 
 ## Done definition
 
-The setup is done when:
+**Phase 1 is done when:**
 
 - [ ] `pnpm dev` is running with no errors.
 - [ ] `http://localhost:3001` shows the sign-in page.
-- [ ] Signup works (a magic-link arrives in the user's Resend dashboard *or* their inbox).
-- [ ] The user can describe what each required service does and where to find its keys again.
+- [ ] Signup works — the verification/magic-link email appears in the dev terminal (or, if Resend is configured, in the Resend dashboard / inbox).
+
+**Phase 2 has no "done"** — it's a menu. End by telling the user what's still disabled (per `/api/health`) and that they can re-run `/setup` to enable anything later.
 
 When done, suggest the next step:
 
-> "You're set up. Next: describe the SaaS you want to build. I'll walk you through it with `/grill-with-docs` → `/to-prd` → `/to-issues` → `/tdd`."
+> "You're set up. Next: describe the SaaS you want to build. I'll walk you through it with `/grill-with-docs` → `/to-prd` → `/to-issues` → `/tdd`. Or read the 'Build your first feature' tutorial in the docs app."
 
 </what-to-do>
 
@@ -95,13 +111,15 @@ When done, suggest the next step:
 
 ## Environment variable reference
 
-See [env-reference.md](./env-reference.md) for the complete annotated list with signup links and what-it-does descriptions.
+See [env-reference.md](./env-reference.md) for the complete annotated list with signup links and what-it-does descriptions. Production deployment reference: `docs/deploy/production-env.md`.
 
 ## Troubleshooting
 
 - **Postgres won't start** — check Docker daemon is running. `docker ps` should show no port-5432 collision. If it does, `pnpm db:down` and retry.
 - **`pnpm db:push` fails with auth error** — `.env` `DATABASE_URL` must match `docker-compose.yml` postgres creds. Default works out of box.
 - **Better Auth: invalid secret** — `BETTER_AUTH_SECRET` must be ≥32 chars. Regenerate with `openssl rand -base64 32`.
-- **Emails not sending** — Resend test mode only delivers to verified addresses. For trial keys, verify your own email at resend.com first.
+- **"Where did my magic link go?"** — no `RESEND_API_KEY` set, so the email printed in the terminal running `pnpm dev`. Scroll up or search for "magic".
+- **Emails not sending with a Resend key** — Resend test mode only delivers to verified addresses. For trial keys, verify your own email at resend.com first.
+- **Billing page is missing** — either `POLAR_ACCESS_TOKEN` is unset or `billing` is `enabled: false` in `apps/web/src/config/features.ts`. Both must be on.
 
 </supporting-info>
