@@ -27,6 +27,8 @@ services:
       POSTGRES_DB: ${POSTGRES_DB:-vibestack}
     volumes:
       - pgdata:/var/lib/postgresql/data
+    networks:
+      - internal
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "${POSTGRES_USER:-postgres}"]
       interval: 10s
@@ -39,6 +41,8 @@ services:
     command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD}
     volumes:
       - redisdata:/data
+    networks:
+      - internal
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
@@ -57,6 +61,8 @@ services:
       postgres:
         condition: service_healthy
     env_file: .env
+    networks:
+      - internal
 
   web:
     build:
@@ -75,8 +81,14 @@ services:
       migrate:
         condition: service_completed_successfully
     env_file: .env
-    ports:
-      - "3001:3001"
+    # No host port: Traefik (Dokploy) routes to the container over
+    # dokploy-network using the port set in the Domain config. Publishing
+    # to the host would collide with other apps sharing this VPS.
+    expose:
+      - "3001"
+    networks:
+      - internal
+      - dokploy-network
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3001/api/health || exit 1"]
       interval: 30s
@@ -94,8 +106,11 @@ services:
         APP_PORT: 3000
     restart: unless-stopped
     env_file: .env
-    ports:
-      - "3000:3000"
+    expose:
+      - "3000"
+    networks:
+      - internal
+      - dokploy-network
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3000/api/health || exit 1"]
       interval: 30s
@@ -120,8 +135,11 @@ services:
       migrate:
         condition: service_completed_successfully
     env_file: .env
-    ports:
-      - "3002:3002"
+    expose:
+      - "3002"
+    networks:
+      - internal
+      - dokploy-network
     healthcheck:
       test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:3002/api/health || exit 1"]
       interval: 30s
@@ -136,6 +154,8 @@ services:
       postgres:
         condition: service_healthy
     env_file: .env
+    networks:
+      - internal
     volumes:
       - ./scripts/backup-r2.sh:/usr/local/bin/backup-r2.sh:ro
     entrypoint:
@@ -145,6 +165,16 @@ services:
         apk add --no-cache postgresql17-client aws-cli bash curl ca-certificates
         echo "0 3 * * * /usr/local/bin/backup-r2.sh >> /var/log/backup.log 2>&1" | crontab -
         crond -f -l 2
+
+networks:
+  # Private network for app <-> postgres/redis traffic.
+  internal:
+    driver: bridge
+  # Dokploy's shared Traefik network. Must already exist on the host
+  # (created by the Dokploy install). web/marketing/admin join it so the
+  # reverse proxy can route the domains to them — no host ports needed.
+  dokploy-network:
+    external: true
 
 volumes:
   pgdata:

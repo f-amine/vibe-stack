@@ -26,6 +26,14 @@ reports unconfigured features as `"disabled"` and still returns HTTP 200.
 session cookie is host-only and admin redirect-loops. Leave it unset for
 single-host or local dev.
 
+**Networking / shared VPS:** the apps publish **no host ports** — Traefik
+routes the domains to the containers over the external `dokploy-network`
+(created by the Dokploy install) using the container port you set in each
+service's Domain config (web 3001, marketing 3000, admin 3002). This is what
+lets the stack share a VPS with other apps without port collisions. If your
+Dokploy proxy network isn't named `dokploy-network`, rename it in the
+`networks:` block of `docker-compose.prod.yml`.
+
 ## Required — app refuses to boot without these
 
 | Variable | Used by | Notes |
