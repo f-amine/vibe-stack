@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" fill="none" role="img" aria-label="Abstract hero backdrop">
+  <defs>
+    <radialGradient id="glow" cx="62%" cy="42%" r="55%">
+      <stop offset="0%" stop-color="#e8c06a" stop-opacity="0.55"/>
+      <stop offset="45%" stop-color="#c79a3f" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#0c0e14" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="ring" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#f0cd7a"/>
+      <stop offset="100%" stop-color="#7d6326" stop-opacity="0.15"/>
+    </linearGradient>
+    <pattern id="grid" width="56" height="56" patternUnits="userSpaceOnUse">
+      <path d="M56 0H0V56" fill="none" stroke="#cbd5e1" stroke-opacity="0.05" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <!-- ink canvas -->
+  <rect width="1600" height="900" fill="#0c0e14"/>
+  <rect width="1600" height="900" fill="url(#grid)"/>
+
+  <!-- warm light source, upper right -->
+  <rect width="1600" height="900" fill="url(#glow)"/>
+
+  <!-- concentric editorial rings -->
+  <g transform="translate(1000 400)" stroke="url(#ring)" fill="none">
+    <circle r="320" stroke-width="1.2"/>
+    <circle r="232" stroke-width="1.2" stroke-opacity="0.8"/>
+    <circle r="150" stroke-width="1.2" stroke-opacity="0.6"/>
+    <circle r="78" stroke-width="1.2" stroke-opacity="0.45"/>
+  </g>
+
+  <!-- a single sweeping arc + node, the "spotlight" accent -->
+  <g transform="translate(1000 400)">
+    <path d="M -300 200 Q 0 -360 320 -40" stroke="#f0cd7a" stroke-opacity="0.7" stroke-width="2" fill="none"/>
+    <circle cx="320" cy="-40" r="7" fill="#f0cd7a"/>
+    <circle cx="-300" cy="200" r="4.5" fill="#f0cd7a" fill-opacity="0.7"/>
+    <circle cx="0" cy="-150" r="4.5" fill="#f0cd7a" fill-opacity="0.5"/>
+  </g>
+
+  <!-- faint horizon line for editorial structure -->
+  <line x1="0" y1="640" x2="1600" y2="640" stroke="#cbd5e1" stroke-opacity="0.06" stroke-width="1"/>
+</svg>
