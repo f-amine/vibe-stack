@@ -9,8 +9,9 @@ import { GithubMark } from "../github-mark";
 // Full-viewport hero: a 16:9 backdrop image fills the section edge-to-edge,
 // a dimming gradient keeps foreground copy readable, and the content stack
 // is anchored to the lower-left. The site's fixed MarketingHeader is the top
-// overlay (it sits above this on z). Swap public/hero-bg.svg for a generated
-// raster (point the src at it) to rebrand the backdrop.
+// overlay (it sits above this on z). Swap public/hero.png to rebrand the
+// backdrop. Content is vertically centered so the backdrop reads on tall
+// viewports without a large empty band under the nav.
 export function Hero({ stars }: { stars?: number | null }) {
 	const root = useRef<HTMLElement>(null);
 
@@ -34,12 +35,11 @@ export function Hero({ stars }: { stars?: number | null }) {
 	return (
 		<section
 			ref={root}
-			className="relative flex h-[100svh] max-h-[960px] min-h-[600px] flex-col justify-end overflow-hidden bg-[color:var(--marketing-bg)]"
+			className="relative flex h-[100svh] max-h-[900px] min-h-[600px] flex-col justify-center overflow-hidden bg-[color:var(--marketing-bg)]"
 		>
-			{/* Background image — decorative. Replace /hero-bg.svg with your
-			    generated 16:9 raster (e.g. /hero-bg.jpg) to rebrand. */}
+			{/* Background image — decorative. Swap public/hero.png to rebrand. */}
 			<img
-				src="/hero-bg.svg"
+				src="/hero.png"
 				alt=""
 				aria-hidden
 				className="absolute inset-0 h-full w-full object-cover"
@@ -65,7 +65,7 @@ export function Hero({ stars }: { stars?: number | null }) {
 			/>
 
 			{/* Bottom-anchored content stack */}
-			<div className="relative z-10 mx-auto w-full max-w-7xl px-6 pb-14 sm:pb-20 lg:px-10">
+			<div className="relative z-10 mx-auto w-full max-w-7xl px-6 py-20 lg:px-10">
 				<div className="max-w-2xl">
 					<p className="hero-eyebrow font-mono text-[color:var(--marketing-muted)] text-xs uppercase tracking-[0.3em]">
 						— Built for vibe-coders in a hurry
@@ -95,7 +95,7 @@ export function Hero({ stars }: { stars?: number | null }) {
 						would rather move fast than wire boilerplate.
 					</p>
 
-					<div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
+					<div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-stretch">
 						<a
 							href={WEB_URLS.signUp}
 							className="hero-cta group inline-flex items-center justify-center gap-2 rounded-full bg-[color:var(--marketing-accent)] px-7 py-3.5 font-medium text-[color:var(--marketing-bg)] text-base transition-transform hover:scale-[1.02]"
