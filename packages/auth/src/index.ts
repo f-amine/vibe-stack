@@ -54,9 +54,34 @@ export function createAuth() {
 		verification: { storeInDatabase: true },
 		session: { storeSessionInDatabase: true },
 		appName: "vibestack",
-		trustedOrigins: [env.CORS_ORIGIN, env.APP_URL],
+		// Trust every surface that drives an auth request: product + the
+		// configured CORS origin, plus the admin and marketing hosts when
+		// deployed on subdomains (read from the public URL vars).
+		trustedOrigins: [
+			...new Set(
+				[
+					env.CORS_ORIGIN,
+					env.APP_URL,
+					process.env.NEXT_PUBLIC_ADMIN_URL,
+					process.env.NEXT_PUBLIC_MARKETING_URL,
+				].filter((o): o is string => Boolean(o)),
+			),
+		],
 		secret: env.BETTER_AUTH_SECRET,
 		baseURL: env.BETTER_AUTH_URL,
+		// When AUTH_COOKIE_DOMAIN is set (e.g. ".vibestack.example.com"),
+		// share the session cookie across subdomains so app.* and admin.*
+		// see one login. Unset (dev / single host) keeps host-only cookies.
+		...(env.AUTH_COOKIE_DOMAIN
+			? {
+					advanced: {
+						crossSubDomainCookies: {
+							enabled: true,
+							domain: env.AUTH_COOKIE_DOMAIN,
+						},
+					},
+				}
+			: {}),
 
 		emailAndPassword: {
 			enabled: true,

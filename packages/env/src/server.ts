@@ -16,6 +16,10 @@ export const env = createEnv({
 		// Better Auth
 		BETTER_AUTH_SECRET: z.string().min(32),
 		BETTER_AUTH_URL: z.url(),
+		// Optional: when set (e.g. ".example.com") the session cookie is
+		// shared across all subdomains so the product (app.) and admin
+		// (admin.) apps share one login. Leave unset for single-host / dev.
+		AUTH_COOKIE_DOMAIN: z.string().optional(),
 
 		// Google OAuth (Better Auth)
 		GOOGLE_CLIENT_ID: z.string().min(1).optional(),
