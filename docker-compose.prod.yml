@@ -2,6 +2,21 @@
 # Includes apps + Postgres + Redis + nightly R2 backup.
 # Dev should use docker-compose.yml (infra only).
 
+# NEXT_PUBLIC_* are inlined into the client bundle at build time, so they must
+# be passed as build args (env_file only reaches runtime). Interpolated from
+# the deploy env (Dokploy Environment tab / .env). Shared across all 3 apps.
+x-public-build-args: &public-build-args
+  NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL}
+  NEXT_PUBLIC_WEB_APP_URL: ${NEXT_PUBLIC_WEB_APP_URL:-}
+  NEXT_PUBLIC_MARKETING_URL: ${NEXT_PUBLIC_MARKETING_URL:-}
+  NEXT_PUBLIC_ADMIN_URL: ${NEXT_PUBLIC_ADMIN_URL:-}
+  NEXT_PUBLIC_POSTHOG_KEY: ${NEXT_PUBLIC_POSTHOG_KEY:-}
+  NEXT_PUBLIC_POSTHOG_HOST: ${NEXT_PUBLIC_POSTHOG_HOST:-}
+  NEXT_PUBLIC_GA_ID: ${NEXT_PUBLIC_GA_ID:-}
+  NEXT_PUBLIC_SENTRY_DSN: ${NEXT_PUBLIC_SENTRY_DSN:-}
+  NEXT_PUBLIC_BRAND_NAME: ${NEXT_PUBLIC_BRAND_NAME:-vibestack}
+  NEXT_PUBLIC_SUPPORT_EMAIL: ${NEXT_PUBLIC_SUPPORT_EMAIL:-}
+
 services:
   postgres:
     image: postgres:17-alpine
@@ -48,6 +63,7 @@ services:
       context: .
       dockerfile: docker/Dockerfile.next
       args:
+        <<: *public-build-args
         APP_NAME: web
         APP_PORT: 3001
     restart: unless-stopped
@@ -73,6 +89,7 @@ services:
       context: .
       dockerfile: docker/Dockerfile.next
       args:
+        <<: *public-build-args
         APP_NAME: marketing
         APP_PORT: 3000
     restart: unless-stopped
@@ -91,6 +108,7 @@ services:
       context: .
       dockerfile: docker/Dockerfile.next
       args:
+        <<: *public-build-args
         APP_NAME: admin
         APP_PORT: 3002
     restart: unless-stopped
