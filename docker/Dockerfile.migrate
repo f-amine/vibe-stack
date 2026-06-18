@@ -1,9 +1,12 @@
 # syntax=docker.io/docker/dockerfile:1
-# One-shot migration runner for docker-compose.prod.yml.
-# Installs only @vibestack/db and its workspace deps, then runs
-# `drizzle-kit migrate` (applies committed SQL from packages/db/src/migrations).
-# Generate migrations locally with `pnpm db:generate` and commit them —
-# `migrate` is a no-op if the folder is empty.
+# Migration runner for docker-compose.prod.yml.
+# Installs only @vibestack/db and its workspace deps, applies committed SQL
+# from packages/db/src/migrations via `drizzle-kit migrate`, writes a marker,
+# then idles so the container stays running (and healthy) instead of exiting.
+# Some orchestrators (Dokploy) treat an exited one-shot container as a failed
+# deploy and never start the services that depend on it; here dependents wait
+# on this container's healthcheck (the marker file), not on it completing.
+# Generate migrations locally with `pnpm db:generate` and commit them.
 
 FROM node:22-alpine
 
@@ -21,4 +24,5 @@ COPY packages/config packages/config
 RUN pnpm --filter @vibestack/db... install
 
 # DATABASE_URL comes from env_file at runtime (docker-compose.prod.yml).
-CMD ["pnpm", "--filter", "@vibestack/db", "run", "db:migrate"]
+# Migrate, mark done for the healthcheck, then idle so the container stays up.
+CMD ["sh", "-c", "pnpm --filter @vibestack/db run db:migrate && touch /tmp/migrated && echo '[migrate] applied; idling' && tail -f /dev/null"]

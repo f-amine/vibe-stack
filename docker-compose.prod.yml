@@ -49,20 +49,26 @@ services:
       timeout: 5s
       retries: 5
 
-  # One-shot: applies committed Drizzle migrations (packages/db/src/migrations)
-  # before web/admin start. Generate migrations with `pnpm db:generate` and
-  # commit them — this service is a no-op if none exist yet.
+  # Applies committed Drizzle migrations (packages/db/src/migrations), then
+  # idles so it stays a healthy long-running container. web/admin wait on its
+  # healthcheck. Generate migrations with `pnpm db:generate` and commit them.
   migrate:
     build:
       context: .
       dockerfile: docker/Dockerfile.migrate
-    restart: "no"
+    restart: unless-stopped
     depends_on:
       postgres:
         condition: service_healthy
     env_file: .env
     networks:
       - internal
+    healthcheck:
+      test: ["CMD-SHELL", "test -f /tmp/migrated"]
+      interval: 5s
+      timeout: 3s
+      retries: 30
+      start_period: 5s
 
   web:
     build:
@@ -79,7 +85,7 @@ services:
       redis:
         condition: service_healthy
       migrate:
-        condition: service_completed_successfully
+        condition: service_healthy
     env_file: .env
     # No host port: Traefik (Dokploy) routes to the container over
     # dokploy-network using the port set in the Domain config. Publishing
@@ -133,7 +139,7 @@ services:
       redis:
         condition: service_healthy
       migrate:
-        condition: service_completed_successfully
+        condition: service_healthy
     env_file: .env
     expose:
       - "3002"
