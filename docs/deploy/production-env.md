@@ -1,8 +1,11 @@
 # Production environment variables
 
-Authoritative reference for `.env.production`, the single env file consumed by
-every service in `docker-compose.prod.yml` (`web`, `admin`, `marketing`,
-`migrate`, `backup`).
+Authoritative reference for the single env file consumed by every service in
+`docker-compose.prod.yml` (`web`, `admin`, `marketing`, `migrate`, `backup`).
+The compose `env_file` is `.env`, which is what Dokploy writes from its
+Environment tab — so on Dokploy you just paste these into that tab. Deploying
+the compose by hand instead? Create a `.env` next to it (or
+`docker compose --env-file <file>`).
 
 Source of truth for validation: `packages/env/src/server.ts` (server vars) and
 `packages/env/src/web.ts` (client `NEXT_PUBLIC_*` vars). Empty strings are
@@ -14,7 +17,14 @@ third-party integration is optional and degrades gracefully — `/api/health`
 reports unconfigured features as `"disabled"` and still returns HTTP 200.
 
 > Repo policy: never commit real `.env` files. This document is the template;
-> copy the skeleton at the bottom onto the server as `.env.production`.
+> paste the skeleton at the bottom into Dokploy's Environment tab (or onto the
+> server as `.env`).
+
+**Subdomain deploys (app.* + admin.* on one parent domain):** set
+`AUTH_COOKIE_DOMAIN` to the shared parent with a leading dot (e.g.
+`.example.com`) so the product and admin apps share one login. Without it the
+session cookie is host-only and admin redirect-loops. Leave it unset for
+single-host or local dev.
 
 ## Required — app refuses to boot without these
 
