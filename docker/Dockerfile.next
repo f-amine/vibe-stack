@@ -20,8 +20,48 @@ RUN pnpm install --frozen-lockfile
 FROM base AS builder
 ARG APP_NAME
 ENV NEXT_TELEMETRY_DISABLED=1
+
+# NEXT_PUBLIC_* are inlined into the client bundle at build time, so they must
+# carry the REAL production values here (env_file only reaches runtime). They
+# arrive as build args from docker-compose.prod.yml, which interpolates them
+# from the deploy env. All optional except NEXT_PUBLIC_APP_URL.
+ARG NEXT_PUBLIC_APP_URL
+ARG NEXT_PUBLIC_WEB_APP_URL
+ARG NEXT_PUBLIC_MARKETING_URL
+ARG NEXT_PUBLIC_ADMIN_URL
+ARG NEXT_PUBLIC_POSTHOG_KEY
+ARG NEXT_PUBLIC_POSTHOG_HOST
+ARG NEXT_PUBLIC_GA_ID
+ARG NEXT_PUBLIC_SENTRY_DSN
+ARG NEXT_PUBLIC_BRAND_NAME
+ARG NEXT_PUBLIC_SUPPORT_EMAIL
+ENV NEXT_PUBLIC_APP_URL=$NEXT_PUBLIC_APP_URL \
+    NEXT_PUBLIC_WEB_APP_URL=$NEXT_PUBLIC_WEB_APP_URL \
+    NEXT_PUBLIC_MARKETING_URL=$NEXT_PUBLIC_MARKETING_URL \
+    NEXT_PUBLIC_ADMIN_URL=$NEXT_PUBLIC_ADMIN_URL \
+    NEXT_PUBLIC_POSTHOG_KEY=$NEXT_PUBLIC_POSTHOG_KEY \
+    NEXT_PUBLIC_POSTHOG_HOST=$NEXT_PUBLIC_POSTHOG_HOST \
+    NEXT_PUBLIC_GA_ID=$NEXT_PUBLIC_GA_ID \
+    NEXT_PUBLIC_SENTRY_DSN=$NEXT_PUBLIC_SENTRY_DSN \
+    NEXT_PUBLIC_BRAND_NAME=$NEXT_PUBLIC_BRAND_NAME \
+    NEXT_PUBLIC_SUPPORT_EMAIL=$NEXT_PUBLIC_SUPPORT_EMAIL
+
+# Server vars are read from the container env at RUNTIME (env_file), never
+# inlined. The build only needs shape-valid placeholders so env validation and
+# module-load code (e.g. `new URL(APP_URL)` in @vibestack/auth) don't throw.
+# These live only in the builder stage — the runner is a separate FROM and
+# gets real values from env_file. No real secrets enter any image layer.
+ENV DATABASE_URL=postgresql://build:build@localhost:5432/build \
+    BETTER_AUTH_SECRET=build_time_placeholder_secret_min_32_chars \
+    BETTER_AUTH_URL=http://localhost:3001 \
+    APP_URL=http://localhost:3001 \
+    CORS_ORIGIN=http://localhost:3001
+
 COPY --from=deps /repo /repo
-RUN pnpm --filter "./apps/${APP_NAME}" run build
+# Guarantee a public/ dir exists (web/admin ship none) so the runner COPY
+# below is unconditional — Dockerfile COPY has no shell-style optional copy.
+RUN pnpm --filter "./apps/${APP_NAME}" run build \
+	&& mkdir -p "apps/${APP_NAME}/public"
 
 FROM node:22-alpine AS runner
 ARG APP_NAME
@@ -29,15 +69,19 @@ ARG APP_PORT
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV PORT=${APP_PORT}
+# Persist APP_NAME so the runtime CMD can resolve the standalone server path.
+ENV APP_NAME=${APP_NAME}
 WORKDIR /app
 RUN addgroup -S nodejs && adduser -S nextjs -G nodejs
 
 # Next.js standalone output
 COPY --from=builder --chown=nextjs:nodejs /repo/apps/${APP_NAME}/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /repo/apps/${APP_NAME}/.next/static ./apps/${APP_NAME}/.next/static
-COPY --from=builder --chown=nextjs:nodejs /repo/apps/${APP_NAME}/public ./apps/${APP_NAME}/public 2>/dev/null || true
+COPY --from=builder --chown=nextjs:nodejs /repo/apps/${APP_NAME}/public ./apps/${APP_NAME}/public
 
 USER nextjs
 EXPOSE ${APP_PORT}
 ENV HOSTNAME=0.0.0.0
-CMD ["node", "apps/${APP_NAME}/server.js"]
+# Shell form so $APP_NAME expands at runtime; `exec` hands PID 1 to node so it
+# receives SIGTERM for graceful shutdown. Exec-form JSON would not expand vars.
+CMD ["sh", "-c", "exec node apps/$APP_NAME/server.js"]
