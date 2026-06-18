@@ -6,11 +6,11 @@ import { formatStars, GITHUB_URL } from "@/lib/github";
 import { gsap, useGSAP } from "@/lib/use-gsap";
 import { GithubMark } from "../github-mark";
 
-// Full-viewport hero: a muted looping video fills the section edge-to-edge,
+// Full-viewport hero: a 16:9 backdrop image fills the section edge-to-edge,
 // a dimming gradient keeps foreground copy readable, and the content stack
 // is anchored to the lower-left. The site's fixed MarketingHeader is the top
-// overlay (it sits above this on z). Background falls back to the ink canvas
-// for reduced-motion users and while the video loads.
+// overlay (it sits above this on z). Swap public/hero-bg.svg for a generated
+// raster (point the src at it) to rebrand the backdrop.
 export function Hero({ stars }: { stars?: number | null }) {
 	const root = useRef<HTMLElement>(null);
 
@@ -36,20 +36,14 @@ export function Hero({ stars }: { stars?: number | null }) {
 			ref={root}
 			className="relative flex h-[100svh] max-h-[960px] min-h-[600px] flex-col justify-end overflow-hidden bg-[color:var(--marketing-bg)]"
 		>
-			{/* Background video — decorative, muted, looping. Hidden for
-			    reduced-motion; the ink section background shows through. */}
-			<video
-				className="absolute inset-0 h-full w-full object-cover motion-reduce:hidden"
-				autoPlay
-				loop
-				muted
-				playsInline
+			{/* Background image — decorative. Replace /hero-bg.svg with your
+			    generated 16:9 raster (e.g. /hero-bg.jpg) to rebrand. */}
+			<img
+				src="/hero-bg.svg"
+				alt=""
 				aria-hidden
-				tabIndex={-1}
-				preload="auto"
-			>
-				<source src="/hero-bg.mp4" type="video/mp4" />
-			</video>
+				className="absolute inset-0 h-full w-full object-cover"
+			/>
 
 			{/* Dimming layers: a vertical scrim (nav legibility up top, copy
 			    legibility at the bottom) plus a left scrim for the text column. */}
