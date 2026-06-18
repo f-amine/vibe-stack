@@ -7,6 +7,7 @@ import {
 	SoftwareApplicationJsonLd,
 	WebsiteJsonLd,
 } from "@/components/seo/json-ld";
+import { getRepoStars } from "@/lib/github";
 import { ogMetadata, siteBase } from "@/lib/og";
 
 const HOME_TITLE = "vibestack — The SaaS starter where Claude writes the rest.";
@@ -67,8 +68,9 @@ const StickyCTA = dynamic(() =>
 	})),
 );
 
-export default function HomePage() {
+export default async function HomePage() {
 	const siteUrl = siteBase();
+	const stars = await getRepoStars();
 	return (
 		<div className="marketing grain min-h-dvh">
 			<MarketingHeader />
@@ -79,7 +81,7 @@ export default function HomePage() {
 					description="Opinionated, AI-first SaaS starter. Stack pre-wired, Claude Code skills vendored in the repo. For devs and vibe-coders."
 				/>
 				<SoftwareApplicationJsonLd siteUrl={siteUrl} />
-				<Hero />
+				<Hero stars={stars} />
 				<StackStrip />
 				<Features />
 				<HowItWorks />

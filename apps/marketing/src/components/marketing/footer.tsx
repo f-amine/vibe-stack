@@ -22,7 +22,7 @@ const columns: { title: string; links: FooterLink[] }[] = [
 			{ label: "Journal", href: "/blog" },
 			{
 				label: "GitHub",
-				href: "https://github.com/f-amine/vibestack",
+				href: "https://github.com/f-amine/vibe-stack",
 				external: true,
 			},
 		],

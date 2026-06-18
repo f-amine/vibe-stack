@@ -4,6 +4,8 @@ import { cn } from "@vibestack/ui/lib/utils";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { WEB_URLS } from "@/lib/app-urls";
+import { GITHUB_URL } from "@/lib/github";
+import { GithubMark } from "./github-mark";
 
 const links = [
 	{ href: "#features", label: "Features" },
@@ -59,6 +61,15 @@ export function MarketingHeader() {
 				</ul>
 
 				<div className="flex items-center gap-2">
+					<a
+						href={GITHUB_URL}
+						target="_blank"
+						rel="noreferrer"
+						aria-label="vibestack on GitHub"
+						className="inline-flex h-9 w-9 items-center justify-center rounded-full text-[color:var(--marketing-fg)]/70 transition-colors hover:bg-[color:var(--marketing-line)]/40 hover:text-[color:var(--marketing-fg)]"
+					>
+						<GithubMark className="h-5 w-5" />
+					</a>
 					<Link
 						href={WEB_URLS.signIn}
 						className="hidden rounded-full px-4 py-2 text-[color:var(--marketing-fg)]/80 text-sm transition-colors hover:text-[color:var(--marketing-fg)] sm:inline-block"

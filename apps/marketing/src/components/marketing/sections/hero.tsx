@@ -2,14 +2,16 @@
 
 import { useRef } from "react";
 import { WEB_URLS } from "@/lib/app-urls";
+import { formatStars, GITHUB_URL } from "@/lib/github";
 import { gsap, useGSAP } from "@/lib/use-gsap";
+import { GithubMark } from "../github-mark";
 
 // Full-viewport hero: a muted looping video fills the section edge-to-edge,
 // a dimming gradient keeps foreground copy readable, and the content stack
 // is anchored to the lower-left. The site's fixed MarketingHeader is the top
 // overlay (it sits above this on z). Background falls back to the ink canvas
 // for reduced-motion users and while the video loads.
-export function Hero() {
+export function Hero({ stars }: { stars?: number | null }) {
 	const root = useRef<HTMLElement>(null);
 
 	useGSAP(
@@ -72,29 +74,31 @@ export function Hero() {
 			<div className="relative z-10 mx-auto w-full max-w-7xl px-6 pb-14 sm:pb-20 lg:px-10">
 				<div className="max-w-2xl">
 					<p className="hero-eyebrow font-mono text-[color:var(--marketing-muted)] text-xs uppercase tracking-[0.3em]">
-						— The AI-first SaaS starter
+						— Built for vibe-coders in a hurry
 					</p>
 
 					<h1 className="mt-5 font-display text-[clamp(2.25rem,5vw,4rem)] leading-[1] tracking-[-0.03em]">
 						<span className="block overflow-hidden">
 							<span className="hero-title-line inline-block">
-								The SaaS starter where
+								Ship your SaaS this weekend,
 							</span>
 						</span>
 						<span className="block overflow-hidden">
 							<span className="hero-title-line inline-block">
+								let{" "}
 								<span className="text-[color:var(--marketing-accent)] italic">
 									Claude
 								</span>{" "}
-								writes the rest.
+								wire the rest.
 							</span>
 						</span>
 					</h1>
 
 					<p className="hero-sub mt-5 max-w-xl text-[color:var(--marketing-fg)]/75 text-base leading-relaxed">
-						Auth, billing, email, storage, admin, deploy: all pre-wired. Every
-						Claude Code skill vendored in the repo. Bring the business logic,
-						skip the plumbing.
+						Clone it, describe your idea, watch it ship. Auth, billing, email,
+						storage, and deploy come pre-wired, so you skip the plumbing and
+						build the thing you actually care about. Made for vibe-coders who
+						would rather move fast than wire boilerplate.
 					</p>
 
 					<div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -102,7 +106,7 @@ export function Hero() {
 							href={WEB_URLS.signUp}
 							className="hero-cta group inline-flex items-center justify-center gap-2 rounded-full bg-[color:var(--marketing-accent)] px-7 py-3.5 font-medium text-[color:var(--marketing-bg)] text-base transition-transform hover:scale-[1.02]"
 						>
-							Start your SaaS
+							Start building
 							<span
 								aria-hidden
 								className="transition-transform group-hover:translate-x-0.5"
@@ -111,10 +115,19 @@ export function Hero() {
 							</span>
 						</a>
 						<a
-							href="#how-it-works"
-							className="hero-cta inline-flex items-center justify-center gap-2 rounded-full border border-[color:var(--marketing-fg)]/25 px-7 py-3.5 text-[color:var(--marketing-fg)] text-base backdrop-blur-sm transition-colors hover:bg-[color:var(--marketing-fg)]/10"
+							href={GITHUB_URL}
+							target="_blank"
+							rel="noreferrer"
+							className="hero-cta inline-flex items-center justify-center gap-2.5 rounded-full border border-[color:var(--marketing-fg)]/25 px-6 py-3.5 text-[color:var(--marketing-fg)] text-base backdrop-blur-sm transition-colors hover:bg-[color:var(--marketing-fg)]/10"
 						>
-							See the workflow
+							<GithubMark className="h-[1.1em] w-[1.1em]" />
+							Star on GitHub
+							{typeof stars === "number" && (
+								<span className="ml-0.5 inline-flex items-center gap-1 font-mono text-[color:var(--marketing-fg)]/70 text-sm">
+									<span aria-hidden>★</span>
+									{formatStars(stars)}
+								</span>
+							)}
 						</a>
 					</div>
 				</div>
