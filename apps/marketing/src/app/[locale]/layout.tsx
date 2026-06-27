@@ -1,8 +1,9 @@
 import { GoogleAnalytics } from "@vibestack/analytics/ga";
+import { LOCALES } from "@vibestack/i18n";
 import type { Metadata } from "next";
 import { Fraunces, Geist, JetBrains_Mono } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
+import { getMessages, setRequestLocale } from "next-intl/server";
 import { ThemeProvider } from "next-themes";
 import type { ReactNode } from "react";
 import { Toaster } from "sonner";
@@ -62,8 +63,18 @@ type Props = {
 	params: Promise<{ locale: string }>;
 };
 
+// Prerender both locales so docs/blog/changelog static params can fan out
+// under each. Without this the [locale] segment is request-time only.
+export function generateStaticParams() {
+	return LOCALES.map((locale) => ({ locale }));
+}
+
 export default async function LocaleLayout({ children, params }: Props) {
 	const { locale } = await params;
+	// Opt into static rendering for next-intl: pins the locale into the request
+	// store so getMessages()/translations don't fall back to headers() (which
+	// would make every page dynamic and throw DYNAMIC_SERVER_USAGE on prerender).
+	setRequestLocale(locale);
 	const messages = await getMessages();
 	return (
 		<html
