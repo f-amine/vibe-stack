@@ -28,7 +28,10 @@
 			"!**/.source",
 			"!**/convex/_generated",
 			"!**/.claude",
-			"!**/.ruflo"
+			"!**/.ruflo",
+			"!**/.agents",
+			"!**/migrations/meta",
+			"!skills-lock.json"
 		]
 	},
 	"formatter": {
