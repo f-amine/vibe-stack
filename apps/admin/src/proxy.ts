@@ -10,10 +10,10 @@ const intl = createIntlMiddleware({
 });
 
 // Admin shares cookies with the web app. Sign-in lives on the web app.
+const WEB_APP_URL = process.env.NEXT_PUBLIC_APP_URL?.replace(/\/$/, "");
 const WEB_SIGN_IN =
 	process.env.NEXT_PUBLIC_WEB_SIGN_IN_URL ||
-	process.env.NEXT_PUBLIC_APP_URL?.replace(/\/$/, "") + "/sign-in" ||
-	"http://localhost:3001/sign-in";
+	(WEB_APP_URL ? `${WEB_APP_URL}/sign-in` : "http://localhost:3001/sign-in");
 
 export default async function middleware(req: NextRequest) {
 	const sessionCookie =
