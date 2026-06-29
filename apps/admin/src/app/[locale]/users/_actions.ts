@@ -1,10 +1,8 @@
 "use server";
 
 import "server-only";
-import { randomUUID } from "node:crypto";
 import { auth } from "@vibestack/auth";
-import { db } from "@vibestack/db";
-import { auditLog } from "@vibestack/db/schema/audit";
+import { recordAuditLog } from "@vibestack/db";
 import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 
@@ -18,17 +16,13 @@ async function audit(
 	targetUserId: string,
 	metadata: Record<string, unknown> = {},
 ): Promise<void> {
-	await db
-		.insert(auditLog)
-		.values({
-			id: randomUUID(),
-			actorUserId: actorId,
-			action,
-			targetType: "user",
-			targetId: targetUserId,
-			metadata,
-		})
-		.onConflictDoNothing();
+	await recordAuditLog({
+		action,
+		actorUserId: actorId,
+		targetType: "user",
+		targetId: targetUserId,
+		metadata,
+	});
 }
 
 function callerHeaders() {

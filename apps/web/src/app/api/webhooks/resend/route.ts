@@ -1,6 +1,5 @@
-import { createHmac, randomUUID, timingSafeEqual } from "node:crypto";
-import { db } from "@vibestack/db";
-import { auditLog } from "@vibestack/db/schema/audit";
+import { createHmac, timingSafeEqual } from "node:crypto";
+import { db, recordAuditLog } from "@vibestack/db";
 import { user as userTable } from "@vibestack/db/schema/auth";
 import { env } from "@vibestack/env/server";
 import { eq } from "drizzle-orm";
@@ -148,25 +147,21 @@ export async function POST(request: Request) {
 	const recipient = recipientOf(payload);
 	const actorUserId = await actorIdFor(recipient);
 
-	await db
-		.insert(auditLog)
-		.values({
-			id: randomUUID(),
-			actorUserId,
-			action: actionFor(payload.type),
-			targetType: "email",
-			targetId: payload.data?.email_id ?? null,
-			metadata: {
-				to: recipient,
-				from: payload.data?.from,
-				subject: payload.data?.subject,
-				bounce: payload.data?.bounce,
-				complaint: payload.data?.complaint,
-				svixId: id,
-				createdAt: payload.created_at,
-			},
-		})
-		.onConflictDoNothing();
+	await recordAuditLog({
+		action: actionFor(payload.type),
+		actorUserId,
+		targetType: "email",
+		targetId: payload.data?.email_id ?? undefined,
+		metadata: {
+			to: recipient,
+			from: payload.data?.from,
+			subject: payload.data?.subject,
+			bounce: payload.data?.bounce,
+			complaint: payload.data?.complaint,
+			svixId: id,
+			createdAt: payload.created_at,
+		},
+	});
 
 	return NextResponse.json({ ok: true });
 }

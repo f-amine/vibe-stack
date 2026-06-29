@@ -3,9 +3,8 @@
 // dashboard delivers events via Svix; we re-implement Svix's signature
 // algorithm inline so we don't pull a heavy dep.
 
-import { createHmac, randomUUID, timingSafeEqual } from "node:crypto";
-import { db } from "@vibestack/db";
-import { auditLog } from "@vibestack/db/schema/audit";
+import { createHmac, timingSafeEqual } from "node:crypto";
+import { db, recordAuditLog } from "@vibestack/db";
 import { polarCustomer, subscription } from "@vibestack/db/schema/billing";
 import { env } from "@vibestack/env/server";
 import { eq } from "drizzle-orm";
@@ -144,17 +143,12 @@ async function upsertSubscription(payload: PolarSubscription): Promise<void> {
 }
 
 async function audit(action: string, targetId: string, metadata: unknown) {
-	await db
-		.insert(auditLog)
-		.values({
-			id: randomUUID(),
-			actorUserId: null,
-			action,
-			targetType: "polar",
-			targetId,
-			metadata: metadata as Record<string, unknown>,
-		})
-		.onConflictDoNothing();
+	await recordAuditLog({
+		action,
+		targetType: "polar",
+		targetId,
+		metadata: metadata as Record<string, unknown>,
+	});
 }
 
 export async function POST(request: Request) {

@@ -8,3 +8,5 @@ export function createDb() {
 }
 
 export const db = createDb();
+
+export { type AuditEvent, recordAuditLog } from "./audit";

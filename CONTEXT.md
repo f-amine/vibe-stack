@@ -41,14 +41,14 @@ Domain language for how a fresh copy of vibestack becomes someone's product — 
 - **Auth** (`packages/auth`) — sign-in/up, sessions, OAuth, magic links, passkeys, 2FA, password reset, email verification. Owns the `user`, `session`, `account`, `verification`, `passkey`, `two_factor` tables.
 - **Org** (`packages/auth/plugin organization`) — orgs, members, invitations. Owns the `organization`, `member`, `invitation` tables.
 - **Billing** (`packages/billing` + `packages/db/schema/billing.ts`) — Polar customer + subscription mirror. Listens for Polar webhooks.
-- **Audit** (`packages/db/schema/audit.ts`) — append-only log. Written from server-side action handlers; never directly by clients.
+- **Audit** (`packages/db/schema/audit.ts`) — append-only log. Written from server-side action handlers via the `recordAuditLog()` seam (`packages/db/src/audit.ts`); never directly by clients.
 - **Identity surface** (apps) — `web`, `marketing`, `admin` share auth via Better Auth cookies on the same root domain.
 
 ## Invariants
 
 - A `Member` always belongs to exactly one `Organization` and exactly one `User`.
 - A `Session` is invalidated on user ban, password change, or explicit revoke.
-- `AuditLog` rows are immutable once written. No `UPDATE`/`DELETE` allowed.
+- `AuditLog` rows are immutable once written. No `UPDATE`/`DELETE` allowed. All writes go through `recordAuditLog()` (`@vibestack/db`) — the only sanctioned write path; never `db.insert(auditLog)` directly outside that seam (the seed script excepted).
 - All emails are sent via `@vibestack/email` (Resend). Never call the email provider directly from app code.
 - All R2 access goes through `@vibestack/storage`. Never instantiate an S3 client elsewhere.
 - All cross-app API calls go through tRPC procedures in `packages/api`. No direct DB queries from `apps/marketing`.

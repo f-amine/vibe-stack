@@ -5,7 +5,7 @@
 import "server-only";
 import { randomUUID } from "node:crypto";
 import { PutObjectCommand } from "@aws-sdk/client-s3";
-import { db } from "@vibestack/db";
+import { db, recordAuditLog } from "@vibestack/db";
 import { auditLog } from "@vibestack/db/schema/audit";
 import { member, user as userTable } from "@vibestack/db/schema/auth";
 import { polarCustomer, subscription } from "@vibestack/db/schema/billing";
@@ -71,17 +71,13 @@ export async function exportUserData(userId: string): Promise<{
 
 	const url = await presignDownload(key, EXPORT_LINK_TTL_SECONDS);
 
-	await db
-		.insert(auditLog)
-		.values({
-			id: randomUUID(),
-			actorUserId: userId,
-			action: "gdpr.export.generated",
-			targetType: "user",
-			targetId: userId,
-			metadata: { key, bytes: body.byteLength },
-		})
-		.onConflictDoNothing();
+	await recordAuditLog({
+		action: "gdpr.export.generated",
+		actorUserId: userId,
+		targetType: "user",
+		targetId: userId,
+		metadata: { key, bytes: body.byteLength },
+	});
 
 	return { key, url, expiresInSeconds: EXPORT_LINK_TTL_SECONDS };
 }
@@ -105,17 +101,13 @@ export async function scheduleAccountDeletion(input: {
 			target: accountDeletion.userId,
 			set: { scheduledAt, canceledAt: null, reason: input.reason ?? null },
 		});
-	await db
-		.insert(auditLog)
-		.values({
-			id: randomUUID(),
-			actorUserId: input.userId,
-			action: "gdpr.deletion.scheduled",
-			targetType: "user",
-			targetId: input.userId,
-			metadata: { scheduledAt: scheduledAt.toISOString() },
-		})
-		.onConflictDoNothing();
+	await recordAuditLog({
+		action: "gdpr.deletion.scheduled",
+		actorUserId: input.userId,
+		targetType: "user",
+		targetId: input.userId,
+		metadata: { scheduledAt: scheduledAt.toISOString() },
+	});
 	return { scheduledAt };
 }
 
@@ -124,16 +116,12 @@ export async function cancelAccountDeletion(userId: string): Promise<void> {
 		.update(accountDeletion)
 		.set({ canceledAt: new Date() })
 		.where(eq(accountDeletion.userId, userId));
-	await db
-		.insert(auditLog)
-		.values({
-			id: randomUUID(),
-			actorUserId: userId,
-			action: "gdpr.deletion.canceled",
-			targetType: "user",
-			targetId: userId,
-		})
-		.onConflictDoNothing();
+	await recordAuditLog({
+		action: "gdpr.deletion.canceled",
+		actorUserId: userId,
+		targetType: "user",
+		targetId: userId,
+	});
 }
 
 export async function pendingDeletion(userId: string) {
@@ -167,17 +155,12 @@ export async function purgeExpiredDeletions(): Promise<{ purged: number }> {
 					.update(accountDeletion)
 					.set({ purgedAt })
 					.where(eq(accountDeletion.id, row.id)),
-				db
-					.insert(auditLog)
-					.values({
-						id: randomUUID(),
-						actorUserId: null,
-						action: "gdpr.deletion.purged",
-						targetType: "user",
-						targetId: row.userId,
-						metadata: { scheduledAt: row.scheduledAt.toISOString() },
-					})
-					.onConflictDoNothing(),
+				recordAuditLog({
+					action: "gdpr.deletion.purged",
+					targetType: "user",
+					targetId: row.userId,
+					metadata: { scheduledAt: row.scheduledAt.toISOString() },
+				}),
 			]);
 			await db.delete(userTable).where(eq(userTable.id, row.userId));
 		}),

@@ -18,7 +18,8 @@
 		"db:start": "docker compose -f ../../docker-compose.yml up -d",
 		"db:watch": "docker compose -f ../../docker-compose.yml up",
 		"db:stop": "docker compose -f ../../docker-compose.yml stop",
-		"db:down": "docker compose -f ../../docker-compose.yml down"
+		"db:down": "docker compose -f ../../docker-compose.yml down",
+		"test": "vitest run"
 	},
 	"dependencies": {
 		"@vibestack/env": "workspace:*",
@@ -32,6 +33,7 @@
 		"@types/pg": "catalog:",
 		"drizzle-kit": "catalog:",
 		"tsx": "catalog:",
-		"typescript": "catalog:"
+		"typescript": "catalog:",
+		"vitest": "catalog:"
 	}
 }

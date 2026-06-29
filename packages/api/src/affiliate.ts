@@ -4,14 +4,13 @@
 
 import "server-only";
 import { randomBytes, randomUUID } from "node:crypto";
-import { db } from "@vibestack/db";
+import { db, recordAuditLog } from "@vibestack/db";
 import {
 	affiliate,
 	affiliateClick,
 	affiliatePayout,
 	affiliateSignup,
 } from "@vibestack/db/schema/affiliate";
-import { auditLog } from "@vibestack/db/schema/audit";
 import { env } from "@vibestack/env/server";
 import { and, count, desc, eq, inArray } from "drizzle-orm";
 
@@ -40,17 +39,13 @@ export async function enroll(opts: { userId: string }): Promise<{
 		code,
 		commissionRate: env.AFFILIATE_DEFAULT_RATE,
 	});
-	await db
-		.insert(auditLog)
-		.values({
-			id: randomUUID(),
-			actorUserId: opts.userId,
-			action: "affiliate.enrolled",
-			targetType: "affiliate",
-			targetId: id,
-			metadata: { code },
-		})
-		.onConflictDoNothing();
+	await recordAuditLog({
+		action: "affiliate.enrolled",
+		actorUserId: opts.userId,
+		targetType: "affiliate",
+		targetId: id,
+		metadata: { code },
+	});
 	return { id, code };
 }
 
@@ -116,16 +111,12 @@ export async function attributeSignup(opts: {
 			referredUserId: opts.referredUserId,
 		})
 		.onConflictDoNothing();
-	await db
-		.insert(auditLog)
-		.values({
-			id: randomUUID(),
-			actorUserId: opts.referredUserId,
-			action: "affiliate.signup",
-			targetType: "affiliate",
-			targetId: aff.id,
-		})
-		.onConflictDoNothing();
+	await recordAuditLog({
+		action: "affiliate.signup",
+		actorUserId: opts.referredUserId,
+		targetType: "affiliate",
+		targetId: aff.id,
+	});
 }
 
 export async function stats(affiliateId: string): Promise<{
@@ -186,17 +177,12 @@ export async function requestPayout(opts: {
 		affiliateId: opts.affiliateId,
 		amountCents: opts.amountCents,
 	});
-	await db
-		.insert(auditLog)
-		.values({
-			id: randomUUID(),
-			actorUserId: null,
-			action: "affiliate.payout.requested",
-			targetType: "affiliate_payout",
-			targetId: id,
-			metadata: { amountCents: opts.amountCents },
-		})
-		.onConflictDoNothing();
+	await recordAuditLog({
+		action: "affiliate.payout.requested",
+		targetType: "affiliate_payout",
+		targetId: id,
+		metadata: { amountCents: opts.amountCents },
+	});
 	return { id };
 }
 
@@ -227,17 +213,13 @@ export async function decidePayout(opts: {
 			decidedAt: new Date(),
 		})
 		.where(eq(affiliatePayout.id, opts.id));
-	await db
-		.insert(auditLog)
-		.values({
-			id: randomUUID(),
-			actorUserId: opts.actorId ?? null,
-			action: `affiliate.payout.${opts.status}`,
-			targetType: "affiliate_payout",
-			targetId: opts.id,
-			metadata: { polarPayoutId: opts.polarPayoutId },
-		})
-		.onConflictDoNothing();
+	await recordAuditLog({
+		action: `affiliate.payout.${opts.status}`,
+		actorUserId: opts.actorId ?? null,
+		targetType: "affiliate_payout",
+		targetId: opts.id,
+		metadata: { polarPayoutId: opts.polarPayoutId },
+	});
 }
 
 export async function topReferrers(limit = 100) {
