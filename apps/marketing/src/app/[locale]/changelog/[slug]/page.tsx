@@ -1,15 +1,19 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { setRequestLocale } from "next-intl/server";
 import { TechArticleJsonLd } from "@/components/seo/json-ld";
 import { ogMetadata, siteBase } from "@/lib/og";
 import { changelogSource } from "@/lib/source";
 
 type Props = {
-	params: Promise<{ slug: string }>;
+	params: Promise<{ locale: string; slug: string }>;
 };
 
 export async function generateStaticParams() {
-	return changelogSource.generateParams();
+	// Route is a single [slug] segment; fumadocs yields slug as a string[].
+	return changelogSource
+		.generateParams()
+		.map(({ slug }) => ({ slug: slug.join("/") }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -31,7 +35,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function ChangelogEntryPage({ params }: Props) {
-	const { slug } = await params;
+	const { locale, slug } = await params;
+	setRequestLocale(locale);
 	const page = changelogSource.getPage([slug]);
 	if (!page) {
 		notFound();

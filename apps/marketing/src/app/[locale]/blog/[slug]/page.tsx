@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { setRequestLocale } from "next-intl/server";
 import { MarketingFooter } from "@/components/marketing/footer";
 import { MarketingHeader } from "@/components/marketing/header";
 import { BlogPostingJsonLd } from "@/components/seo/json-ld";
@@ -10,7 +11,7 @@ import { ogMetadata, siteBase } from "@/lib/og";
 import { blogSource } from "@/lib/source";
 
 type Props = {
-	params: Promise<{ slug: string }>;
+	params: Promise<{ locale: string; slug: string }>;
 };
 
 type PostData = {
@@ -24,7 +25,10 @@ type PostData = {
 };
 
 export async function generateStaticParams() {
-	return blogSource.generateParams();
+	// Route is a single [slug] segment; fumadocs yields slug as a string[].
+	return blogSource
+		.generateParams()
+		.map(({ slug }) => ({ slug: slug.join("/") }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -58,7 +62,8 @@ function formatDate(input?: string): string {
 }
 
 export default async function BlogPost({ params }: Props) {
-	const { slug } = await params;
+	const { locale, slug } = await params;
+	setRequestLocale(locale);
 	const page = blogSource.getPage([slug]);
 	if (!page) notFound();
 	const MDX = page.data.body;

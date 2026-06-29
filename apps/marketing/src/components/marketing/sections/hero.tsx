@@ -98,7 +98,7 @@ export function Hero({ stars }: { stars?: number | null }) {
 					<div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-stretch">
 						<a
 							href={WEB_URLS.signUp}
-							className="hero-cta group inline-flex items-center justify-center gap-2 rounded-full bg-[color:var(--marketing-accent)] px-7 py-3.5 font-medium text-[color:var(--marketing-bg)] text-base transition-transform hover:scale-[1.02]"
+							className="hero-cta group inline-flex items-center justify-center gap-2 rounded-full border border-transparent bg-[color:var(--marketing-accent)] px-7 py-3.5 font-medium text-[color:var(--marketing-bg)] text-base transition-transform hover:scale-[1.02]"
 						>
 							Start building
 							<span
@@ -112,7 +112,7 @@ export function Hero({ stars }: { stars?: number | null }) {
 							href={GITHUB_URL}
 							target="_blank"
 							rel="noreferrer"
-							className="hero-cta inline-flex items-center justify-center gap-2.5 rounded-full border border-[color:var(--marketing-fg)]/25 px-6 py-3.5 text-[color:var(--marketing-fg)] text-base backdrop-blur-sm transition-colors hover:bg-[color:var(--marketing-fg)]/10"
+							className="hero-cta inline-flex items-center justify-center gap-2.5 rounded-full border border-[color:var(--marketing-fg)]/25 px-6 py-3.5 text-[color:var(--marketing-fg)] text-base transition-colors hover:bg-[color:var(--marketing-fg)]/10"
 						>
 							<GithubMark className="h-[1.1em] w-[1.1em]" />
 							Star on GitHub

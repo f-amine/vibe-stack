@@ -6,12 +6,13 @@ import {
 } from "fumadocs-ui/page";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { setRequestLocale } from "next-intl/server";
 import { TechArticleJsonLd } from "@/components/seo/json-ld";
 import { ogMetadata, siteBase } from "@/lib/og";
 import { source } from "@/lib/source";
 
 type Props = {
-	params: Promise<{ slug?: string[] }>;
+	params: Promise<{ locale: string; slug?: string[] }>;
 };
 
 export async function generateStaticParams() {
@@ -41,7 +42,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function DocsPageRoute({ params }: Props) {
-	const { slug } = await params;
+	const { locale, slug } = await params;
+	setRequestLocale(locale);
 	const page = source.getPage(slug);
 	if (!page) notFound();
 	const MDX = page.data.body;
