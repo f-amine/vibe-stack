@@ -2,10 +2,9 @@
 // `emailVerified = true`. Idempotency comes from an audit_log row — we never
 // store a separate "welcome_email_sent_at" column, and never re-send.
 
-import { createDb } from "@vibestack/db";
+import { createDb, recordAuditLog } from "@vibestack/db";
 import { auditLog } from "@vibestack/db/schema/audit";
 import { and, eq } from "drizzle-orm";
-import { nanoid } from "nanoid";
 
 import { sendWelcome } from "./send";
 
@@ -59,15 +58,11 @@ export async function maybeSendWelcomeOnVerify(user: UserLike): Promise<void> {
 		return;
 	}
 
-	await db()
-		.insert(auditLog)
-		.values({
-			id: nanoid(),
-			actorUserId: user.id,
-			action: WELCOME_AUDIT_ACTION,
-			targetType: "user",
-			targetId: user.id,
-			metadata: { email: user.email },
-		})
-		.onConflictDoNothing();
+	await recordAuditLog({
+		action: WELCOME_AUDIT_ACTION,
+		actorUserId: user.id,
+		targetType: "user",
+		targetId: user.id,
+		metadata: { email: user.email },
+	});
 }

@@ -4,8 +4,7 @@
 
 import "server-only";
 import { randomUUID } from "node:crypto";
-import { db } from "@vibestack/db";
-import { auditLog } from "@vibestack/db/schema/audit";
+import { db, recordAuditLog } from "@vibestack/db";
 import { user as userTable } from "@vibestack/db/schema/auth";
 import { referral } from "@vibestack/db/schema/referral";
 import { env } from "@vibestack/env/server";
@@ -44,17 +43,13 @@ export async function inviteFriend(input: {
 			rewardCents: env.REFERRAL_CREDIT_CENTS,
 		})
 		.onConflictDoNothing();
-	await db
-		.insert(auditLog)
-		.values({
-			id: randomUUID(),
-			actorUserId: input.referrerUserId,
-			action: "referral.invited",
-			targetType: "referral",
-			targetId: id,
-			metadata: { email: input.email.toLowerCase() },
-		})
-		.onConflictDoNothing();
+	await recordAuditLog({
+		action: "referral.invited",
+		actorUserId: input.referrerUserId,
+		targetType: "referral",
+		targetId: id,
+		metadata: { email: input.email.toLowerCase() },
+	});
 	return { id };
 }
 
@@ -91,20 +86,16 @@ export async function recordAcceptance(input: {
 						acceptedAt,
 					})
 					.where(eq(referral.id, row.id)),
-				db
-					.insert(auditLog)
-					.values({
-						id: randomUUID(),
-						actorUserId: input.newUserId,
-						action: "referral.accepted",
-						targetType: "referral",
-						targetId: row.id,
-						metadata: {
-							referrerUserId: row.referrerUserId,
-							rewardCents: row.rewardCents,
-						},
-					})
-					.onConflictDoNothing(),
+				recordAuditLog({
+					action: "referral.accepted",
+					actorUserId: input.newUserId,
+					targetType: "referral",
+					targetId: row.id,
+					metadata: {
+						referrerUserId: row.referrerUserId,
+						rewardCents: row.rewardCents,
+					},
+				}),
 			]),
 		),
 	);

@@ -1,9 +1,8 @@
 "use server";
 
 import "server-only";
-import { randomUUID } from "node:crypto";
 import { auth } from "@vibestack/auth";
-import { db } from "@vibestack/db";
+import { db, recordAuditLog } from "@vibestack/db";
 import { auditLog } from "@vibestack/db/schema/audit";
 import { and, eq } from "drizzle-orm";
 import { headers } from "next/headers";
@@ -38,17 +37,13 @@ export async function completeOnboardingAction(input: {
 		if (already.length > 0) {
 			return { ok: true };
 		}
-		await db
-			.insert(auditLog)
-			.values({
-				id: randomUUID(),
-				actorUserId: user.id,
-				action: ONBOARDING_DONE_ACTION,
-				targetType: "user",
-				targetId: user.id,
-				metadata: { skipped: input.skipped ?? false },
-			})
-			.onConflictDoNothing();
+		await recordAuditLog({
+			action: ONBOARDING_DONE_ACTION,
+			actorUserId: user.id,
+			targetType: "user",
+			targetId: user.id,
+			metadata: { skipped: input.skipped ?? false },
+		});
 		return { ok: true };
 	} catch (err) {
 		return {
